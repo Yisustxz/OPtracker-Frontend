@@ -1,59 +1,62 @@
+import Navigation from '../components/ui/navigation'
+import React from 'react'
+import SearchBar from '../components/surgeryPage/searchbar'
+import SurgeryFilter from '../components/surgeryPage/surgeryFilter'
+import SurgeryTable from '../components/surgeryPage/surgeryTable'
+import SurgeryHeader from '../components/surgeryPage/surgeryHeader'
+
+const surgeries = [
+  {
+    id: 1,
+    date: 'Jun 1, 2022',
+    patient: 'Maggie Smith',
+    surgeon: 'Dr. Mark Johnson',
+    operation: 'Operacion corazon abierto',
+    status: 'Completado'
+  }
+  // ...more surgeries
+]
+
 function Surgery() {
+  const filters = [
+    'Todas',
+    'Completadas',
+    'En Progreso',
+    'Programadas',
+    'Canceladas'
+  ]
+  const [activeFilter, setActiveFilter] = React.useState('Todas')
+  const [searchQuery, setSearchQuery] = React.useState('')
+
+  const filteredSurgeries = surgeries.filter((surgery) => {
+    const matchesFilter =
+      activeFilter === 'Todas' || surgery.status === activeFilter
+    const matchesSearch = surgery.operation
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+    return matchesFilter && matchesSearch
+  })
+
   return (
-    <>
-      <div className='p-6 space-y-4'>
-        {/* Primera fila */}
-        <div className='flex items-center justify-between'>
-          <button className='btn btn-icon btn-secondary'>
-            <span className='material-icons'>arrow_back</span>
-          </button>
-          <h1 className='text-2xl font-bold'>Cirugía</h1>
-          <button className='btn btn-primary'>Nueva Cirugía</button>
-        </div>
-
-        {/* Segunda fila (Filtros) */}
-        <div className='flex items-center justify-center gap-4'>
-          <button className='btn btn-outline'>Todos</button>
-          <button className='btn btn-outline'>Programados</button>
-          <button className='btn btn-outline'>En Progreso</button>
-          <button className='btn btn-outline'>Completados</button>
-          <button className='btn btn-outline'>Cancelados</button>
-        </div>
-
-        {/* Tabla */}
-        <div className='overflow-x-auto'>
-          <table className='table-auto w-full border border-gray-300 rounded-md'>
-            <thead className='bg-gray-100'>
-              <tr>
-                <th className='px-4 py-2 border'>Fecha de Cirugía</th>
-                <th className='px-4 py-2 border'>Paciente</th>
-                <th className='px-4 py-2 border'>Cirujano</th>
-                <th className='px-4 py-2 border'>Operación</th>
-                <th className='px-4 py-2 border'>Estado</th>
-                <th className='px-4 py-2 border'>Procedimiento</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Fila de ejemplo */}
-              <tr>
-                <td className='px-4 py-2 border'>2024-12-27</td>
-                <td className='px-4 py-2 border'>Juan Pérez</td>
-                <td className='px-4 py-2 border'>Dra. María López</td>
-                <td className='px-4 py-2 border'>Apendicectomía</td>
-                <td className='px-4 py-2 border'>
-                  <span className='badge badge-success'>Completado</span>
-                </td>
-                <td className='px-4 py-2 border text-center'>
-                  <button className='btn btn-sm btn-primary'>
-                    Ver Procedimiento
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <div className='flex flex-col pt-1.5 bg-white'>
+      <div className='flex overflow-hidden flex-col w-full bg-white min-h-[800px] max-md:max-w-full'>
+        <div className='flex relative flex-col w-full max-md:max-w-full'>
+          <Navigation />
+          <div className='flex relative z-0 justify-center items-start px-40 py-5 w-full max-md:px-5 max-md:max-w-full'>
+            <div className='flex overflow-hidden z-0 flex-col flex-1 shrink w-full basis-0 max-w-[960px] min-w-[240px] max-md:max-w-full'>
+              <SurgeryHeader />
+              <SurgeryFilter
+                filters={filters}
+                activeFilter={activeFilter}
+                onFilterChange={setActiveFilter}
+              />
+              <SearchBar onSearch={setSearchQuery} />
+              <SurgeryTable surgeries={filteredSurgeries} />
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

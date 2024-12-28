@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import SurgeryPage from './pages/Surgery'
+import HomePage from './pages/homepage'
+import SurgeryPage from './pages/surgery'
 
 import './App.css'
 
