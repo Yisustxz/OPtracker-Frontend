@@ -13,7 +13,29 @@ function NewSurgery() {
                   Nueva Cirugia
                 </h1>
               </div>
-              {/* aqui añadir nuevo codigo */}
+              
+                <form className="space-y-4 text-left">
+                <div className="grid grid-cols-1 gap-4 mt-3">
+                  {/* Título */}
+                  <div>
+                    <label className="block font-medium mb-2">Título de la Cirugía</label>
+                    <input
+                      type="text"
+                      className="border w-full px-4 py-2 rounded"
+                      placeholder="Título"
+                    />
+                  </div>
+                  {/* Fecha */}
+                  <div>
+                    <label className="block font-medium mb-2">Fecha de la cirugía</label>
+                    <input type="date" className="border w-full px-4 py-2 rounded" />
+                  </div>
+                  <div>
+                    <label className="block font-medium mb-2">Hora de la cirugía</label>
+                    <input type="time" className="border w-full px-4 py-2 rounded" />
+                  </div>
+                  </div>
+                </form>
             </div>
           </div>
         </div>
