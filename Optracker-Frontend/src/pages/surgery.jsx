@@ -12,9 +12,27 @@ const surgeries = [
     patient: 'Maggie Smith',
     surgeon: 'Dr. Mark Johnson',
     operation: 'Operacion corazon abierto',
-    status: 'Completado'
+    status: 'Completado',
+    statusColor: 'bg-green-500'
+  },
+  {
+    id: 2,
+    date: 'Jun 2, 2022',
+    patient: 'John Doe',
+    surgeon: 'Dr. Sarah Thompson',
+    operation: 'Operacion bypass',
+    status: 'En progreso',
+    statusColor: 'bg-yellow-300'
+  },
+  {
+    id: 3,
+    date: 'Jun 3, 2022',
+    patient: 'Jane Smith',
+    surgeon: 'Dr. Michael Williams',
+    operation: 'Operacion cadera',
+    status: 'Completado',
+    statusColor: 'bg-green-500'
   }
-  // ...more surgeries
 ]
 
 function Surgery() {

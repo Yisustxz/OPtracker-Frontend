@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import SurgeryRow from './SurgeryRow'
+import SurgeryRow from './surgeryRow'
 
 export default function SurgeryTable({ surgeries }) {
   return (
