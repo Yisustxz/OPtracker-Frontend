@@ -23,7 +23,7 @@ function PatientTableRow({ date, name, surgeon, status, statusColor, View }) {
       </div>
       <div className="flex-1 flex justify-center items-center px-4 py-5 font-medium text-center h-[72px] text-neutral-900 w-[100px]" role="cell">
         <span className="text-sm"></span>
-        <span className="ml-2 bg-white" style={{ cursor: 'pointer' }}>
+        <span className="ml-2 bg-white" style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/patientProfile'}>
           <svg className="h-6 w-6 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
             <circle cx="12" cy="12" r="2" />
