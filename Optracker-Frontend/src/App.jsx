@@ -6,6 +6,8 @@ import { LoginPage } from './pages/LoginPage'
 import PatientPage from './pages/PatientPage'
 import PatientRegistration from './pages/patienteRegistration'
 import PatientProfile from './pages/PatientProfile'
+import FamilyCode from './pages/FamilyCode'
+import PatientTracker from './pages/PatientTracker'
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
         <Route path='/patient' element={<PatientPage/>} />
         <Route path='/patientregistration' element={<PatientRegistration/>} />
         <Route path='/patientProfile' element={<PatientProfile/>} />
+        <Route path='/familycode' element={<FamilyCode/>} />
+        <Route path='/patienteTracker' element={<PatientTracker/>} />
+
       </Routes>
     </Router>
   )
