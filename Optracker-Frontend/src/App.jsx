@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import HomePage from './pages/homepage'
 import SurgeryPage from './pages/surgery'
-import NewSurgery from './pages/newSurgery'
 import ProcedurePage from './pages/procedurePage'
 import SurgeryData from './pages/surgeryData'
 
 import './App.css'
+import { NewSurgery } from './pages/newSurgery'
 
 function App() {
   return (
