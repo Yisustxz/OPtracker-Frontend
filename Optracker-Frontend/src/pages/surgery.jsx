@@ -1,5 +1,5 @@
-import Navigation from '../components/ui/navigation'
 import React from 'react'
+import Navigation from '../components/ui/navigation'
 import SearchBar from '../components/surgeryPage/searchbar'
 import SurgeryFilter from '../components/surgeryPage/surgeryFilter'
 import SurgeryTable from '../components/surgeryPage/surgeryTable'
@@ -21,7 +21,7 @@ const surgeries = [
     patient: 'John Doe',
     surgeon: 'Dr. Sarah Thompson',
     operation: 'Operacion bypass',
-    status: 'En progreso',
+    status: 'En Progreso',
     statusColor: 'bg-yellow-300'
   },
   {
@@ -30,15 +30,15 @@ const surgeries = [
     patient: 'Jane Smith',
     surgeon: 'Dr. Michael Williams',
     operation: 'Operacion cadera',
-    status: 'Completado',
-    statusColor: 'bg-green-500'
+    status: 'Canceladas',
+    statusColor: 'bg-red-500'
   }
 ]
 
 function Surgery() {
   const filters = [
     'Todas',
-    'Completadas',
+    'Completado',
     'En Progreso',
     'Programadas',
     'Canceladas'
@@ -48,7 +48,8 @@ function Surgery() {
 
   const filteredSurgeries = surgeries.filter((surgery) => {
     const matchesFilter =
-      activeFilter === 'Todas' || surgery.status === activeFilter
+      activeFilter === 'Todas' ||
+      surgery.status.toLowerCase() === activeFilter.toLowerCase()
     const matchesSearch = surgery.operation
       .toLowerCase()
       .includes(searchQuery.toLowerCase())

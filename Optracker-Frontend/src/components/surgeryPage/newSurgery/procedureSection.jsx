@@ -55,7 +55,7 @@ function ProcedureSection() {
       <div className='flex items-center gap-4 mb-6'>
         <input
           type='text'
-          className='border rounded w-full px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300'
+          className='border rounded  px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300'
           placeholder='Buscar procedimiento'
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

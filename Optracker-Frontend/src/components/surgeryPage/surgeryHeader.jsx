@@ -9,7 +9,7 @@ function PatientHeader() {
       </h1>
 
       <button
-        className='flex overflow-hidden justify-center items-center px-4 text-sm font-medium text-center bg-[#577C8E] rounded-xl max-w-[480px] min-h-[32px] min-w-[84px] w-[134px] cursor-pointer text-white'
+        className='flex justify-center items-center text-sm font-medium text-center rounded-xl max-w-[480px] cursor-pointer text-neutral-900 bg-transparent border-none p-0'
         onClick={() => navigate('/new-surgery')}
       >
         Nueva Cirugía
