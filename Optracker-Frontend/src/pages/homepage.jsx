@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../components/ui/Header"; // Importa el Header
+import heroImage from "../assets/whatsapp-image-2024-12-27.png"; // Importa la imagen local
 
 function HomePage() {
   return (
@@ -19,7 +20,7 @@ function HomePage() {
       >
         {/* Imagen de fondo */}
         <img
-          src="https://via.placeholder.com/1200x600" // Cambia por tu imagen real
+          src={heroImage} // Cambiado para usar la imagen importada
           alt="Hero"
           style={{
             width: "100%",

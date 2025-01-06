@@ -1,5 +1,11 @@
 import React from "react";
 import Header from "../components/ui/Header"; // Importa el Header
+import avatarImage from "../assets/avata.jpeg"; // Importa la imagen local
+import avatarImage1 from "../assets/Avatar.jpeg"; // Importa la imagen local
+import avatarImage2 from "../assets/Avatar3.jpeg"; // Importa la imagen local
+import avatarImage3 from "../assets/avatar4.jpeg"; // Importa la imagen local
+import avatarImage4 from "../assets/avatar(2).jpeg"; // Importa la imagen local
+
 
 function InfoPaciente() {
   return (
@@ -26,12 +32,11 @@ function InfoPaciente() {
         >
           {/* Miembros del equipo quirúrgico */}
           {[
-            { role: "Cirujano principal", name: "Dr. John Doe", img: "https://via.placeholder.com/80" },
-            { role: "Anestesiólogo", name: "Dr. Jane Doe", img: "https://via.placeholder.com/80" },
-            { role: "Asistente de cirugía", name: "Dr. Chris Doe", img: "https://via.placeholder.com/80" },
-            { role: "Enfermera anestesista", name: "Dr. Bob Doe", img: "https://via.placeholder.com/80" },
-            { role: "Enfermera circulante", name: "Dr. Alice Doe", img: "https://via.placeholder.com/80" },
-            { role: "Enfermera circulante", name: "Dr. Alice Doe", img: "https://via.placeholder.com/80" },
+            { role: "Cirujano principal", name: "Dr. John Doeh", img: avatarImage4 },
+            { role: "Anestesiólogo", name: "Dr. Jane Doe", img: avatarImage },
+            { role: "Asistente de cirugía", name: "Dr. Chris Doe", img: avatarImage1 },
+            { role: "Enfermera anestesista", name: "Dr. Bob Doe", img: avatarImage3 },
+            { role: "Enfermera circulante", name: "Dr. Alice Doe", img: avatarImage2 },
           ].map((member, index) => (
             <div
               key={index}
@@ -69,12 +74,12 @@ function InfoPaciente() {
             }}
           >
             {[
-              { task: "Patient arrives", person: "Dr. John Doe", icon: "https://via.placeholder.com/40" },
-              { task: "Pre-Surgery", person: "Dr. John Doe", icon: "https://via.placeholder.com/40" },
-              { task: "Anestesia general", person: "Dr. Jane Doe", icon: "https://via.placeholder.com/40" },
-              { task: "Administración de anestesia", person: "Dr. Bob Doe", icon: "https://via.placeholder.com/40" },
-              { task: "Monitorización de signos vitales", person: "Dr. Alice Doe", icon: "https://via.placeholder.com/40" },
-              { task: "Asistente en incisión", person: "Dr. Chris Doe", icon: "https://via.placeholder.com/40" },
+              { task: "Patient arrives", person: "Dr. John Doeh", icon: avatarImage4 },
+              { task: "Pre-Surgery", person: "Dr. John Doe", icon: avatarImage },
+              { task: "Anestesia general", person: "Dr. Jane Doe", icon: avatarImage },
+              { task: "Administración de anestesia", person: "Dr. Bob Doe", icon: avatarImage3 }, 
+              { task: "Monitorización de signos vitales", person: "Dr. Alice Doe", icon: avatarImage2 },
+              { task: "Asistente en incisión", person: "Dr. Chris Doe", icon: avatarImage1 },
             ].map((procedure, index) => (
               <div
                 key={index}

@@ -1,5 +1,7 @@
 import React from "react";
 import Header from "../components/ui/Header"; // Importa el Header
+import heroImage from "../assets/avata.jpeg"; // Corregido la extensión de la imagen
+import heroImage1 from "../assets/Avatar.jpeg"; // Corregido la extensión de la imagen
 
 function TrazaQuiru() {
   return (
@@ -25,8 +27,8 @@ function TrazaQuiru() {
           {/* Cirujano principal */}
           <div style={{ textAlign: "center" }}>
             <img
-              src="https://via.placeholder.com/100"
-              alt="Cirujano principal"
+              src={heroImage}
+              alt="Hero"
               style={{
                 width: "100px",
                 height: "100px",
@@ -42,8 +44,8 @@ function TrazaQuiru() {
           {/* Enfermera anestesista */}
           <div style={{ textAlign: "center" }}>
             <img
-              src="https://via.placeholder.com/100"
-              alt="Enfermera anestesista"
+              src={heroImage1}
+              alt="Hero"
               style={{
                 width: "100px",
                 height: "100px",
@@ -103,7 +105,7 @@ function TrazaQuiru() {
         {/* Lista de procedimientos */}
         <section style={{ marginTop: "30px", width: "100%" }}>
           <ul style={{ listStyle: "none", padding: "0" }}>
-            {[
+            {[ 
               { text: "Patient arrives", time: "8:00 AM", checked: true },
               { text: "Pre-surgery", time: "8:30 AM", checked: true },
               { text: "In surgery", time: "9:00 AM", checked: true },
