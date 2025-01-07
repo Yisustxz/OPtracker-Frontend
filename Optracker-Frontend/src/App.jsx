@@ -10,6 +10,8 @@ import PatientPage from './pages/PatientPage'
 import PatientRegistration from './pages/patienteRegistration'
 import PatientProfile from './pages/PatientProfile'
 import { NewSurgery } from './pages/newSurgery'
+import FamilyCode from './pages/FamilyCode'
+import PatientTracker from './pages/PatientTracker'
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path='/new-surgery' element={<NewSurgery />} />
         <Route path='/procedure' element={<ProcedurePage />}></Route>
         <Route path='/surgeryData' element={<SurgeryData />}></Route>
+        <Route path='/familycode' element={<FamilyCode />} />
+        <Route path='/patienteTracker' element={<PatientTracker />} />
       </Routes>
     </Router>
   )
