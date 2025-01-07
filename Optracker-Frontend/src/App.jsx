@@ -3,6 +3,9 @@ import HomePage from './pages/homepage'
 import SurgeryPage from './pages/surgery'
 import ProcedurePage from './pages/procedurePage'
 import SurgeryData from './pages/surgeryData'
+import NewSurgery from './pages/newSurgery'
+import MedTeams from './pages/medTeams'
+import NewMedTeams from './pages/newMedTeams'
 
 import './App.css'
 import { LoginPage } from './pages/LoginPage'
@@ -28,6 +31,8 @@ function App() {
         <Route path='/surgeryData' element={<SurgeryData />}></Route>
         <Route path='/familycode' element={<FamilyCode />} />
         <Route path='/patienteTracker' element={<PatientTracker />} />
+        <Route path='/medteams' element={<MedTeams/>}/>
+        <Route path='/new-medteams' element={<NewMedTeams/>}/>
       </Routes>
     </Router>
   )
