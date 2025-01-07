@@ -6,13 +6,11 @@ import SurgeryData from './pages/surgeryData'
 import NewSurgery from './pages/newSurgery'
 import MedTeams from './pages/medTeams'
 import NewMedTeams from './pages/newMedTeams'
-
 import './App.css'
 import { LoginPage } from './pages/LoginPage'
 import PatientPage from './pages/PatientPage'
 import PatientRegistration from './pages/patienteRegistration'
 import PatientProfile from './pages/PatientProfile'
-import { NewSurgery } from './pages/newSurgery'
 import FamilyCode from './pages/FamilyCode'
 import PatientTracker from './pages/PatientTracker'
 
@@ -31,8 +29,8 @@ function App() {
         <Route path='/surgeryData' element={<SurgeryData />}></Route>
         <Route path='/familycode' element={<FamilyCode />} />
         <Route path='/patienteTracker' element={<PatientTracker />} />
-        <Route path='/medteams' element={<MedTeams/>}/>
-        <Route path='/new-medteams' element={<NewMedTeams/>}/>
+        <Route path='/medteams' element={<MedTeams />} />
+        <Route path='/new-medteams' element={<NewMedTeams />} />
       </Routes>
     </Router>
   )
