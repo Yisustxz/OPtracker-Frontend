@@ -13,6 +13,7 @@ import PatientProfile from './pages/PatientProfile'
 import { NewSurgery } from './pages/newSurgery'
 import FamilyCode from './pages/FamilyCode'
 import PatientTracker from './pages/PatientTracker'
+import MedTeamProfile from './pages/MedTeamProfile'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path='/patienteTracker' element={<PatientTracker />} />
         <Route path='/medteams' element={<MedTeams />} />
         <Route path='/new-medteams' element={<NewMedTeams />} />
+        <Route path='/medTeamProfile' element={<MedTeamProfile />} />
       </Routes>
     </Router>
   )
