@@ -1,7 +1,8 @@
 import * as React from "react";
 import FormInput from "../components/patienteRecord/FormInput";
-import Navigation from "../components/ui/Navigation";
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import Navigation from "../components/ui/navigation";
+import { useNavigate } from 'react-router-dom'; 
+import apiClient from "../services/xiosConfig";
 
 export default function PatientRegistration() {
   const navigate = useNavigate(); // Inicializar useNavigate
@@ -17,7 +18,7 @@ export default function PatientRegistration() {
     height: "",
     weight: "",
     allergies: "",
-    emergencyContacts: [{ name: "", phone: "", email: "" }] // Cambiado para manejar múltiples contactos de emergencia
+    emergencyContacts: [{ name: "", phone: "", email: "" }] 
   });
 
   const handleInputChange = (e) => {
@@ -53,9 +54,32 @@ export default function PatientRegistration() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    // Mapea los datos del formulario para que coincidan con el DTO del backend
+    const patientData = {
+      dni: formData.identification,
+      email: formData.email,
+      name: formData.firstName,
+      lastName: formData.lastName,
+      weight: parseFloat(formData.weight),
+      height: parseFloat(formData.height),
+      gender: formData.gender.toUpperCase(), // Asegúrate de que coincida con los valores esperados
+      bloodType: formData.bloodType.toUpperCase(), // Ajusta según el formato del backend
+    };
+
+    console.log(patientData)
+
+    try {
+      const response = await apiClient.post("/patient", patientData);
+      console.log("Paciente registrado:", response.data);
+      alert("Paciente registrado con éxito");
+      navigate("/patient"); // Redirige a otra página si es necesario
+    } catch (error) {
+      console.error("Error al registrar el paciente:", error);
+      alert("Hubo un error al registrar el paciente");
+    }
   };
 
   const navLinks = [
@@ -105,7 +129,7 @@ export default function PatientRegistration() {
             value={formData.firstName}
             onChange={handleInputChange}
             required
-            className="p-8 w-[300px]" // Aumentar el tamaño del campo
+            className="p-8 w-[300px] bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Apellido"
@@ -114,7 +138,7 @@ export default function PatientRegistration() {
             value={formData.lastName}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Cedula"
@@ -123,7 +147,7 @@ export default function PatientRegistration() {
             value={formData.identification}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Fecha de Nacimiento"
@@ -132,7 +156,7 @@ export default function PatientRegistration() {
             value={formData.birthDate}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Genero"
@@ -141,7 +165,7 @@ export default function PatientRegistration() {
             value={formData.gender}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Tipo de Sangre"
@@ -150,7 +174,7 @@ export default function PatientRegistration() {
             value={formData.bloodType}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Email"
@@ -160,7 +184,7 @@ export default function PatientRegistration() {
             value={formData.email}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Numero de Telefono"
@@ -170,7 +194,7 @@ export default function PatientRegistration() {
             value={formData.phone}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Altura (pulgadas)"
@@ -181,7 +205,7 @@ export default function PatientRegistration() {
             onChange={handleInputChange}
             required
             min="0"
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Peso (libras)"
@@ -192,7 +216,7 @@ export default function PatientRegistration() {
             onChange={handleInputChange}
             required
             min="0"
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
             label="Alergias (opcional)"
@@ -200,7 +224,7 @@ export default function PatientRegistration() {
             placeholder="Alergia"
             value={formData.allergies}
             onChange={handleInputChange}
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
 
           <div className="col-span-full mt-12"> {/* Aumentar el margen superior */}
@@ -217,7 +241,7 @@ export default function PatientRegistration() {
                     value={contact.name}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
-                    className="p-4" // Aumentar el tamaño del campo
+                    className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
                   />
                   <FormInput
                     label="Telefono del contacto de Emergencia"
@@ -227,7 +251,7 @@ export default function PatientRegistration() {
                     value={contact.phone}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
-                    className="p-4" // Aumentar el tamaño del campo
+                    className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
                   />
                   <FormInput
                     label="Email del contacto de Emergencia"
@@ -237,7 +261,7 @@ export default function PatientRegistration() {
                     value={contact.email}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
-                    className="p-4" // Aumentar el tamaño del campo
+                    className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
                   />
                   <button
                     type="button"
