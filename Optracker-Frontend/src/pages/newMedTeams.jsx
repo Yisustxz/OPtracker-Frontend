@@ -2,26 +2,70 @@ import Navigation from '@/components/ui/navigation'
 import NewMedTeamHeader from '@/components/medTeamsPage/newMedTeams/newMedTeamsHeader'
 import NewMedTeamForm from '@/components/medTeamsPage/newMedTeams/newMedTeamsForm'
 import { useState } from 'react'
+import { createDoctor, createNurse } from '../services/medTeamsServices'
 
 function NewMedTeams() {
   const [selectedType, setSelectedType] = useState('Doctor')
   const [formData, setFormData] = useState({
     nombre: '',
+    apellido: '',
     cedula: '',
     correo: '',
     especialidad: '',
     licencia: '',
     numeroDEA: '',
-    educacion: ['']
+    educacion: [''],
+    contrasena: '' // Campo de contraseña
   })
 
   const addEducationField = () => {
     setFormData({ ...formData, educacion: [...formData.educacion, ''] })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Datos enviados:', formData)
+
+    // Validación específica para el enfermero
+    if (selectedType === 'Enfermero' && !formData.contrasena) {
+      alert('Por favor, ingresa una contraseña para el enfermero.')
+      return
+    }
+
+    try {
+      if (selectedType === 'Doctor') {
+        // Transformar datos para doctores
+        const doctorData = {
+          names: formData.nombre,
+          lastNames: formData.apellido,
+          speciality: formData.especialidad,
+          licenseNumber: formData.licencia,
+          dni: formData.cedula,
+          dea: formData.numeroDEA
+        }
+
+        const result = await createDoctor(doctorData)
+        console.log('Doctor creado con éxito:', result)
+      } else if (selectedType === 'Enfermero') {
+        // Transformar datos para enfermeros
+        const nurseData = {
+          email: formData.correo,
+          name: formData.nombre,
+          lastName: formData.apellido,
+          password: formData.contrasena,
+          speciality: formData.especialidad,
+          licenseNumber: formData.licencia,
+          dea: formData.numeroDEA
+        }
+
+        const result = await createNurse(nurseData)
+        console.log('Enfermero creado con éxito:', result)
+      }
+
+      alert('¡Registro exitoso!')
+    } catch (error) {
+      alert('Ocurrió un error al registrar el equipo médico.')
+      console.error(error)
+    }
   }
 
   return (
@@ -40,6 +84,7 @@ function NewMedTeams() {
             formData={formData}
             setFormData={setFormData}
             addEducationField={addEducationField}
+            selectedType={selectedType}
           />
 
           {/* Botón de Registro */}

@@ -19,9 +19,9 @@ function MedTeamsFilter({ filtro, setFiltro, search, setSearch }) {
           Doctores
         </button>
         <button
-          onClick={() => setFiltro('Enfermero')}
+          onClick={() => setFiltro('Nurse')}
           className={`px-4 py-2 mr-1 rounded-xl ${
-            filtro === 'Enfermero' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            filtro === 'Nurse' ? 'bg-blue-500 text-white' : 'bg-gray-200'
           }`}
         >
           Enfermeros

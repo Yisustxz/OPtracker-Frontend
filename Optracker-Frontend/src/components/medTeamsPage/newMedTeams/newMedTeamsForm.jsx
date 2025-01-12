@@ -1,4 +1,9 @@
-function NewMedTeamForm({ formData, setFormData, addEducationField }) {
+function NewMedTeamForm({
+  formData,
+  setFormData,
+  addEducationField,
+  selectedType
+}) {
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -13,9 +18,9 @@ function NewMedTeamForm({ formData, setFormData, addEducationField }) {
   return (
     <form className='space-y-6'>
       <div className='grid grid-cols-2 gap-4 text-left'>
-        {/* Nombre Completo */}
+        {/* Nombre */}
         <div>
-          <label className='block font-medium mb-2'>Nombre Completo</label>
+          <label className='block font-medium mb-2'>Nombre</label>
           <input
             type='text'
             name='nombre'
@@ -23,6 +28,20 @@ function NewMedTeamForm({ formData, setFormData, addEducationField }) {
             onChange={handleChange}
             className='border w-full px-4 py-2 rounded-xl mb-4'
             placeholder='Nombre'
+            required
+          />
+        </div>
+
+        {/* Apellido */}
+        <div>
+          <label className='block font-medium mb-2'>Apellido</label>
+          <input
+            type='text'
+            name='apellido'
+            value={formData.apellido}
+            onChange={handleChange}
+            className='border w-full px-4 py-2 rounded-xl mb-4'
+            placeholder='Apellido'
             required
           />
         </div>
@@ -99,6 +118,22 @@ function NewMedTeamForm({ formData, setFormData, addEducationField }) {
           />
         </div>
       </div>
+
+      {/* Contraseña (Solo para Enfermero) */}
+      {selectedType === 'Nurse' && (
+        <div>
+          <label className='block font-medium mb-2'>Contraseña</label>
+          <input
+            type='password'
+            name='contrasena'
+            value={formData.contrasena || ''}
+            onChange={handleChange}
+            className='border w-80 px-4 py-2 rounded-xl mb-4'
+            placeholder='Contraseña'
+            required={selectedType === 'Nurse'}
+          />
+        </div>
+      )}
 
       {/* Educación */}
       <div className='mt-6 flex flex-col items-center'>
