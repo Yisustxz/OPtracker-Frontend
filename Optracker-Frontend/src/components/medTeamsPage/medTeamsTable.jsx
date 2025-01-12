@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom'
+
 function MedTeamsTable({ equipo }) {
+  const navigate = useNavigate()
+
   return (
     <div className='overflow-x-auto rounded-lg cursor-default'>
       <table className='w-full border-collapse border border-gray-200 text-left cursor-default'>
@@ -7,9 +11,9 @@ function MedTeamsTable({ equipo }) {
             <th className='border border-gray-200 px-10 py-2 font-medium cursor-default'>
               Nombre
             </th>
-            <th className='border border-gray-200 px-10 py-2 '>Especialidad</th>
-            <th className='border border-gray-200 px-10 py-2 '>Tipo</th>
-            <th className='border border-gray-200 px-10 py-2 '>Acciones</th>
+            <th className='border border-gray-200 px-10 py-2'>Especialidad</th>
+            <th className='border border-gray-200 px-10 py-2'>Tipo</th>
+            <th className='border border-gray-200 px-10 py-2'>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -25,7 +29,12 @@ function MedTeamsTable({ equipo }) {
                 {persona.tipo}
               </td>
               <td className='px-10 py-5 border-b text-center'>
-                <button className='text-gray-400 hover:underline '>
+                <button
+                  className='text-gray-400 hover:underline'
+                  onClick={() =>
+                    navigate('/medTeamProfile', { state: persona })
+                  }
+                >
                   <i className='fas fa-eye' />
                 </button>
               </td>

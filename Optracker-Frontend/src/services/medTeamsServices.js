@@ -10,7 +10,8 @@ export const fetchNurses = async () => {
       tipo: 'Nurse',
       email: nurse.email,
       licencia: nurse.licenseNumber,
-      dea: nurse.dea
+      dea: nurse.dea,
+      dni: nurse.dni
     }))
   } catch (error) {
     console.error('Error fetching nurses:', error)
