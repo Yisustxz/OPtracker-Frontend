@@ -48,7 +48,7 @@ function App() {
         />
 
         <Route
-          path="/patientProfile"
+          path="/patientProfile/:id"
           element={
             <PrivateRoute>
               <PatientProfile />

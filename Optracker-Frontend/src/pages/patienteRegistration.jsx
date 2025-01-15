@@ -17,8 +17,8 @@ export default function PatientRegistration() {
     phone: "",
     height: "",
     weight: "",
-    allergies: "",
-    emergencyContacts: [{ name: "", phone: "", email: "" }] 
+    alergies: "",
+    emergencyContacts: [{ name: "", lastName: "", dni: "", phone: "", email: "" }] 
   });
 
   const handleInputChange = (e) => {
@@ -57,23 +57,78 @@ export default function PatientRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log([formData.alergies])
+
+    console.log(new Date(formData.birthDate))
+
+    console.log(new Date(formData.birthDate).toISOString())
+
     // Mapea los datos del formulario para que coincidan con el DTO del backend
     const patientData = {
       dni: formData.identification,
       email: formData.email,
       name: formData.firstName,
       lastName: formData.lastName,
+      phoneNumber: formData.phone,
+      alergies: formData.alergies,
+      birthDate: new Date(formData.birthDate).toISOString(), // Asegurando que birthDate sea una instancia de Date
       weight: parseFloat(formData.weight),
       height: parseFloat(formData.height),
       gender: formData.gender.toUpperCase(), // Asegúrate de que coincida con los valores esperados
       bloodType: formData.bloodType.toUpperCase(), // Ajusta según el formato del backend
+      emergencyContacts: formData.emergencyContacts.map(contact => ({
+        name: contact.name,
+        lastName: contact.lastName,
+        dni: contact.dni,
+        phoneNumber: contact.phone,
+        email: contact.email,
+      })),
     };
 
     console.log(patientData)
 
     try {
-      const response = await apiClient.post("/patient", patientData);
-      console.log("Paciente registrado:", response.data);
+      const { data: createdPatient } = await apiClient.post("/patient", patientData);
+      console.log("Paciente registrado:", createdPatient);
+
+      const emergencyContactsData = {
+        patientId: createdPatient.id,
+        emergencyContacts: patientData.emergencyContacts,
+      };
+      
+      const createContacts = emergencyContactsData.emergencyContacts.map((contact) => {
+        const contactData = {
+          patientId: emergencyContactsData.patientId,
+          ...contact, // Asegúrate de que `contact` contiene los campos necesarios
+        };
+      
+        return apiClient.post("/emergency-contact", contactData)
+          .then(() => console.log("Contact created successfully:", contactData))
+          .catch((error) => {
+            if (error.response) {
+              // Si el servidor respondió con un estado de error (e.g., 400, 500)
+              console.error("Error creating contact:", contactData, {
+                status: error.response.status,
+                data: error.response.data, // Contiene el mensaje del servidor
+                headers: error.response.headers,
+              });
+            } else if (error.request) {
+              // Si no hubo respuesta del servidor
+              console.error("No response received for contact:", contactData, error.request);
+            } else {
+              // Otros errores (e.g., problemas en la configuración de la solicitud)
+              console.error("Error setting up request for contact:", contactData, error.message);
+            }
+          });
+      });
+      
+      try {
+        await Promise.all(createContacts);
+        console.log("All contacts processed");
+      } catch (error) {
+        console.error("Error in processing some contacts", error);
+      }
+
       alert("Paciente registrado con éxito");
       navigate("/patient"); // Redirige a otra página si es necesario
     } catch (error) {
@@ -220,9 +275,9 @@ export default function PatientRegistration() {
           />
           <FormInput
             label="Alergias (opcional)"
-            id="allergies"
+            id="alergies"
             placeholder="Alergia"
-            value={formData.allergies}
+            value={formData.alergies}
             onChange={handleInputChange}
             className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
@@ -239,6 +294,24 @@ export default function PatientRegistration() {
                     id="name"
                     placeholder="Nombre del Contacto de Emergencia"
                     value={contact.name}
+                    onChange={(e) => handleEmergencyContactChange(index, e)}
+                    required
+                    className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
+                  />
+                  <FormInput
+                    label="Apellido Del contacto de Emergencia"
+                    id="lastName"
+                    placeholder="Apellido del Contacto de Emergencia"
+                    value={contact.lastName}
+                    onChange={(e) => handleEmergencyContactChange(index, e)}
+                    required
+                    className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
+                  />
+                  <FormInput
+                    label="Cedula Del contacto de Emergencia"
+                    id="dni"
+                    placeholder="Cedula del Contacto de Emergencia"
+                    value={contact.dni}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
                     className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro

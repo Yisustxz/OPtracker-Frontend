@@ -11,7 +11,7 @@ function PatientTableHeader() {
           Paciente
         </div>
         <div className="px-4 py-3 w-[160px]" role="columnheader">
-          Cirujano
+          Cedula
         </div>
         <div className="px-4 py-3 w-[150px]" role="columnheader">
           Status
