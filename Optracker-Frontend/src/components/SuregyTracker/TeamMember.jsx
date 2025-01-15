@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function TeamMember({ avatar, role, name }) {
   return (
     <div className="team-member">
@@ -10,7 +8,7 @@ export default function TeamMember({ avatar, role, name }) {
         <div className="member-role">{role}</div>
         <div className="member-name">{name}</div>
       </div>
-      <style jsx>{`
+      <style>{`
         .team-member {
           display: flex;
           align-items: center;
