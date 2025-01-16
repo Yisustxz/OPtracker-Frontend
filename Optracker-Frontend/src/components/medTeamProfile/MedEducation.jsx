@@ -1,29 +1,35 @@
-import React from 'react'
-import { FaUniversity } from 'react-icons/fa' // Icono de universidad
+import React from "react";
+import { FaUniversity } from "react-icons/fa"; // Icono de universidad
 
 const educationData = [
   {
-    title: 'Facultad de Medicina: Universidad de California'
+    title: "Facultad de Medicina: Universidad de California",
   },
   {
-    title: 'Residencia: Stanford'
-  }
-]
+    title: "Residencia: Stanford",
+  },
+];
 
-export default function EducationList() {
+export default function EducationList({ persona }) {
+  // persona.educacion.foreach((value) => {
+  //   educationData.push({
+  //     title: value,
+  //   })
+  // })
+
   return (
-    <div className='p-4 text-left'>
-      <h2 className='text-lg font-bold mb-6'>Educación</h2>
-      <div className='space-y-4 text-left'>
+    <div className="p-4 text-left">
+      <h2 className="text-lg font-bold mb-6">Educación</h2>
+      <div className="space-y-4 text-left">
         {educationData.map((edu, index) => (
-          <div key={index} className='flex items-start gap-4'>
-            <FaUniversity className='text-gray-500 my-4' size={24} />
+          <div key={index} className="flex items-start gap-4">
+            <FaUniversity className="text-gray-500 my-4" size={24} />
             <div>
-              <div className='font-medium py-4'>{edu.title}</div>
+              <div className="font-medium py-4">{edu.title}</div>
             </div>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
