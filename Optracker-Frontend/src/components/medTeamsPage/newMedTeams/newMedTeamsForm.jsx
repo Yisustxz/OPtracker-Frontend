@@ -1,3 +1,5 @@
+import FormInput from "@/components/patienteRecord/FormInput";
+
 function NewMedTeamForm({
   formData,
   setFormData,
@@ -16,134 +18,128 @@ function NewMedTeamForm({
   };
 
   return (
-    <form className="space-y-6">
-      <div className="grid grid-cols-2 gap-4 text-left">
+    <form className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8 w-[60vw]">
         {/* Nombre */}
         <div>
-          <label className="block font-medium mb-2">Nombre</label>
-          <input
-            type="text"
-            name="nombre"
+          <FormInput
+            label="Nombre"
+            id="nombre"
+            placeholder="Nombre"
             value={formData.nombre}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl mb-4"
-            placeholder="Nombre"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
-
-        {/* Apellido */}
+        
         <div>
-          <label className="block font-medium mb-2">Apellido</label>
-          <input
-            type="text"
-            name="apellido"
+          <FormInput
+            label="Apellido"
+            id="apellido"
+            placeholder="Apellido"
             value={formData.apellido}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl mb-4"
-            placeholder="Apellido"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
 
-        {/* Cédula */}
         <div>
-          <label className="block font-medium mb-2">Cédula</label>
-          <input
-            type="text"
-            name="cedula"
+          <FormInput
+            label="Cedula"
+            id="cedula"
+            placeholder="Cedula"
             value={formData.cedula}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl mb-4"
-            placeholder="Cédula"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
 
-        {/* Correo */}
         <div>
-          <label className="block font-medium mb-2">Correo</label>
-          <input
-            type="email"
-            name="correo"
+          <FormInput
+            label="Email"
+            id="email"
+            placeholder="Email"
             value={formData.correo}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl mb-4"
-            placeholder="Correo"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
 
-        {/* Especialidad */}
         <div>
-          <label className="block font-medium mb-2">Especialidad</label>
-          <input
-            type="text"
-            name="especialidad"
+          <FormInput
+            label="Especialidad"
+            id="especialidad"
+            placeholder="Especialidad"
             value={formData.especialidad}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl mb-4"
-            placeholder="Especialidad"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
 
-        {/* Número de Licencia Médica */}
         <div>
-          <label className="block font-medium mb-2">
-            Número de Licencia Médica
-          </label>
-          <input
-            type="text"
-            name="licencia"
+          <FormInput
+            label="Especialidad"
+            id="especialidad"
+            placeholder="Especialidad"
+            value={formData.especialidad}
+            onChange={handleChange}
+            required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
+          />
+        </div>
+
+        <div>
+          <FormInput
+            label="Licencia"
+            id="licencia"
+            placeholder="Licencia"
             value={formData.licencia}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl mb-4"
-            placeholder="Número de licencia"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
 
-        {/* Número DEA */}
         <div>
-          <label className="block font-medium mb-2">Número DEA</label>
-          <input
-            type="text"
-            name="numeroDEA"
+          <FormInput
+            label="Número DEA"
+            id="numeroDEA"
+            placeholder="Número DEA"
             value={formData.numeroDEA}
             onChange={handleChange}
-            className="border w-full px-4 py-2 rounded-xl"
-            placeholder="Número DEA"
             required
+            className="p-8 w-[300px]" // Aumentar el tamaño del campo
           />
         </div>
-      </div>
 
-      {/* Contraseña (Solo para Enfermero) */}
-      {selectedType === "Nurse" && (
-        <div>
-          <label className="block font-medium mb-2">Contraseña</label>
-          <input
-            type="password"
-            name="contrasena"
-            value={formData.contrasena || ""}
-            onChange={handleChange}
-            className="border w-80 px-4 py-2 rounded-xl mb-4"
-            placeholder="Contraseña"
-            required={selectedType === "Nurse"}
-          />
-        </div>
-      )}
+        {selectedType === "Nurse" && (
+            <div>
+              <FormInput
+                label="Contraseña"
+                id="contrasena"
+                type="password"
+                placeholder="Contraseña"
+                value={formData.contrasena || ""}
+                onChange={handleChange}
+                required
+                className="p-8 w-[300px]" // Aumentar el tamaño del campo
+              />
+            </div>
+        )}
 
       {/* Educación */}
-      <div className="mt-6 flex flex-col items-center">
+      <div className="flex flex-col items-center mt-8">
         <label className="block font-medium mb-2">Educación</label>
         {formData.educacion?.map((edu, index) => (
           <div key={index} className="flex justify-center gap-4 mb-4">
             <select
               value={edu}
               onChange={(e) => handleEducationChange(index, e.target.value)}
-              className="border w-96 px-4 py-2 rounded-xl"
+              className="border border-gray-300 w-full px-4 py-2 rounded-xl bg-white"
             >
               <option value="" disabled>
                 Selecciona un título académico
@@ -162,7 +158,7 @@ function NewMedTeamForm({
         <button
           type="button"
           onClick={addEducationField}
-          className="flex items-center justify-center w-48 border px-4 py-2 rounded-xl mt-2"
+          className="flex items-center justify-center w-48 border border-gray-300 px-4 py-2 rounded-xl mt-2 bg-white"
         >
           + Agregar Educación
         </button>

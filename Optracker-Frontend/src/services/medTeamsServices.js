@@ -51,7 +51,7 @@ export const createDoctor = async (doctorData) => {
 
 // Servicio para crear un enfermero
 export const createNurse = async (nurseData) => {
-  try {
+  try { console.log(nurseData)
     const response = await api.post(`/nurse`, nurseData);
     return response.data;
   } catch (error) {

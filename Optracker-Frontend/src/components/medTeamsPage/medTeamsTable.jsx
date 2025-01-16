@@ -1,49 +1,38 @@
-import { useNavigate } from 'react-router-dom'
+import * as React from "react";
+import MedTeamTableRow from "./medTeamRow";
+import MedTeamTableHeader from "./medTeamHeader";
 
-function MedTeamsTable({ equipo }) {
-  const navigate = useNavigate()
+const patients = [
+  { id: 1, name: "Juan Pérez", speciality: "Cardiología", type: "Doctor", status: "Activo" },
+  { id: 2, name: "María López", speciality: "Pediatría", type: "Doctor", status: "Activo" },
+  { id: 3, name: "Carlos García", speciality: "Neurología", type: "Doctor", status: "Inactivo" },
+  { id: 4, name: "Ana Martínez", speciality: "Enfermería", type: "Nurse", status: "Activo" },
+  { id: 5, name: "Luis Rodríguez", speciality: "Ginecología", type: "Doctor", status: "Activo" },
+  { id: 6, name: "Sofía Hernández", speciality: "Oncología", type: "Nurse", status: "Inactivo" },
+];
+
+function MedTeamsTable({ searchQuery, activeFilter }) {
+  const filteredPatients = patients.filter(patient => {
+    const matchesSearch = patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         patient.surgeon.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = activeFilter === "Todos" || patient.status === activeFilter;
+    return matchesSearch && matchesFilter;
+  });
 
   return (
-    <div className='overflow-x-auto rounded-lg cursor-default'>
-      <table className='w-full border-collapse border border-gray-200 text-left cursor-default'>
-        <thead>
-          <tr className='bg-gray-100 cursor-default'>
-            <th className='border border-gray-200 px-10 py-2 font-medium cursor-default'>
-              Nombre
-            </th>
-            <th className='border border-gray-200 px-10 py-2'>Especialidad</th>
-            <th className='border border-gray-200 px-10 py-2'>Tipo</th>
-            <th className='border border-gray-200 px-10 py-2'>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {equipo.map((persona, index) => (
-            <tr key={index} className='hover:bg-gray-50'>
-              <td className='px-10 py-5 border-b cursor-default'>
-                {persona.nombre}
-              </td>
-              <td className='px-10 py-5 border-b text-gray-400 cursor-default'>
-                {persona.especialidad}
-              </td>
-              <td className='px-10 py-5 border-b text-gray-400'>
-                {persona.tipo}
-              </td>
-              <td className='px-10 py-5 border-b text-center'>
-                <button
-                  className='text-gray-400 hover:underline'
-                  onClick={() =>
-                    navigate('/medTeamProfile', { state: persona })
-                  }
-                >
-                  <i className='fas fa-eye' />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="flex flex-col justify-center px-4 py-3 w-full text-sm max-md:max-w-full">
+      <div className="flex overflow-hidden items-start w-full bg-white rounded-xl border border-solid border-zinc-200 max-md:max-w-full">
+        <div className="flex flex-col flex-1 shrink w-full basis-0 min-w-[240px] max-md:max-w-full">
+          <MedTeamTableHeader />
+          <div className="flex flex-col w-full text-slate-500 max-md:max-w-full">
+            {filteredPatients.map((patient) => (
+              <MedTeamTableRow key={patient.id} {...patient} />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default MedTeamsTable
+export default MedTeamsTable;

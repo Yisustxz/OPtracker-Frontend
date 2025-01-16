@@ -1,44 +1,44 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 function NewMedTeamHeader({ selectedType, setSelectedType }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className='flex flex-wrap gap-4 items-center mb-6'>
-      {/* Botón para regresar */}
-      <button
-        onClick={() => navigate('/medteams')} // Navegar a la página anterior
-        className='flex items-center gap-2 text-gray-600 hover:text-gray-800 transition'
-      >
-        <i className='fas fa-arrow-left'></i> {/* Ícono de flecha */}
-      </button>
 
       {/* Título */}
-      <h1 className='text-3xl font-bold  text-gray-800'>
-        Crear el Perfil del Equipo Médico
-      </h1>
+      <header className="mb-8 flex items-center">
+        <span onClick={() => navigate('/medteams')} className="mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer">
+          <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
+          </svg>
+        </span>
+        <h1 className="text-3xl font-bold text-neutral-900 ml-52 mb-1">
+          Registrar un Nuevo Paciente
+        </h1>
+      </header>
 
       {/* Botones de tipo */}
       <div className='w-full flex gap-4 items-start'>
         <button
           onClick={() => setSelectedType('Doctor')}
-          className={`px-7 py-3 rounded-xl mr-3 ${
-            selectedType === 'Doctor' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+          className={`flex items-center justify-center border-2 border-gray-300 rounded-xl px-4 py-2 transition-colors duration-200 hover:bg-blue-300 hover:border-blue-600 ${
+            selectedType === 'Doctor' ? 'bg-blue-200 border-blue-500 text-black' : 'bg-white text-black'
           }`}
         >
           <i className='fas fa-user-md mr-2'></i> Doctor
         </button>
         <button
           onClick={() => setSelectedType('Nurse')}
-          className={`px-7 py-3 rounded-xl ${
-            selectedType === 'Nurse' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+          className={`flex items-center justify-center border-2 border-gray-300 rounded-xl px-4 py-2 transition-colors duration-200 hover:bg-blue-300 hover:border-blue-600 ${
+            selectedType === 'Nurse' ? 'bg-blue-200 border-blue-500 text-black' : 'bg-white text-black'
           }`}
         >
           <i className='fas fa-user-nurse mr-2'></i> Nurse
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default NewMedTeamHeader
+export default NewMedTeamHeader;

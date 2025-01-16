@@ -123,7 +123,7 @@ export default function PatientRegistration() {
             value={formData.identification}
             onChange={handleInputChange}
             required
-            className="p-4" // Aumentar el tamaño del campo
+            className="p-4" 
           />
           <FormInput
             label="Fecha de Nacimiento"

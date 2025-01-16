@@ -1,66 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import Navigation from '../components/ui/navigation'
-import MedTeamsHeader from '@/components/medTeamsPage/medTeamsHeader'
-import MedTeamsFilter from '@/components/medTeamsPage/medTeamsFilter'
-import MedTeamsTable from '@/components/medTeamsPage/medTeamsTable'
-import { fetchNurses, fetchDoctors } from '../services/medTeamsServices'
+import * as React from "react";
+import { useState } from "react";
+import Navigation from "../components/ui/Navigation";
+import MedTeamsFilter from "@/components/medTeamsPage/medTeamsFilter";
+import SearchBar from "@/components/medTeamsPage/SearchBar";
+import MedTeamsTable from "@/components/medTeamsPage/medTeamsTable";
+import MedTeamHeader from "@/components/medTeamsPage/medHeader";
 
 function MedTeams() {
-  const [equipo, setEquipo] = useState([])
-  const [search, setSearch] = useState('')
-  const [filtro, setFiltro] = useState('Todos')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const loadMedTeams = async () => {
-      try {
-        setLoading(true)
-        const [nurses, doctors] = await Promise.all([
-          fetchNurses(),
-          fetchDoctors()
-        ])
-        setEquipo([...nurses, ...doctors])
-      } catch (error) {
-        console.error('Error loading medical teams:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadMedTeams()
-  }, [])
-
-  const datosFiltrados = equipo.filter((persona) => {
-    return (
-      (filtro === 'Todos' || persona.tipo === filtro) &&
-      (persona.nombre.toLowerCase().includes(search.toLowerCase()) ||
-        persona.especialidad.toLowerCase().includes(search.toLowerCase()))
-    )
-  })
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("Todos");
 
   return (
-    <div>
-      <Navigation />
-      <main className='p-24'>
-        <div className='top-0'>
-          <MedTeamsHeader />
-          <MedTeamsFilter
-            filtro={filtro}
-            setFiltro={setFiltro}
-            search={search}
-            setSearch={setSearch}
-          />
+    <div className="flex flex-col pt-1.5 bg-white">
+      <div className="flex overflow-hidden flex-col w-full bg-white min-h-[800px] max-md:max-w-full">
+        <div className="flex relative flex-col w-full max-md:max-w-full">
+          <Navigation />
+          <div className="flex relative z-0 justify-center items-start px-40 py-5 w-full max-md:px-5 max-md:max-w-full">
+            <div className="flex overflow-hidden z-0 flex-col flex-1 shrink w-full basis-0 max-w-[960px] min-w-[240px] max-md:max-w-full">
+              <MedTeamHeader />
+              <MedTeamsFilter activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+              <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+              <MedTeamsTable searchQuery={searchQuery} activeFilter={activeFilter} />
+            </div>
+          </div>
         </div>
-        <div className='sticky'>
-          {loading ? (
-            <p>Cargando equipos médicos...</p>
-          ) : (
-            <MedTeamsTable equipo={datosFiltrados} />
-          )}
-        </div>
-      </main>
+      </div>
     </div>
-  )
+  );
 }
 
-export default MedTeams
+export default MedTeams;

@@ -74,7 +74,7 @@ function NewMedTeams() {
   return (
     <div className="flex flex-col pt-24 bg-white">
       <Navigation />
-      <div className="flex justify-center px-40 py-5 max-md:px-5">
+      <div className="flex justify-center px-10 py-5 max-md:px-5"> {/* Ajustar el padding horizontal */}
         <div className="w-full max-w-[960px]">
           {/* Encabezado */}
           <NewMedTeamHeader
@@ -94,7 +94,7 @@ function NewMedTeams() {
           <div className="mt-8">
             <button
               onClick={handleSubmit}
-              className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 w-1/2 mt-7"
+              className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 w-full mt-7" // Ajustar el ancho del botón
             >
               Registrar Equipo Médico
             </button>
