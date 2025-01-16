@@ -1,7 +1,7 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import FormInput from "../components/patienteRecord/FormInput";
 import Navigation from "../components/ui/Navigation";
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 
 export default function PatientRegistration() {
   const navigate = useNavigate(); // Inicializar useNavigate
@@ -17,14 +17,14 @@ export default function PatientRegistration() {
     height: "",
     weight: "",
     allergies: "",
-    emergencyContacts: [{ name: "", phone: "", email: "" }] // Cambiado para manejar múltiples contactos de emergencia
+    emergencyContacts: [{ name: "", phone: "", email: "" }], // Cambiado para manejar múltiples contactos de emergencia
   });
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
   };
 
@@ -32,24 +32,29 @@ export default function PatientRegistration() {
     const { id, value } = e.target;
     const updatedContacts = [...formData.emergencyContacts];
     updatedContacts[index] = { ...updatedContacts[index], [id]: value };
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      emergencyContacts: updatedContacts
+      emergencyContacts: updatedContacts,
     }));
   };
 
   const addEmergencyContact = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      emergencyContacts: [...prev.emergencyContacts, { name: "", phone: "", email: "" }]
+      emergencyContacts: [
+        ...prev.emergencyContacts,
+        { name: "", phone: "", email: "" },
+      ],
     }));
   };
 
   const removeEmergencyContact = (index) => {
-    const updatedContacts = formData.emergencyContacts.filter((_, i) => i !== index);
-    setFormData(prev => ({
+    const updatedContacts = formData.emergencyContacts.filter(
+      (_, i) => i !== index
+    );
+    setFormData((prev) => ({
       ...prev,
-      emergencyContacts: updatedContacts
+      emergencyContacts: updatedContacts,
     }));
   };
 
@@ -62,12 +67,15 @@ export default function PatientRegistration() {
     { text: "Inicio", width: "w-[35px]", isActive: true },
     { text: "Equipo Medico", width: "w-[97px]", isActive: false },
     { text: "Paciente", width: "w-[57px]", isActive: false },
-    { text: "Cirugia", width: "w-12", isActive: false }
+    { text: "Cirugia", width: "w-12", isActive: false },
   ];
 
   return (
     <div className="flex flex-col bg-white">
-      <nav className="flex relative justify-between items-center px-10 py-3 w-full max-md:px-5 max-md:max-w-full" role="navigation">
+      <nav
+        className="flex relative justify-between items-center px-10 py-3 w-full max-md:px-5 max-md:max-w-full"
+        role="navigation"
+      >
         <div className="flex relative z-0 flex-1 shrink gap-8 items-start self-stretch my-auto basis-0 min-w-[240px] max-md:max-w-full">
           <div className="flex z-0 gap-9 items-center text-sm font-medium min-h-[40px] min-w-[240px] text-neutral-900">
             {navLinks.map((link, index) => (
@@ -84,20 +92,38 @@ export default function PatientRegistration() {
 
       <main className="flex flex-col p-8 max-w-7xl mx-auto w-full">
         <header className="mb-8 flex items-center">
-          <span onClick={() => navigate('/patient')} className="mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer">
-            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
+          <span
+            onClick={() => navigate("/patient")}
+            className="mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer"
+          >
+            <svg
+              className="w-6 h-6 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 8 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
+              />
             </svg>
           </span>
           <h1 className="text-3xl font-bold text-neutral-900 ml-52 mb-1">
             Registrar un Nuevo Paciente
           </h1>
         </header>
-        <p className="text-sm text-slate-500 mt-0 mb-4 ml-59"> 
+        <p className="text-sm text-slate-500 mt-0 mb-4 ml-59">
           Complete el formulario a continuación para registrar un nuevo paciente
         </p>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8 w-[60vw]">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8 w-[60vw]"
+        >
           <FormInput
             label="Nombre"
             id="firstName"
@@ -117,16 +143,16 @@ export default function PatientRegistration() {
             className="p-4" // Aumentar el tamaño del campo
           />
           <FormInput
-            label="Cedula"
+            label="Cédula"
             id="identification"
-            placeholder="Cedula"
+            placeholder="Cédula"
             value={formData.identification}
             onChange={handleInputChange}
             required
             className="p-4" // Aumentar el tamaño del campo
           />
           <FormInput
-            label="Fecha de Nacimiento"
+            label="Fecha de nacimiento"
             id="birthDate"
             type="date"
             value={formData.birthDate}
@@ -135,38 +161,38 @@ export default function PatientRegistration() {
             className="p-4" // Aumentar el tamaño del campo
           />
           <FormInput
-            label="Genero"
+            label="Género"
             id="gender"
-            placeholder="Genero"
+            placeholder="Género"
             value={formData.gender}
             onChange={handleInputChange}
             required
             className="p-4" // Aumentar el tamaño del campo
           />
           <FormInput
-            label="Tipo de Sangre"
+            label="Tipo de sangre"
             id="bloodType"
-            placeholder="Tipo de Sangre"
+            placeholder="Tipo de sangre"
             value={formData.bloodType}
             onChange={handleInputChange}
             required
             className="p-4" // Aumentar el tamaño del campo
           />
           <FormInput
-            label="Email"
+            label="Correo electrónico"
             id="email"
             type="email"
-            placeholder="Email"
+            placeholder="Correo electrónico"
             value={formData.email}
             onChange={handleInputChange}
             required
             className="p-4" // Aumentar el tamaño del campo
           />
           <FormInput
-            label="Numero de Telefono"
+            label="Número de telefono"
             id="phone"
             type="tel"
-            placeholder="Numero de Telefono"
+            placeholder="Número de telefono"
             value={formData.phone}
             onChange={handleInputChange}
             required
@@ -203,37 +229,39 @@ export default function PatientRegistration() {
             className="p-4" // Aumentar el tamaño del campo
           />
 
-          <div className="col-span-full mt-12"> {/* Aumentar el margen superior */}
+          <div className="col-span-full mt-12">
+            {" "}
+            {/* Aumentar el margen superior */}
             <h2 className="text-lg font-bold text-neutral-900 mb-6">
-              Contacto de Emergencia
+              Contacto de emergencia
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {formData.emergencyContacts.map((contact, index) => (
                 <div key={index} className="flex flex-col gap-4">
                   <FormInput
-                    label="Nombre Del contacto de Emergencia"
+                    label="Nombre del contacto de emergencia"
                     id="name"
-                    placeholder="Nombre del Contacto de Emergencia"
+                    placeholder="Nombre del contacto de emergencia"
                     value={contact.name}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
                     className="p-4" // Aumentar el tamaño del campo
                   />
                   <FormInput
-                    label="Telefono del contacto de Emergencia"
+                    label="Teléfono del contacto de emergencia"
                     id="phone"
                     type="tel"
-                    placeholder="Numero de Telefono"
+                    placeholder="Número de telefono"
                     value={contact.phone}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
                     className="p-4" // Aumentar el tamaño del campo
                   />
                   <FormInput
-                    label="Email del contacto de Emergencia"
+                    label="Correo electrónico del contacto de Emergencia"
                     id="email"
                     type="email"
-                    placeholder="Email"
+                    placeholder="Correo electrónico"
                     value={contact.email}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
@@ -244,7 +272,7 @@ export default function PatientRegistration() {
                     onClick={() => removeEmergencyContact(index)}
                     className="mt-2 px-4 py-2 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600"
                   >
-                    Eliminar Contacto
+                    Eliminar contacto
                   </button>
                 </div>
               ))}
@@ -254,7 +282,7 @@ export default function PatientRegistration() {
               onClick={addEmergencyContact}
               className="mt-12 px-4 py-2 bg-[#F0F2F5] text-black font-bold rounded-lg hover:bg-[#D9D9D9]"
             >
-              Agregar Contacto de Emergencia
+              Agregar contacto de emergencia
             </button>
           </div>
 
@@ -263,7 +291,7 @@ export default function PatientRegistration() {
               type="submit"
               className="px-6 py-3 bg-sky-500 text-white font-bold rounded-xl min-h-[40px] hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
             >
-              Registrar Paciente
+              Registrar paciente
             </button>
           </div>
         </form>
