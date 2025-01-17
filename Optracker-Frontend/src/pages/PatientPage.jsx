@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import Navigation from "../components/ui/Navigation";
+import Navigation from "../components/ui/navigation";
 import PatientTable from "../components/patientsList/PatientTable";
 import PatientHeader from "../components/patientsList/PatientHeader";
 import FilterSection from "../components/patientsList/FilterSection";

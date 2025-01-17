@@ -2,10 +2,8 @@ import * as React from "react";
 
 const filters = [
   { id: "todos", label: "Todos", width: "w-[109px]" }, // Agregado el filtro "Todos"
-  { id: "completado", label: "Completado", width: "w-[111px]" },
-  { id: "progreso", label: "En progreso", width: "w-[118px]" },
-  { id: "cancelado", label: "Cancelado", width: "w-[109px]" },
-  { id: "programado", label: "Programado", width: "w-[109px]" }
+  { id: "con_cirugia", label: "Con cirugía", width: "w-[111px]" },
+  { id: "sin_cirugia", label: "Sin cirugía", width: "w-[118px]" }
 ];
 
 function FilterSection({ activeFilter, setActiveFilter }) {
