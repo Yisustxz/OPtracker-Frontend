@@ -16,7 +16,7 @@ export default function MedTeamProfile() {
   useEffect(() => {
     const loadMedTeamData = async (state) => {
       try {
-        setLoading(false);
+        setLoading(true);
         if (state.tipo === "Nurse") {
           const nurse = await Promise.all([fetchNursesById(state.id)]);
           setPersonal(nurse);
@@ -64,6 +64,7 @@ export default function MedTeamProfile() {
                 <>
                   <MedTeamProfileHeader personal={personal} />
                   <MedTeamProfesionalInf personal={personal} />
+                  <div className="my-4" /> {/* Espacio entre filas */}
                   <EducationList personal={personal} />
                 </>
               )}

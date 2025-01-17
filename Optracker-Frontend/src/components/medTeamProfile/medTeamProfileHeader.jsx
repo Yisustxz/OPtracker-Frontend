@@ -16,7 +16,7 @@ export default function MedTeamProfileHeader({ personal }) {
           {personal[0]?.nombre}
         </div>
         <div className="text-lg text-slate-500 mt-1">
-          {personal[0]?.especialidad}
+          {personal[0]?.tipo === "Nurse" ? "Enfermero" : "Doctor"}
         </div>
       </div>
     </div>
