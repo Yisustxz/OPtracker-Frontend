@@ -2,28 +2,54 @@ import EducationList from "@/components/medTeamProfile/MedEducation";
 import MedTeamProfesionalInf from "@/components/medTeamProfile/MedTeamPersonalInfo";
 import MedTeamProfileHeader from "@/components/medTeamProfile/medTeamProfileHeader";
 import Navigation from "@/components/ui/navigation";
-import React from "react";
+import { fetchDoctorsById, fetchNursesById } from "@/services/medTeamsServices";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function MedTeamProfile() {
   const location = useLocation();
   const navigate = useNavigate();
-  const persona = location.state;
-  console.log(persona);
+  const [personal, setPersonal] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { state } = location;
 
-  if (!persona) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>No se encontraron datos. Por favor regresa a la tabla.</p>
-        <button
-          onClick={() => navigate("/medteams")}
-          className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Regresar
-        </button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    const loadMedTeamData = async (state) => {
+      try {
+        setLoading(false);
+        if (state.tipo === "Nurse") {
+          const nurse = await Promise.all([fetchNursesById(state.id)]);
+          setPersonal(nurse);
+          return;
+        }
+        if (state.tipo === "Doctor") {
+          const doctor = await Promise.all([fetchDoctorsById(state.id)]);
+          setPersonal(doctor);
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!state) {
+      return (
+        <div className="flex flex-col justify-center items-center min-h-[90dvh]">
+          <p>No se encontraron datos. Por favor regresa a la tabla.</p>
+          <button
+            onClick={() => navigate("/medteams")}
+            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Regresar
+          </button>
+        </div>
+      );
+    }
+
+    loadMedTeamData(state);
+  }, [state, navigate]);
 
   return (
     <div className="flex relative flex-col items-start bg-white">
@@ -32,9 +58,15 @@ export default function MedTeamProfile() {
         <div className="flex flex-col w-full max-md:max-w-full">
           <div className="flex relative flex-1 justify-center items-start px-40 py-16 size-full max-md:px-5 max-md:max-w-full">
             <div className="flex overflow-hidden z-0 flex-col flex-1 shrink w-full basis-0 max-w-[960px] min-w-[240px] max-md:max-w-full">
-              <MedTeamProfileHeader persona={persona} />
-              <MedTeamProfesionalInf persona={persona} />
-              <EducationList persona={persona} />
+              {loading ? (
+                <p>Cargando información del personal...</p>
+              ) : (
+                <>
+                  <MedTeamProfileHeader personal={personal} />
+                  <MedTeamProfesionalInf personal={personal} />
+                  <EducationList personal={personal} />
+                </>
+              )}
             </div>
 
             <span

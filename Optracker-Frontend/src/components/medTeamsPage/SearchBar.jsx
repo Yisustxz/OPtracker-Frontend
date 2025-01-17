@@ -4,7 +4,7 @@ function SearchBar({ searchQuery, setSearchQuery }) {
   return (
     <div className="flex flex-col justify-center px-4 py-3 w-full max-md:max-w-full">
       <div className="flex flex-col w-full min-h-[48px] min-w-[160px] max-md:max-w-full">
-        <form 
+        <form
           className="flex items-center rounded-xl bg-gray-100 w-full h-full"
           onSubmit={(e) => e.preventDefault()}
           role="search"
@@ -25,14 +25,16 @@ function SearchBar({ searchQuery, setSearchQuery }) {
               />
             </svg>
           </div>
-          <label htmlFor="searchInput" className="sr-only">Buscar equipo medico</label>
+          <label htmlFor="searchInput" className="sr-only">
+            Buscar equipo medico
+          </label>
           <input
             id="searchInput"
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar equipo medico"
-            className="flex-1 py-2 pr-4 pl-2 h-full text-base bg-transparent text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 py-2 pr-4 pl-2 h-full text-base bg-transparent text-slate-500 focus:outline-none"
           />
         </form>
       </div>

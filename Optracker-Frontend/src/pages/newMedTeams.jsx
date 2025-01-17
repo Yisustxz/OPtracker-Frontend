@@ -1,11 +1,17 @@
 import NewMedTeamForm from "@/components/medTeamsPage/newMedTeams/newMedTeamsForm";
 import NewMedTeamHeader from "@/components/medTeamsPage/newMedTeams/newMedTeamsHeader";
 import Navigation from "@/components/ui/navigation";
-import { useState } from "react";
-import { createDoctor, createNurse } from "../services/medTeamsServices";
+import { useEffect, useState } from "react";
+import {
+  createDoctor,
+  createNurse,
+  fetchEducation,
+} from "../services/medTeamsServices";
 
 function NewMedTeams() {
   const [selectedType, setSelectedType] = useState("Doctor");
+  const [loading, setLoading] = useState(false);
+  const [educationList, setEducationList] = useState([]);
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -71,10 +77,28 @@ function NewMedTeams() {
     }
   };
 
+  useEffect(() => {
+    const loadEducation = async () => {
+      try {
+        setLoading(true);
+        const [educationData] = await Promise.all([fetchEducation()]);
+        setEducationList([...educationData]);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEducation();
+  }, []);
+
   return (
     <div className="flex flex-col pt-24 bg-white">
       <Navigation />
-      <div className="flex justify-center px-10 py-5 max-md:px-5"> {/* Ajustar el padding horizontal */}
+      <div className="flex justify-center px-10 py-5 max-md:px-5">
+        {" "}
+        {/* Ajustar el padding horizontal */}
         <div className="w-full max-w-[960px]">
           {/* Encabezado */}
           <NewMedTeamHeader
@@ -83,12 +107,17 @@ function NewMedTeams() {
           />
 
           {/* Formulario */}
-          <NewMedTeamForm
-            formData={formData}
-            setFormData={setFormData}
-            addEducationField={addEducationField}
-            selectedType={selectedType}
-          />
+          {loading ? (
+            <p>Cargando formulario...</p>
+          ) : (
+            <NewMedTeamForm
+              formData={formData}
+              setFormData={setFormData}
+              addEducationField={addEducationField}
+              selectedType={selectedType}
+              educationList={educationList}
+            />
+          )}
 
           {/* Botón de Registro */}
           <div className="mt-8">

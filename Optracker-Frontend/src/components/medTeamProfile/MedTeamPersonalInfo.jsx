@@ -1,11 +1,9 @@
-import React from "react";
-
-export default function MedTeamProfesionalInf({ persona }) {
+export default function MedTeamProfesionalInf({ personal }) {
   const professionalInfo = [
-    { label: "Especialidad", value: persona.especialidad },
-    { label: "Licencia Médica", value: persona.licencia },
-    { label: "DNI", value: persona.dni },
-    { label: "Número DEA", value: persona.dea },
+    { label: "Especialidad", value: personal[0]?.especialidad },
+    { label: "Licencia Médica", value: personal[0]?.licencia },
+    { label: "DNI", value: personal[0]?.dni },
+    { label: "Número DEA", value: personal[0]?.dea },
   ];
 
   return (
