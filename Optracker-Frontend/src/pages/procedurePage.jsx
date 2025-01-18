@@ -5,7 +5,7 @@ import Navigation from '../components/ui/navigation'
 export default function ProcedurePage() {
   const navigate = useNavigate()
   const [procedures, setProcedures] = useState([
-    { id: 1, name: 'Revisión de Propietario', completed: true },
+    { id: 1, name: 'Revisión de Propietario', completed: false }, // Cambiado a false
     { id: 2, name: 'Pre Cirugía', completed: false },
     { id: 3, name: 'Cirugía', completed: false },
     { id: 4, name: 'Post Cirugía', completed: false },
@@ -16,9 +16,16 @@ export default function ProcedurePage() {
 
   const toggleProcedure = (id) => {
     setProcedures((prev) =>
-      prev.map((proc) =>
-        proc.id === id ? { ...proc, completed: !proc.completed } : proc
-      )
+      prev.map((proc, index) => {
+        if (proc.id === id) {
+          // Verificar si el procedimiento anterior está completado
+          if (index === 0 || prev[index - 1].completed) {
+            return { ...proc, completed: !proc.completed }
+          }
+          return proc; // No cambiar si el anterior no está completado
+        }
+        return proc
+      })
     )
   }
 
@@ -78,7 +85,7 @@ export default function ProcedurePage() {
                   type='checkbox'
                   checked={procedure.completed}
                   onChange={() => toggleProcedure(procedure.id)}
-                  className='mr-2'
+                  className='mr-2 border border-gray-300 bg-white'
                 />
                 <span
                   className={
@@ -100,7 +107,7 @@ export default function ProcedurePage() {
               value={newProcedureName}
               onChange={(e) => setNewProcedureName(e.target.value)}
               placeholder='Agregar nuevo procedimiento'
-              className='border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500'
+              className='border border-gray-300 bg-white rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
             <button
               onClick={addProcedure}
@@ -110,11 +117,17 @@ export default function ProcedurePage() {
             </button>
           </div>
 
-          {/* Botón de Listo */}
-          <div className='flex justify-center'>
+          {/* Botones de acción */}
+          <div className='flex justify-center gap-4'>
+          <button
+              onClick={handleSubmit}
+              className='bg-red-500 text-white w-1/2 py-2 rounded-md hover:bg-red-600'
+            >
+              Cancelar Procedimiento
+            </button>
             <button
               onClick={handleSubmit}
-              className='bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600'
+              className='bg-green-500 text-white w-1/2 py-2 rounded-md hover:bg-green-600'
             >
               Listo
             </button>

@@ -3,7 +3,7 @@ import HomePage from './pages/homepage'
 import SurgeryPage from './pages/surgery'
 import ProcedurePage from './pages/procedurePage'
 import SurgeryData from './pages/surgeryData'
-import {NewSurgery} from './pages/newSurgery' // Eliminé la declaración duplicada
+import {NewSurgery} from './pages/newSurgery' 
 import MedTeams from './pages/medTeams'
 import NewMedTeams from './pages/newMedTeams'
 import './App.css'
@@ -15,6 +15,7 @@ import FamilyCode from './pages/FamilyCode'
 import PatientTracker from './pages/PatientTracker'
 import MedTeamProfile from './pages/MedTeamProfile'
 import PrivateRoute from './components/Routes/PrivateRoute'
+import Surgery from './pages/surgery'
 
 function App() {
   return (
@@ -73,13 +74,13 @@ function App() {
           path='/surgery'
           element={
             <PrivateRoute>
-              <SurgeryPage />
+              <Surgery />
             </PrivateRoute>
           }
         />
 
         <Route
-          path='/new-surgery'
+          path='/newSurgery'
           element={
             <PrivateRoute>
               <NewSurgery />

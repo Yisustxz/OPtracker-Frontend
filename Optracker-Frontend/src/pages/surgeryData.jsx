@@ -63,15 +63,13 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
                           {member.name}
                         </span>
                       </div>
-                      <button className='ml-auto text-blue-500 border-none'>
-                        <button className='ml-2 '>
+                      <span className='ml-10 cursor-pointer'>
                           <img
                             src='pencil-icon.png'
                             alt='Edit'
                             className='w-4 h-4'
                           />
-                        </button>
-                      </button>
+                      </span>
                     </div>
                   ))}
                 </div>

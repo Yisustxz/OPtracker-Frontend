@@ -64,11 +64,20 @@ function Surgery() {
           <div className='flex relative z-0 justify-center items-start px-40 py-5 w-full max-md:px-5 max-md:max-w-full'>
             <div className='flex overflow-hidden z-0 flex-col flex-1 shrink w-full basis-0 max-w-[960px] min-w-[240px] max-md:max-w-full'>
               <SurgeryHeader />
-              <SurgeryFilter
-                filters={filters}
-                activeFilter={activeFilter}
-                onFilterChange={setActiveFilter}
-              />
+              <div className="flex flex-wrap gap-3 items-start py-3 pr-4 pl-3 w-full text-sm font-medium text-neutral-900 max-md:max-w-full">
+                {filters.map((filter) => (
+                  <span 
+                    key={filter}
+                    onClick={() => setActiveFilter(filter)}
+                    className={`flex gap-2 justify-center items-center border-2 border-gray-300 rounded-xl px-2 py-1 transition-colors duration-200 hover:bg-blue-300 hover:border-blue-600 ${
+                      activeFilter === filter ? "bg-blue-200 border-blue-500 text-black" : "bg-white text-black"
+                    } min-h-[36px] w-[120px]`} 
+                    aria-pressed={activeFilter === filter}
+                  >
+                    <span className="self-stretch my-auto">{filter}</span>
+                  </span>
+                ))}
+              </div>
               <SearchBar onSearch={setSearchQuery} />
               <SurgeryTable surgeries={filteredSurgeries} />
             </div>

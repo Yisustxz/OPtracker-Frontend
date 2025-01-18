@@ -8,12 +8,17 @@ function PatientHeader() {
         Cirugía
       </h1>
 
-      <button
-        className='flex justify-center items-center text-sm font-medium text-center rounded-xl max-w-[480px] cursor-pointer text-neutral-900 bg-transparent border-none p-0'
-        onClick={() => navigate('/new-surgery')}
+      <span
+        className="flex overflow-hidden justify-center items-center px-4 text-sm font-medium text-center bg-[#577C8E] rounded-xl max-w-[480px] min-h-[32px] min-w-[84px] w-[160px] cursor-pointer transition hover:bg-[#425c69]"
+        aria-label="Agregar Nueva cirugia"
       >
-        Nueva Cirugía
-      </button>
+        <span
+          className="overflow-hidden self-stretch my-auto w-[300px] text-white cursor-pointer py-3"
+          onClick={() => window.location.assign("/newSurgery")}
+        >
+          Nueva Cirugia 
+        </span>
+      </span>
     </div>
   )
 }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function SurgeryForm() {
   const [teamMembers, setTeamMembers] = useState([]);
   const [newMemberName, setNewMemberName] = useState('');
   const [procedure, setProcedure] = useState(''); // Estado para el procedimiento
   const [proceduresList, setProceduresList] = useState([]); // Lista de procedimientos agregados
+  const navigate = useNavigate() // Inicializar useNavigate
 
   const colors = ['#577C8E', '#2F4157', '#577C8E', '#219CED'];
 
@@ -24,7 +26,31 @@ export function SurgeryForm() {
 
   return (
     <form className="form-container">
-      <h1 className="form-title">Nueva Cirugia</h1>
+      <header className='mb-8 flex items-center'>
+        <span
+          onClick={() => navigate('/surgery')}
+          className='mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer'
+        >
+          <svg
+            className='w-6 h-6 text-gray-800 dark:text-white'
+            aria-hidden='true'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 8 14'
+          >
+            <path
+              stroke='currentColor'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13'
+            />
+          </svg>
+        </span>
+        <h1 className='text-3xl font-bold text-neutral-900 ml-52 mb-1'>
+          Registrar una Nueva Cirugia
+        </h1>
+      </header>
       
       <div className="form-field" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ flex: 1, marginRight: '10px' }}>
