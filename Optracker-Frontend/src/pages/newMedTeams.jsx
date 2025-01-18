@@ -123,7 +123,7 @@ function NewMedTeams() {
           <div className="mt-8">
             <button
               onClick={handleSubmit}
-              className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 w-full mt-7" // Ajustar el ancho del botón
+              className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 w-full mt-7" 
             >
               Registrar Equipo Médico
             </button>

@@ -3,8 +3,14 @@ import { useState } from "react";
 import Navigation from "../components/ui/navigation";
 import PatientTable from "../components/patientsList/PatientTable";
 import PatientHeader from "../components/patientsList/PatientHeader";
-import FilterSection from "../components/patientsList/FilterSection";
+import FilterSection from "../components/patientsList/FilterSection"; // Mantener el mismo componente de filtro
 import SearchBar from "../components/patientsList/SearchBar";
+
+const filters = [
+  { id: "todos", label: "Todos", width: "w-[109px]" }, 
+  { id: "con_cirugia", label: "Con cirugía", width: "w-[111px]" },
+  { id: "sin_cirugia", label: "Sin cirugía", width: "w-[118px]" }
+];
 
 function PatientPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,7 +24,7 @@ function PatientPage() {
           <div className="flex relative z-0 justify-center items-start px-40 py-5 w-full max-md:px-5 max-md:max-w-full">
             <div className="flex overflow-hidden z-0 flex-col flex-1 shrink w-full basis-0 max-w-[960px] min-w-[240px] max-md:max-w-full">
               <PatientHeader />
-              <FilterSection activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+              <FilterSection activeFilter={activeFilter} setActiveFilter={setActiveFilter} filters={filters} /> {/* Pasar los filtros aquí */}
               <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
               <PatientTable searchQuery={searchQuery} activeFilter={activeFilter} />
             </div>

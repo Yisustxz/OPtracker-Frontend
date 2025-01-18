@@ -3,7 +3,7 @@ import HomePage from './pages/homepage'
 import SurgeryPage from './pages/surgery'
 import ProcedurePage from './pages/procedurePage'
 import SurgeryData from './pages/surgeryData'
-import { NewSurgery } from './pages/newSurgery'
+import {NewSurgery} from './pages/newSurgery' // Eliminé la declaración duplicada
 import MedTeams from './pages/medTeams'
 import NewMedTeams from './pages/newMedTeams'
 import './App.css'
@@ -11,7 +11,6 @@ import { LoginPage } from './pages/LoginPage'
 import PatientPage from './pages/PatientPage'
 import PatientRegistration from './pages/patienteRegistration'
 import PatientProfile from './pages/PatientProfile'
-import { NewSurgery } from './pages/newSurgery'
 import FamilyCode from './pages/FamilyCode'
 import PatientTracker from './pages/PatientTracker'
 import MedTeamProfile from './pages/MedTeamProfile'
@@ -129,6 +128,15 @@ function App() {
           element={
             <PrivateRoute>
               <MedTeams />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path='/medteamsprofile'
+          element={
+            <PrivateRoute>
+              <MedTeamProfile />
             </PrivateRoute>
           }
         />

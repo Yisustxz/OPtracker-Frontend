@@ -28,7 +28,7 @@ function MedTeamTableRow({ nombre, especialidad, tipo, id }) {
           className="ml-2 bg-white"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            navigate("/medTeamProfile", { state: { id: id, tipo: tipo } });
+            navigate("/medteamsprofile", { state: { id: id, tipo: tipo } });
           }}
         >
           <svg

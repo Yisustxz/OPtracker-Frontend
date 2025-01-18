@@ -5,14 +5,14 @@ function MedTeamHeader() {
         Personal médico
       </h1>
       <span
-        className="flex overflow-hidden justify-center items-center px-4 text-sm font-medium text-center bg-[#577C8E] rounded-xl max-w-[480px] min-h-[32px] min-w-[84px] w-[110px] cursor-pointer transition hover:bg-[#425c69]"
+        className="flex overflow-hidden justify-center items-center px-4 text-sm font-medium text-center bg-[#577C8E] rounded-xl max-w-[480px] min-h-[32px] min-w-[84px] w-[160px] cursor-pointer transition hover:bg-[#425c69]"
         aria-label="Agregar nuevo paciente"
       >
         <span
-          className="overflow-hidden self-stretch my-auto w-[100px] text-white cursor-pointer py-3"
+          className="overflow-hidden self-stretch my-auto w-[300px] text-white cursor-pointer py-3"
           onClick={() => window.location.assign("/new-medteams")}
         >
-          Nuevo
+          Nuevo Personal 
         </span>
       </span>
     </div>
