@@ -3,7 +3,7 @@ import * as React from "react";
 function Navigation() {
   const navItems = [
     { label: "Inicio", width: "w-[40px]", link: "/" },
-    { label: "Equipo médico", width: "w-[90px]", link: "/medTeams" },
+    { label: "Equipo médico", width: "w-[90px]", link: "/med-teams" },
     { label: "Paciente", width: "w-[50px]", link: "/patient" },
     { label: "Cirugía", width: "w-[50px]", link: "/surgery" },
   ];
