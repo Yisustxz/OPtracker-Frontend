@@ -1,26 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import HomePage from './pages/homepage'
-import SurgeryPage from './pages/surgery'
-import ProcedurePage from './pages/procedurePage'
-import SurgeryData from './pages/surgeryData'
-import {NewSurgery} from './pages/newSurgery' // Eliminé la declaración duplicada
-import MedTeams from './pages/medTeams'
-import NewMedTeams from './pages/newMedTeams'
-import './App.css'
-import { LoginPage } from './pages/LoginPage'
-import PatientPage from './pages/PatientPage'
-import PatientRegistration from './pages/patienteRegistration'
-import PatientProfile from './pages/PatientProfile'
-import FamilyCode from './pages/FamilyCode'
-import PatientTracker from './pages/PatientTracker'
-import MedTeamProfile from './pages/MedTeamProfile'
-import PrivateRoute from './components/Routes/PrivateRoute'
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import "./App.css";
+import PrivateRoute from "./components/Routes/PrivateRoute";
+import FamilyCode from "./pages/FamilyCode";
+import HomePage from "./pages/homepage";
+import { LoginPage } from "./pages/LoginPage";
+import MedTeamProfile from "./pages/MedTeamProfile";
+import MedTeams from "./pages/medTeams";
+import NewMedTeams from "./pages/newMedTeams";
+import { NewSurgery } from "./pages/newSurgery"; // Eliminé la declaración duplicada
+import PatientRegistration from "./pages/patienteRegistration";
+import PatientPage from "./pages/PatientPage";
+import PatientProfile from "./pages/PatientProfile";
+import PatientTracker from "./pages/PatientTracker";
+import ProcedurePage from "./pages/procedurePage";
+import SurgeryPage from "./pages/surgery";
+import SurgeryData from "./pages/surgeryData";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/login' element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/familyCode" element={<FamilyCode />} />
         {/*      <Route path='/patient' element={<PatientPage />} />
         <Route path='/patientregistration' element={<PatientRegistration />} />
         <Route path='/patientProfile' element={<PatientProfile />} />
@@ -34,7 +35,7 @@ function App() {
         <Route path='/new-medteams' element={<NewMedTeams />} />
         <Route path='/medTeamProfile' element={<MedTeamProfile />} /> */}
         <Route
-          path='/'
+          path="/"
           element={
             <PrivateRoute>
               <HomePage />
@@ -43,7 +44,7 @@ function App() {
         />
 
         <Route
-          path='/patient'
+          path="/patient"
           element={
             <PrivateRoute>
               <PatientPage />
@@ -52,7 +53,7 @@ function App() {
         />
 
         <Route
-          path='/patientregistration'
+          path="/patientRegistration"
           element={
             <PrivateRoute>
               <PatientRegistration />
@@ -61,7 +62,7 @@ function App() {
         />
 
         <Route
-          path='/patientProfile/:id'
+          path="/patientProfile/:id"
           element={
             <PrivateRoute>
               <PatientProfile />
@@ -70,7 +71,7 @@ function App() {
         />
 
         <Route
-          path='/surgery'
+          path="/surgery"
           element={
             <PrivateRoute>
               <SurgeryPage />
@@ -79,7 +80,7 @@ function App() {
         />
 
         <Route
-          path='/new-surgery'
+          path="/newSurgery"
           element={
             <PrivateRoute>
               <NewSurgery />
@@ -88,7 +89,7 @@ function App() {
         />
 
         <Route
-          path='/procedure'
+          path="/procedure"
           element={
             <PrivateRoute>
               <ProcedurePage />
@@ -97,7 +98,7 @@ function App() {
         />
 
         <Route
-          path='/surgeryData'
+          path="/surgeryData"
           element={
             <PrivateRoute>
               <SurgeryData />
@@ -105,17 +106,17 @@ function App() {
           }
         />
 
-        <Route
-          path='/familycode'
+        {/* <Route
+          path="/familyCode"
           element={
             <PrivateRoute>
               <FamilyCode />
             </PrivateRoute>
           }
-        />
+        /> */}
 
         <Route
-          path='/patienteTracker'
+          path="/patienteTracker"
           element={
             <PrivateRoute>
               <PatientTracker />
@@ -124,7 +125,7 @@ function App() {
         />
 
         <Route
-          path='/medteams'
+          path="/medTeams"
           element={
             <PrivateRoute>
               <MedTeams />
@@ -133,7 +134,7 @@ function App() {
         />
 
         <Route
-          path='/medteamsprofile'
+          path="/medTeamsProfile"
           element={
             <PrivateRoute>
               <MedTeamProfile />
@@ -142,7 +143,7 @@ function App() {
         />
 
         <Route
-          path='/new-medteams'
+          path="/newMedTeams"
           element={
             <PrivateRoute>
               <NewMedTeams />
@@ -151,7 +152,7 @@ function App() {
         />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
