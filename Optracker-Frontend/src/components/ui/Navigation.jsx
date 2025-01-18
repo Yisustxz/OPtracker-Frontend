@@ -39,7 +39,9 @@ function Navigation() {
           ))}
         </div>
       </div>
-      <div className='relative'>
+      <div className='flex items-center justify-center my-auto w-[37px]'>
+        {' '}
+        {/* Cambiado para alinear el botón */}
         <button
           className='rounded-3xl w-[41px] h-[41px] overflow-hidden'
           onClick={toggleMenu}
@@ -65,5 +67,4 @@ function Navigation() {
     </nav>
   )
 }
-
 export default Navigation

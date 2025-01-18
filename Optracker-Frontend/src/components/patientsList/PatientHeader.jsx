@@ -12,9 +12,9 @@ function PatientHeader() {
       >
         <span
           className="overflow-hidden self-stretch my-auto w-[300px] text-white cursor-pointer py-3"
-          onClick={() => window.location.assign("/patientregistration")}
+          onClick={() => window.location.assign("/patient-registration")}
         >
-          Nuevo paciente 
+          Nuevo paciente
         </span>
       </span>
     </div>

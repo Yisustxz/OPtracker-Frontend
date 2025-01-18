@@ -10,9 +10,9 @@ function MedTeamHeader() {
       >
         <span
           className="overflow-hidden self-stretch my-auto w-[300px] text-white cursor-pointer py-3"
-          onClick={() => window.location.assign("/new-medteams")}
+          onClick={() => window.location.assign("/new-med-teams")}
         >
-          Nuevo Personal 
+          Nuevo Personal
         </span>
       </span>
     </div>
