@@ -13,7 +13,7 @@ import PatientPage from './pages/PatientPage'
 import PatientProfile from './pages/PatientProfile'
 import PatientTracker from './pages/PatientTracker'
 import ProcedurePage from './pages/procedurePage'
-import SurgeryPage from './pages/surgery'
+import Surgery from './pages/surgery'
 import SurgeryData from './pages/surgeryData'
 
 function App() {

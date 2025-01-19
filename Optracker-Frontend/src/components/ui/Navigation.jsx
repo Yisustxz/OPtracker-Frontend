@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuRef = useRef(null) // Referencia para el menú
+  const buttonRef = useRef(null) // Referencia para el botón
 
   const handleLogout = () => {
     localStorage.removeItem('authToken')
@@ -13,9 +15,28 @@ function Navigation() {
     setIsMenuOpen((prev) => !prev)
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Si el clic no es en el menú ni en el botón, cierra el menú
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   const navItems = [
     { label: 'Inicio', path: '/', width: 'w-[40px]' },
-    { label: 'Equipo médico', path: '/medteams', width: 'w-[90px]' },
+    { label: 'Equipo médico', path: '/med-teams', width: 'w-[90px]' },
     { label: 'Paciente', path: '/patient', width: 'w-[50px]' },
     { label: 'Cirugía', path: '/surgery', width: 'w-[50px]' }
   ]
@@ -40,21 +61,23 @@ function Navigation() {
         </div>
       </div>
       <div className='flex items-center justify-center my-auto w-[37px]'>
-        {' '}
-        {/* Cambiado para alinear el botón */}
         <button
+          ref={buttonRef}
           className='rounded-3xl w-[41px] h-[41px] overflow-hidden'
           onClick={toggleMenu}
           aria-label='User profile'
         >
           <img
-            src='https://cdn.builder.io/api/v1/image/assets/TEMP/9ce98b8d152b957dce5797de30055cf980a701c9485fd96eaf3e963f03b1df12?placeholderIfAbsent=true&apiKey=33b41968e7754d2b98ae74310dc65b2e'
+            src='/usuario_generico.png'
             alt='User profile'
             className='object-cover w-full h-full'
           />
         </button>
         {isMenuOpen && (
-          <div className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20'>
+          <div
+            ref={menuRef}
+            className='absolute right-0 mt-32 w-48 bg-white rounded-lg shadow-lg py-2 z-20'
+          >
             <button
               className='block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100'
               onClick={handleLogout}
@@ -67,4 +90,5 @@ function Navigation() {
     </nav>
   )
 }
+
 export default Navigation
