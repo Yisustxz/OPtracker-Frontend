@@ -36,7 +36,7 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
                     />
                   </svg>
                 </span>
-                <h1 className='text-2xl font-bold text-center ml-32'>
+                <h1 className='text-2xl font-bold text-center ml-24'>
                   {`Cirugía de ${surgeryInfo.patientName} (${surgeryInfo.date})`}
                 </h1>
               </div>
@@ -64,11 +64,11 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
                         </span>
                       </div>
                       <span className='ml-10 cursor-pointer'>
-                          <img
-                            src='pencil-icon.png'
-                            alt='Edit'
-                            className='w-4 h-4'
-                          />
+                        <img
+                          src='pencil-icon.png'
+                          alt='Edit'
+                          className='w-4 h-4'
+                        />
                       </span>
                     </div>
                   ))}

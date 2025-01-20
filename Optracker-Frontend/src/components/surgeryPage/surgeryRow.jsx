@@ -42,11 +42,9 @@ export default function SurgeryRow({
         </div>
       </div>
       <div className='flex-1 px-0 py-4 min-h-[72px] w-[100px]' role='cell'>
-
-          <Link to='/procedure' className='text-blue-500 hover:underline'>
-            Ver Procedimiento
-          </Link>
-
+        <Link to='/procedure' className='text-blue-500 hover:underline'>
+          Ver Procedimiento
+        </Link>
       </div>
       <div
         className='flex-1 flex justify-center items-center px-4 py-5 font-medium text-center h-[72px] text-neutral-900 w-[100px]'
@@ -56,7 +54,7 @@ export default function SurgeryRow({
         <span
           className='ml-2 bg-white'
           style={{ cursor: 'pointer' }}
-          onClick={() => (window.location.href = `/surgeryData`)}
+          onClick={() => (window.location.href = `/surgery-data`)}
         >
           <svg
             className='h-6 w-6 text-gray-400'
