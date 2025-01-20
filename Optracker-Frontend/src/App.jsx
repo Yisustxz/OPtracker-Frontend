@@ -151,7 +151,14 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path='/statistics' element={<Statistics />} />
+        <Route
+          path='/statistics'
+          element={
+            <PrivateRoute>
+              <Statistics />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   )
