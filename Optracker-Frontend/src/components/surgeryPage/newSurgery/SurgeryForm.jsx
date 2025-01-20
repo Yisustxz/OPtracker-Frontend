@@ -1,59 +1,111 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function SurgeryForm() {
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [title, setTitle] = useState("");
   const [teamMembers, setTeamMembers] = useState([]);
-  const [newMemberName, setNewMemberName] = useState('');
-  const [procedure, setProcedure] = useState(''); // Estado para el procedimiento
+  const [newMemberName, setNewMemberName] = useState("");
+  const [procedure, setProcedure] = useState(""); // Estado para el procedimiento
   const [proceduresList, setProceduresList] = useState([]); // Lista de procedimientos agregados
-  const navigate = useNavigate() // Inicializar useNavigate
+  const [surgeryData, setSurgeryData] = useState({
+    title: "",
+    date: "",
+    status: "SCHEDULED",
+    patientId: 0,
+    nurseIds: [],
+    doctorIds: [],
+    procedureIds: [],
+  });
+  const navigate = useNavigate(); // Inicializar useNavigate
 
-  const colors = ['#577C8E', '#2F4157', '#577C8E', '#219CED'];
+  const colors = ["#577C8E", "#2F4157", "#577C8E", "#219CED"];
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDateChange = (e) => {
+    setDate(new Date(e.targat.value).toISOString());
+  };
 
   const handleAddMember = () => {
     if (newMemberName) {
-      setTeamMembers([...teamMembers, { id: teamMembers.length + 1, name: newMemberName, color: colors[Math.floor(Math.random() * colors.length)] }]);
-      setNewMemberName(''); // Limpiar el campo de entrada después de agregar
+      setTeamMembers([
+        ...teamMembers,
+        {
+          id: teamMembers.length + 1,
+          name: newMemberName,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        },
+      ]);
+      setNewMemberName(""); // Limpiar el campo de entrada después de agregar
+    }
+  };
+
+  const handleSubmit = () => {
+    try {
+      const surgeryDate = new Date(date);
+      surgeryDate.setHours(
+        Number(time.split(":")[0]),
+        Number(time.split(":")[1])
+      );
+      setSurgeryData({
+        title: title,
+        date: surgeryDate,
+        status: surgeryData.status,
+      });
+      alert("Registro exitoso!");
+    } catch (error) {
+      console.log(error);
+      alert("No se ha podido registrar la cirugía");
     }
   };
 
   const handleAddProcedure = () => {
     if (procedure) {
-      setProceduresList([...proceduresList, { id: proceduresList.length + 1, title: procedure }]);
-      setProcedure(''); // Limpiar el campo de entrada después de agregar
+      setProceduresList([
+        ...proceduresList,
+        { id: proceduresList.length + 1, title: procedure },
+      ]);
+      setProcedure(""); // Limpiar el campo de entrada después de agregar
     }
   };
 
   return (
     <form className="form-container">
-      <header className='mb-8 flex items-center'>
+      <header className="mb-8 flex items-center">
         <span
-          onClick={() => navigate('/surgery')}
-          className='mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer'
+          onClick={() => navigate("/surgery")}
+          className="mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer"
         >
           <svg
-            className='w-6 h-6 text-gray-800 dark:text-white'
-            aria-hidden='true'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 8 14'
+            className="w-6 h-6 text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 8 14"
           >
             <path
-              stroke='currentColor'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
-              d='M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13'
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
             />
           </svg>
         </span>
-        <h1 className='text-3xl font-bold text-neutral-900 ml-52 mb-1'>
+        <h1 className="text-3xl font-bold text-neutral-900 ml-52 mb-1">
           Registrar una Nueva Cirugia
         </h1>
       </header>
-      
-      <div className="form-field" style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ flex: 1, marginRight: '10px' }}>
+
+      <div
+        className="form-field"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <div style={{ flex: 1, marginRight: "10px" }}>
           <label htmlFor="surgeryTitle" className="field-label">
             Titulo de la Cirugia
           </label>
@@ -62,6 +114,7 @@ export function SurgeryForm() {
             id="surgeryTitle"
             className="field-input"
             placeholder="titulo"
+            onChange={handleTitleChange}
             required
           />
         </div>
@@ -70,26 +123,19 @@ export function SurgeryForm() {
             Fecha de La cirugia
           </label>
           <input
-            type="date"
+            type="datetime-local"
             id="surgeryDate"
             className="field-input"
+            onChange={handleDateChange}
             required
           />
         </div>
       </div>
 
-      <div className="form-field" style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ flex: 1, marginRight: '10px' }}>
-          <label htmlFor="surgeryTime" className="field-label">
-            Hora de La cirugia
-          </label>
-          <input
-            type="time"
-            id="surgeryTime"
-            className="field-input"
-            required
-          />
-        </div>
+      <div
+        className="form-field"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
         <div style={{ flex: 1 }}>
           <label htmlFor="patientSearch" className="field-label">
             Paciente
@@ -105,27 +151,44 @@ export function SurgeryForm() {
       </div>
 
       <div className="form-field">
-        <label className="field-label">
-          Equipo quirurgico que participara
-        </label>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <label className="field-label">Equipo quirurgico que participara</label>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <input
             type="text"
             className="field-input"
             placeholder="Nombre del ayudante"
             value={newMemberName}
             onChange={(e) => setNewMemberName(e.target.value)}
-            style={{ width: '40%' }} // Reducido el ancho del campo de escritura
+            style={{ width: "40%" }} // Reducido el ancho del campo de escritura
           />
-          <button type="button" className="add-member-button" style={{ marginLeft: '10px', background: '#F0F2F5', borderRadius: '12px', border: 'none' }} onClick={handleAddMember}>
+          <button
+            type="button"
+            className="add-member-button"
+            style={{
+              marginLeft: "10px",
+              background: "#F0F2F5",
+              borderRadius: "12px",
+              border: "none",
+            }}
+            onClick={handleAddMember}
+          >
             Agregar nuevo ayudante
           </button>
         </div>
-        
+
         <div className="team-members">
           {teamMembers.map((member) => (
             <div key={member.id} className="team-member-circle">
-              <div className="member-circle" style={{ backgroundColor: member.color }}></div>
+              <div
+                className="member-circle"
+                style={{ backgroundColor: member.color }}
+              ></div>
               <span>{member.name}</span>
             </div>
           ))}
@@ -136,7 +199,13 @@ export function SurgeryForm() {
         <label htmlFor="procedure" className="field-label">
           Procedimiento
         </label>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <textarea
             id="procedure"
             className="field-input"
@@ -144,17 +213,47 @@ export function SurgeryForm() {
             value={procedure}
             onChange={(e) => setProcedure(e.target.value)}
             required
-            style={{ width: '40%' }} // Reducido el ancho del campo de escritura
+            style={{ width: "40%" }} // Reducido el ancho del campo de escritura
           />
-          <button type="button" className="add-member-button" style={{ marginLeft: '10px', background: '#F0F2F5', borderRadius: '12px', border: 'none' }} onClick={handleAddProcedure}>
+          <button
+            type="button"
+            className="add-member-button"
+            style={{
+              marginLeft: "10px",
+              background: "#F0F2F5",
+              borderRadius: "12px",
+              border: "none",
+            }}
+            onClick={handleAddProcedure}
+          >
             Agregar procedimiento
           </button>
         </div>
         <div className="procedures-list">
           {proceduresList.map((proc) => (
-            <div key={proc.id} className="procedure-item" style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ backgroundColor: '#f0f0f0', padding: '8px', borderRadius: '4px' }}>
-                <svg className="h-8 w-8 text-black" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <div
+              key={proc.id}
+              className="procedure-item"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#f0f0f0",
+                  padding: "8px",
+                  borderRadius: "4px",
+                }}
+              >
+                <svg
+                  className="h-8 w-8 text-black"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path stroke="none" d="M0 0h24v24H0z" />
                   <circle cx="6" cy="7" r="3" />
                   <circle cx="6" cy="17" r="3" />
@@ -162,13 +261,18 @@ export function SurgeryForm() {
                   <line x1="8.6" y1="15.4" x2="19" y2="5" />
                 </svg>
               </div>
-              <label htmlFor={`procedure-${proc.id}`} style={{ marginLeft: '8px' }}>{proc.title}</label>
+              <label
+                htmlFor={`procedure-${proc.id}`}
+                style={{ marginLeft: "8px" }}
+              >
+                {proc.title}
+              </label>
             </div>
           ))}
         </div>
       </div>
 
-      <button type="submit" className="submit-button">
+      <button type="submit" className="submit-button" onClick={handleSubmit}>
         Continue
       </button>
 
@@ -225,7 +329,7 @@ export function SurgeryForm() {
           margin-right: 8px;
         }
         .add-member-button {
-          background: #F0F2F5;
+          background: #f0f2f5;
           color: black;
           padding: 10px 15px;
           border-radius: 12px;
