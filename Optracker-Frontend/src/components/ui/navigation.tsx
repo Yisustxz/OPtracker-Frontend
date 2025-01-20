@@ -61,18 +61,19 @@ function Navigation() {
         </div>
       </div>
       <div className='flex items-center justify-center my-auto w-[37px]'>
-        <button
+        <span
           ref={buttonRef}
-          className='rounded-3xl w-[41px] h-[41px] overflow-hidden'
+          className='rounded-3xl w-[41px] h-[41px] overflow-hidden bg-transparent' // Cambiado a fondo transparente
           onClick={toggleMenu}
           aria-label='User profile'
         >
           <img
-            src='/usuario_generico.png'
-            alt='User profile'
-            className='object-cover w-full h-full'
+            loading="lazy"
+            src="https://i.pinimg.com/236x/d9/d8/8e/d9d88e3d1f74e2b8ced3df051cecb81d.jpg"
+            alt="John Doe profile picture"
+            className="object-contain w-32 max-w-full aspect-square min-h-[128px] rounded-[64px] border-2 border-gray-300"
           />
-        </button>
+        </span>
         {isMenuOpen && (
           <div
             ref={menuRef}

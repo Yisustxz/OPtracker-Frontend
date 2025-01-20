@@ -122,10 +122,11 @@ function NewMedTeams() {
           {/* Botón de Registro */}
           <div className="mt-8">
             <button
+              type='submit'
               onClick={handleSubmit}
-              className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 w-full mt-7" 
+              className='px-6 py-3 bg-sky-500 text-white font-bold rounded-xl min-h-[40px] hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 mx-auto block mt-4'
             >
-              Registrar Equipo Médico
+              Registrar Equipo
             </button>
           </div>
         </div>

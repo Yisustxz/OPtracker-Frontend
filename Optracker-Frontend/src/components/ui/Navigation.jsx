@@ -62,16 +62,25 @@ function Navigation() {
       </div>
       <div className='flex items-center justify-center my-auto w-[37px]'>
         <button
-          ref={buttonRef}
-          className='rounded-3xl w-[41px] h-[41px] overflow-hidden'
-          onClick={toggleMenu}
-          aria-label='User profile'
+            ref={buttonRef}
+            className='rounded-full w-[41px] h-[41px] overflow-hidden bg-gray-200 hover:bg-gray-300 transition duration-200' // Estilo actualizado para un fondo gris claro y efecto hover
+            onClick={toggleMenu}
+            aria-label='Perfil de usuario'
         >
-          <img
-            src='/usuario_generico.png'
-            alt='User profile'
-            className='object-cover w-full h-full'
+        <svg
+          className="w-8 h-8 text-gray-700 ml-[-16px]" // Estilo actualizado con margen izquierdo negativo de 10px
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M16 21v-2a4 4 0 00-8 0v2M12 12a4 4 0 100-8 4 4 0 000 8z"
           />
+        </svg>
         </button>
         {isMenuOpen && (
           <div
@@ -79,10 +88,13 @@ function Navigation() {
             className='absolute right-0 mt-32 w-48 bg-white rounded-lg shadow-lg py-2 z-20'
           >
             <button
-              className='block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100'
+              className='block w-full px-4 py-2 text-left text-red-600 bg-white hover:underline cursor-pointer border-none' // Eliminado el borde azul
               onClick={handleLogout}
             >
               Cerrar sesión
+              <svg className="w-4 h-4 text-red-600 inline-block ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+              </svg>
             </button>
           </div>
         )}

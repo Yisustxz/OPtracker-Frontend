@@ -1,4 +1,5 @@
 import FormInput from "@/components/patienteRecord/FormInput";
+import SelectInput from "@/components/patienteRecord/SelectInput";
 
 function NewMedTeamForm({
   formData,
@@ -121,24 +122,21 @@ function NewMedTeamForm({
       )}
 
       {/* Educación */}
-      <div className="flex flex-col items-center mt-8">
+      <div className="flex flex-col items-center mt-[-10]"> {/* Aumentar el margen superior */}
         <label className="block font-medium mb-2">Educación</label>
         {formData.educacion?.map((edu, index) => (
           <div key={index} className="flex justify-center gap-4 mb-4">
-            <select
+            <SelectInput
+              id={`educacion-${index}`}
               value={edu}
               onChange={(e) => handleEducationChange(index, e.target.value)}
-              className="border border-gray-300 w-full px-4 py-2 rounded-xl bg-white focus:border-gray-300"
-            >
-              <option value="" disabled>
-                Selecciona un título académico
-              </option>
-              {educationList.map((value, key) => (
-                <option key={key} value={value.name}>
-                  {value.name}
-                </option>
-              ))}
-            </select>
+              required
+              className="border border-gray-300 w-full px-4 py-4 rounded-xl bg-white focus:border-gray-300" // Aumentar el padding vertical
+              options={[
+                { value: '', label: 'Selecciona un título académico', disabled: true },
+                ...educationList.map((value) => ({ value: value.name, label: value.name }))
+              ]}
+            />
             {/* <button
               type="button"
               onClick={removeEducationField}

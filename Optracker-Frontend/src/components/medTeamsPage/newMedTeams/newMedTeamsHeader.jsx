@@ -8,7 +8,7 @@ function NewMedTeamHeader({ selectedType, setSelectedType }) {
       {/* Título */}
       <header className="mb-8 flex items-center">
         <span
-          onClick={() => navigate("/medteams")}
+          onClick={() => navigate("/med-teams")}
           className="mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer"
         >
           <svg

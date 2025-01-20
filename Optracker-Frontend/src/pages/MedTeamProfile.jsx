@@ -39,7 +39,7 @@ export default function MedTeamProfile() {
         <div className="flex flex-col justify-center items-center min-h-[90dvh]">
           <p>No se encontraron datos. Por favor regresa a la tabla.</p>
           <button
-            onClick={() => navigate("/medteams")}
+            onClick={() => navigate("/med-teams")}
             className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
           >
             Regresar
@@ -69,7 +69,7 @@ export default function MedTeamProfile() {
                 </>
               )}
           </div>
-          <span onClick={() => window.location.href = '/medteams'} className="cursor-pointer absolute top-24 left-[78px] z-0"> {/* Ajusté la posición del icono */}
+          <span onClick={() => window.location.href = '/med-teams'} className="cursor-pointer absolute top-24 left-[78px] z-0"> {/* Ajusté la posición del icono */}
             <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
             </svg>

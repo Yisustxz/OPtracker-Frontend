@@ -35,14 +35,6 @@ function App() {
         <Route path='/medteams' element={<MedTeams />} />
         <Route path='/new-medteams' element={<NewMedTeams />} />
         <Route path='/medTeamProfile' element={<MedTeamProfile />} /> */}
-        <Route
-          path='/'
-          element={
-            <PrivateRoute>
-              <HomePage />
-            </PrivateRoute>
-          }
-        />
 
         <Route
           path='/patient'
@@ -152,7 +144,7 @@ function App() {
           }
         />
         <Route
-          path='/statistics'
+          path='/'
           element={
             <PrivateRoute>
               <Statistics />

@@ -8,8 +8,8 @@ import SearchBar from "../components/patientsList/SearchBar";
 
 const filters = [
   { id: "todos", label: "Todos", width: "w-[109px]" }, 
-  { id: "con_cirugia", label: "Con cirugía", width: "w-[111px]" },
-  { id: "sin_cirugia", label: "Sin cirugía", width: "w-[118px]" }
+  { id: "con_cirugia", label: "Con Cirugía", width: "w-[111px]" },
+  { id: "sin_cirugia", label: "Sin Cirugía", width: "w-[118px]" }
 ];
 
 function PatientPage() {

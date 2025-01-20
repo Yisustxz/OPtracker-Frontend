@@ -27,12 +27,10 @@ export const LoginForm = () => {
               required
             />
             <div className="password-icon-wrapper">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/5d1c6e2780de490355f2de9ab29959a4da6bc5948c8230cfdc44d1e614f47d76?placeholderIfAbsent=true&apiKey=33b41968e7754d2b98ae74310dc65b2e"
-                className="password-icon"
-                alt=""
-              />
+              <svg className="h-8 w-8 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
             </div>
           </div>
         </div>

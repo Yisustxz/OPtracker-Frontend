@@ -3,6 +3,7 @@ import FormInput from '../components/patienteRecord/FormInput'
 import Navigation from '../components/ui/navigation'
 import { useNavigate } from 'react-router-dom'
 import apiClient from '../services/xiosConfig'
+import SelectInput from '@/components/patienteRecord/SelectInput'
 
 export default function PatientRegistration() {
   const navigate = useNavigate() // Inicializar useNavigate
@@ -194,7 +195,7 @@ export default function PatientRegistration() {
             className='mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer'
           >
             <svg
-              className='w-6 h-6 text-gray-800 dark:text-white'
+              className='w-6 h-6 text-gray-800 dark:text-white stroke-2' // Añadido stroke-2 para hacerlo más grueso
               aria-hidden='true'
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -254,23 +255,37 @@ export default function PatientRegistration() {
             required
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
-          <FormInput
-            label='Genero'
+          <SelectInput
+            label='Género'
             id='gender'
-            placeholder='Genero'
             value={formData.gender}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange({ target: { id: 'gender', value: e.target.value } })}
             required
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
+            options={[
+              { value: '', label: 'Selecciona un género', disabled: true },
+              { value: 'MALE', label: 'Masculino' },
+              { value: 'FEMALE', label: 'Femenino' }
+            ]}
           />
-          <FormInput
+          <SelectInput
             label='Tipo de Sangre'
             id='bloodType'
-            placeholder='Tipo de Sangre'
             value={formData.bloodType}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange({ target: { id: 'bloodType', value: e.target.value } })}
             required
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
+            options={[
+              { value: '', label: 'Selecciona un tipo de sangre', disabled: true },
+              { value: 'O_POSITIVE', label: 'O+' },
+              { value: 'O_NEGATIVE', label: 'O-' },
+              { value: 'A_POSITIVE', label: 'A+' },
+              { value: 'A_NEGATIVE', label: 'A-' },
+              { value: 'B_POSITIVE', label: 'B+' },
+              { value: 'B_NEGATIVE', label: 'B-' },
+              { value: 'AB_POSITIVE', label: 'AB+' },
+              { value: 'AB_NEGATIVE', label: 'AB-' }
+            ]}
           />
           <FormInput
             label='Email'
