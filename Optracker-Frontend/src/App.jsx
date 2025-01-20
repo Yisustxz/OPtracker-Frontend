@@ -15,6 +15,7 @@ import PatientTracker from './pages/PatientTracker'
 import ProcedurePage from './pages/procedurePage'
 import Surgery from './pages/surgery'
 import SurgeryData from './pages/surgeryData'
+import Statistics from './pages/Statistics'
 
 function App() {
   return (
@@ -150,6 +151,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path='/statistics' element={<Statistics />} />
       </Routes>
     </Router>
   )
