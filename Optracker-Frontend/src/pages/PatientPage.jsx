@@ -3,8 +3,8 @@ import { useState } from "react";
 import Navigation from "../components/ui/navigation";
 import PatientTable from "../components/patientsList/PatientTable";
 import PatientHeader from "../components/patientsList/PatientHeader";
-import FilterSection from "../components/patientsList/FilterSection"; // Mantener el mismo componente de filtro
 import SearchBar from "../components/patientsList/SearchBar";
+import FilterSection from "../components/patientsList/FilterSection";
 
 const filters = [
   { id: "todos", label: "Todos", width: "w-[109px]" }, 

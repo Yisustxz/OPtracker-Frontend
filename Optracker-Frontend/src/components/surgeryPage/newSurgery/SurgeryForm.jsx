@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export function SurgeryForm() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [title, setTitle] = useState("");
   const [teamMembers, setTeamMembers] = useState([]);
-  const [newMemberName, setNewMemberName] = useState("");
   const [procedure, setProcedure] = useState(""); // Estado para el procedimiento
   const [proceduresList, setProceduresList] = useState([]); // Lista de procedimientos agregados
   const [surgeryData, setSurgeryData] = useState({
@@ -27,54 +27,179 @@ export function SurgeryForm() {
   };
 
   const handleDateChange = (e) => {
-    setDate(new Date(e.targat.value).toISOString());
+    setDate(new Date(e.target.value).toISOString());
   };
 
-  const handleAddMember = () => {
-    if (newMemberName) {
-      setTeamMembers([
-        ...teamMembers,
-        {
-          id: teamMembers.length + 1,
-          name: newMemberName,
-          color: colors[Math.floor(Math.random() * colors.length)],
-        },
-      ]);
-      setNewMemberName(""); // Limpiar el campo de entrada después de agregar
+  const [patients, setPatients] = useState([]);
+  const [procedures, setProcedures] = useState([]); // Estado para procedimientos
+
+  // Llamada a la API para obtener los pacientes
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/patient");
+        const formattedPatients = response.data.map(patient => ({
+          id: patient.id,
+          name: `${patient.name} ${patient.lastName}`,
+          dni: patient.dni,
+        }));
+        setPatients(formattedPatients);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+
+    fetchPatients();
+  }, []);
+
+  // Llamada a la API para obtener los procedimientos
+  useEffect(() => {
+    const fetchProcedures = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/procedure");
+        const formattedProcedures = response.data.map(proc => ({
+          id: proc.id,
+          name: proc.name,
+        }));
+        setProcedures(formattedProcedures);
+      } catch (error) {
+        console.error("Error fetching procedures:", error);
+      }
+    };
+
+    fetchProcedures();
+  }, []);
+
+  const [medTeam, setMedTeam] = useState([]);
+
+  useEffect(() => {
+    console.log("MedTeam actualizado:", medTeam);
+  }, [medTeam]);
+
+  // Llamada a la API para obtener enfermeras y doctores
+  useEffect(() => {
+    const fetchMedTeam = async () => {
+      try {
+        const [nursesResponse, doctorsResponse] = await Promise.all([
+          axios.get("http://localhost:3000/nurse"),
+          axios.get("http://localhost:3000/doctor"),
+        ]);
+        const formattedNurses = nursesResponse.data.map(nurse => ({
+          id: nurse.id,
+          name: `${nurse.name} ${nurse.lastName}`,
+          dni: nurse.dni,
+          type: 'nurse', // Agregar tipo manualmente
+        }));
+        const formattedDoctors = doctorsResponse.data.map(doctor => ({
+          id: doctor.id,
+          name: `${doctor.names} ${doctor.lastNames}`,
+          dni: doctor.dni,
+          type: 'doctor', // Agregar tipo manualmente
+        }));
+        setMedTeam([...formattedNurses, ...formattedDoctors]);
+        
+      } catch (error) {
+        console.error("Error fetching medical team:", error);
+      }
+    };
+
+    fetchMedTeam();
+  }, []);
+
+  const handleAddMember = (memberDni, index = null) => {
+    if (!memberDni) return;
+
+    console.log(memberDni);
+  
+    const member = medTeam.find((m) => m.dni === memberDni);
+    if (!member) return;
+  
+    const { type } = member;
+
+    console.log(member);
+    console.log(type);
+  
+    setSurgeryData((prev) => {
+      const updatedData = { ...prev };
+  
+      if (type === "nurse") {
+        console.log("nurse");
+        updatedData.nurseIds = [...new Set([...prev.nurseIds, member.id])];
+      } else if (type === "doctor") {
+        console.log("doctor");
+        updatedData.doctorIds = [...new Set([...prev.doctorIds, member.id])];
+      }
+  
+      return updatedData;
+    });
+  
+    if (index === null) {
+      // Agregar nuevo miembro
+      setTeamMembers((prev) => [...new Set([...prev, member.id])]);
+    } else {
+      // Actualizar miembro en una posición específica
+      setTeamMembers((prev) => {
+        const updatedMembers = [...prev];
+        updatedMembers[index] = member.id;
+        return updatedMembers;
+      });
     }
+  
+    console.log(surgeryData);
   };
 
-  const handleSubmit = () => {
+  const handleAddProcedure = (procedureId, index = null) => {
+    if (!procedureId) return;
+
+    console.log(procedureId);
+  
+    setSurgeryData((prev) => {
+      const updatedData = { ...prev };
+  
+      updatedData.procedureIds = [...new Set([...prev.procedureIds, procedureId])];
+  
+      return updatedData;
+    });
+  
+    console.log(surgeryData);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(surgeryData);
     try {
-      const surgeryDate = new Date(date);
-      surgeryDate.setHours(
-        Number(time.split(":")[0]),
-        Number(time.split(":")[1])
-      );
-      setSurgeryData({
+      const surgeryDate = new Date(date).toISOString(); // Convertir la fecha a formato ISO
+      const response = await axios.post("http://localhost:3000/surgery", {
         title: title,
         date: surgeryDate,
         status: surgeryData.status,
+        patientId: Number(surgeryData.patientId), // Convertir el ID del paciente a número
+        nurseIds: surgeryData.nurseIds.map(Number), // Convertir los IDs de las enfermeras a números
+        doctorIds: surgeryData.doctorIds.map(Number), // Convertir los IDs de los doctores a números
+        procedureIds: surgeryData.procedureIds.map(Number), // Convertir los IDs de los procedimientos a números
       });
-      alert("Registro exitoso!");
+      if (response.status === 201) {
+        console.log(response)
+      }
     } catch (error) {
       console.log(error);
-      alert("No se ha podido registrar la cirugía");
     }
   };
 
-  const handleAddProcedure = () => {
-    if (procedure) {
-      setProceduresList([
-        ...proceduresList,
-        { id: proceduresList.length + 1, title: procedure },
-      ]);
-      setProcedure(""); // Limpiar el campo de entrada después de agregar
-    }
+  const [additionalMembers, setAdditionalMembers] = useState([]);
+
+  const [additionalProcedures, setAdditionalProcedures] = useState([]);
+
+  const handleAddNewMemberSelect = () => {
+    setAdditionalMembers([...additionalMembers, ""]);
+  };
+
+  const handleAddNewProcedure = () => {
+    setAdditionalProcedures([...additionalProcedures, ""]);
   };
 
   return (
-    <form className="form-container">
+    <form className="form-container" onSubmit={handleSubmit}> {/* Agregado onSubmit aquí */}
       <header className="mb-8 flex items-center">
         <span
           onClick={() => navigate("/surgery")}
@@ -131,27 +256,32 @@ export function SurgeryForm() {
           />
         </div>
       </div>
-
       <div
         className="form-field"
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <div style={{ flex: 1 }}>
-          <label htmlFor="patientSearch" className="field-label">
+          <label htmlFor="patientSelect" className="field-label">
             Paciente
           </label>
-          <input
-            type="search"
-            id="patientSearch"
+          <select
+            id="patientSelect"
             className="field-input"
-            placeholder="Busca el paciente"
+            onChange={(e) => setSurgeryData({ ...surgeryData, patientId: e.target.value })} 
             required
-          />
+          >
+            <option value="">Selecciona un paciente</option>
+            {patients.map((patient) => (
+              <option key={patient.id} value={patient.id}>
+                {patient.name} ({patient.dni})
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
       <div className="form-field">
-        <label className="field-label">Equipo quirurgico que participara</label>
+        <label className="field-label">Equipo quirúrgico que participará</label>
         <div
           style={{
             display: "flex",
@@ -159,14 +289,19 @@ export function SurgeryForm() {
             justifyContent: "center",
           }}
         >
-          <input
-            type="text"
+          <select
             className="field-input"
-            placeholder="Nombre del ayudante"
-            value={newMemberName}
-            onChange={(e) => setNewMemberName(e.target.value)}
-            style={{ width: "40%" }} // Reducido el ancho del campo de escritura
-          />
+            onChange={(e) => handleAddMember(e.target.value)}
+            style={{ width: "40%" }}
+            required
+          >
+            <option value="">Selecciona un miembro del equipo</option>
+            {medTeam.map((member) => (
+              <option key={member.id} value={member.dni}>
+                {member.name} ({member.dni})
+              </option>
+            ))}
+          </select>
           <button
             type="button"
             className="add-member-button"
@@ -176,23 +311,30 @@ export function SurgeryForm() {
               borderRadius: "12px",
               border: "none",
             }}
-            onClick={handleAddMember}
+            onClick={handleAddNewMemberSelect}
           >
             Agregar nuevo ayudante
           </button>
         </div>
 
-        <div className="team-members">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="team-member-circle">
-              <div
-                className="member-circle"
-                style={{ backgroundColor: member.color }}
-              ></div>
-              <span>{member.name}</span>
-            </div>
-          ))}
-        </div>
+        {/* Renderizar selects adicionales */}
+        {additionalMembers.map((_, index) => (
+          <div key={index} className="form-field">
+            <select
+              className="field-input mt-3"
+              onChange={(e) => handleAddMember(e.target.value, index)}
+              style={{ width: "40%" }}
+              required
+            >
+              <option value="">Selecciona un miembro del equipo</option>
+              {medTeam.map((member) => (
+                <option key={member.id} value={member.dni}>
+                  {member.name} ({member.dni})
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
       </div>
 
       <div className="form-field">
@@ -206,15 +348,20 @@ export function SurgeryForm() {
             justifyContent: "center",
           }}
         >
-          <textarea
+          <select
             id="procedure"
             className="field-input"
-            placeholder="Escribir el procedimiento"
-            value={procedure}
-            onChange={(e) => setProcedure(e.target.value)}
+            onChange={(e) => handleAddProcedure(e.target.value)}
             required
-            style={{ width: "40%" }} // Reducido el ancho del campo de escritura
-          />
+            style={{ width: "40%" }}
+          >
+            <option value="">Selecciona un procedimiento</option>
+            {procedures.map((proc) => (
+              <option key={proc.id} value={proc.id}>
+                {proc.name}
+              </option>
+            ))}
+          </select>
           <button
             type="button"
             className="add-member-button"
@@ -224,56 +371,35 @@ export function SurgeryForm() {
               borderRadius: "12px",
               border: "none",
             }}
-            onClick={handleAddProcedure}
+            onClick={handleAddNewProcedure}
           >
-            Agregar procedimiento
+            Agregar nuevo procedimiento
           </button>
         </div>
-        <div className="procedures-list">
-          {proceduresList.map((proc) => (
-            <div
-              key={proc.id}
-              className="procedure-item"
-              style={{ display: "flex", alignItems: "center" }}
+
+        {/* Renderizar procedimientos adicionales */}
+        {additionalProcedures.map((proc, index) => (
+          <div key={index} className="form-field">
+            <select
+              className="field-input mt-3"
+              value={proc.id}
+              onChange={(e) => handleAddProcedure(e.target.value, index)}
+              style={{ width: "40%" }}
+              required
             >
-              <div
-                style={{
-                  backgroundColor: "#f0f0f0",
-                  padding: "8px",
-                  borderRadius: "4px",
-                }}
-              >
-                <svg
-                  className="h-8 w-8 text-black"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <circle cx="6" cy="7" r="3" />
-                  <circle cx="6" cy="17" r="3" />
-                  <line x1="8.6" y1="8.6" x2="19" y2="19" />
-                  <line x1="8.6" y1="15.4" x2="19" y2="5" />
-                </svg>
-              </div>
-              <label
-                htmlFor={`procedure-${proc.id}`}
-                style={{ marginLeft: "8px" }}
-              >
-                {proc.title}
-              </label>
-            </div>
-          ))}
-        </div>
+              <option value="">Selecciona un procedimiento</option>
+              {procedures.map((proc) => (
+                <option key={proc.id} value={proc.id}>
+                  {proc.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
       </div>
 
-      <button type="submit" className="submit-button" onClick={handleSubmit}>
-        Continue
+      <button type="submit" className="submit-button"> {/* Cambiado a type="submit" */}
+        Registrar
       </button>
 
       <style jsx>{`
