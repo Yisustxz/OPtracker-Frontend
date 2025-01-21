@@ -109,7 +109,7 @@ function App() {
         /> */}
 
         <Route
-          path='/patiente-tracker'
+          path='/patient-tracker'
           element={
             <PrivateRoute>
               <PatientTracker />
