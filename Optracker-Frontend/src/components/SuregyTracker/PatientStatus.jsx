@@ -1,20 +1,16 @@
-import React from 'react';
+import React from 'react'
 
 export default function PatientStatus() {
   return (
-    <div className="patient-status">
-      <div className="status-header">
-        <div className="status-title">En Cirujia</div>
+    <div className='patient-status'>
+      <div className='status-header'>
+        <div className='status-title'>En Cirugía</div>
       </div>
-      <div className="progress-bar">
-        <div className="progress-fill" />
+      <div className='progress-bar'>
+        <div className='progress-fill' />
       </div>
-      <div className="estimated-time">
-        Tiempo restante estimado : 3 horas
-      </div>
-      <div className="location">
-        Ubicación : Sala de cirugía
-      </div>
+      <div className='estimated-time'>Tiempo restante estimado : 3 horas</div>
+      <div className='location'>Ubicación : Sala de cirugía</div>
       <style jsx>{`
         .patient-status {
           width: 960px;
@@ -28,12 +24,12 @@ export default function PatientStatus() {
         }
         .status-title {
           color: #121417;
-          font: 500 16px "Public Sans", sans-serif;
+          font: 500 16px 'Public Sans', sans-serif;
         }
         .progress-bar {
           width: 100%;
           height: 8px;
-          background-color: #DBE0E5;
+          background-color: #dbe0e5;
           border-radius: 4px;
           margin-bottom: 12px;
         }
@@ -44,15 +40,15 @@ export default function PatientStatus() {
           border-radius: 4px;
         }
         .estimated-time {
-          color: #61788A;
-          font: 400 14px "Public Sans", sans-serif;
+          color: #61788a;
+          font: 400 14px 'Public Sans', sans-serif;
           margin-bottom: 8px;
         }
         .location {
           color: #000000;
-          font: 700 20px/1.2 "Public Sans", sans-serif;
+          font: 700 20px/1.2 'Public Sans', sans-serif;
         }
       `}</style>
     </div>
-  );
+  )
 }
