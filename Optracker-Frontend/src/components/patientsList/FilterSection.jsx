@@ -1,9 +1,9 @@
 import * as React from "react";
 
 const filters = [
-  { id: "todos", label: "Todos" }, // Agregado el filtro "Todos"
-  { id: "completado", label: "Sin cirugía" },
-  { id: "progreso", label: "Con cirugía" }
+  { id: "todos", label: "Todos" }, 
+  { id: "sin_cirugia", label: "Sin cirugía" },
+  { id: "con_cirugia", label: "Con cirugía" }
 ];
 
 function FilterSection({ activeFilter, setActiveFilter }) {

@@ -176,10 +176,11 @@ export function SurgeryForm() {
         patientId: Number(surgeryData.patientId), // Convertir el ID del paciente a número
         nurseIds: surgeryData.nurseIds.map(Number), // Convertir los IDs de las enfermeras a números
         doctorIds: surgeryData.doctorIds.map(Number), // Convertir los IDs de los doctores a números
-        procedureIds: surgeryData.procedureIds.map(Number), // Convertir los IDs de los procedimientos a números
+        procedureIds: surgeryData.procedureIds.map(proc => Number(proc)), // Convertir los IDs de los procedimientos a números
       });
       if (response.status === 201) {
-        console.log(response)
+        console.log(response);
+        navigate("/surgery"); // Redirigir a la página de cirugía
       }
     } catch (error) {
       console.log(error);

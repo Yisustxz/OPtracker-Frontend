@@ -2,6 +2,7 @@ import NewMedTeamForm from "@/components/medTeamsPage/newMedTeams/newMedTeamsFor
 import NewMedTeamHeader from "@/components/medTeamsPage/newMedTeams/newMedTeamsHeader";
 import Navigation from "@/components/ui/navigation";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import {
   createDoctor,
   createNurse,
@@ -9,6 +10,7 @@ import {
 } from "../services/medTeamsServices";
 
 function NewMedTeams() {
+  const navigate = useNavigate(); // Inicializar useNavigate
   const [selectedType, setSelectedType] = useState("Doctor");
   const [loading, setLoading] = useState(false);
   const [educationList, setEducationList] = useState([]);
@@ -38,6 +40,7 @@ function NewMedTeams() {
     }
 
     try {
+      console.log("type" , selectedType)
       if (selectedType === "Doctor") {
         // Transformar datos para doctores
         const doctorData = {
@@ -52,6 +55,8 @@ function NewMedTeams() {
 
         const result = await createDoctor(doctorData);
         console.log("Doctor creado con éxito:", result);
+        alert("Doctor registrado con exito.");
+        navigate("/med-teams"); // Redirigir a /med-teams
       } else if (selectedType === "Nurse") {
         // Transformar datos para enfermeros
         const nurseData = {
@@ -68,9 +73,9 @@ function NewMedTeams() {
 
         const result = await createNurse(nurseData);
         console.log("Enfermero creado con éxito:", result);
+        alert("Enfermero registrado con exito.");
+        navigate("/med-teams"); // Redirigir a /med-teams
       }
-
-      alert("¡Registro exitoso!");
     } catch (error) {
       alert("Ocurrió un error al registrar el equipo médico.");
       console.error(error);

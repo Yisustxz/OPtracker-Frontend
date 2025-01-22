@@ -52,7 +52,7 @@ function NewMedTeamHeader({ selectedType, setSelectedType }) {
               : "bg-white text-black"
           }`}
         >
-          <i className="fas fa-user-nurse mr-2"></i> Nurse
+          <i className="fas fa-user-nurse mr-2"></i> Enfermero
         </button>
       </div>
     </div>

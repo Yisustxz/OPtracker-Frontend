@@ -35,10 +35,14 @@ function PatientTable({ searchQuery, activeFilter }) {
 
   // Filtrar pacientes según la búsqueda y el filtro activo
   const filteredPatients = patients.filter(patient => {
+    console.log(patient)
     const matchesSearch =
       patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       patient.dni.includes(searchQuery);
-    const matchesFilter = activeFilter === "Todos" || (patient.Surgery && patient.Surgery.length > 0 ? "Con cirugía" : "Sin cirugía") === activeFilter;
+    const matchesFilter =
+      activeFilter === "Todos" ||
+      (activeFilter === "Con cirugía" && patient.surgery > 0) ||
+      (activeFilter === "Sin cirugía" && patient.surgery === 0);
     return matchesSearch && matchesFilter;
   });
 

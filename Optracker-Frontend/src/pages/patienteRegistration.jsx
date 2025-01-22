@@ -308,7 +308,7 @@ export default function PatientRegistration() {
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Altura (pulgadas)'
+            label='Altura (Cm)'
             id='height'
             type='number'
             placeholder='70'
@@ -319,7 +319,7 @@ export default function PatientRegistration() {
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Peso (libras)'
+            label='Peso (Kg)'
             id='weight'
             type='number'
             placeholder='160'
@@ -330,7 +330,7 @@ export default function PatientRegistration() {
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Alergias (opcional)'
+            label='Alergias '
             id='alergies'
             placeholder='Alergia'
             value={formData.alergies}

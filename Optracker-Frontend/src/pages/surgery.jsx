@@ -1,56 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../components/surgeryPage/searchbar";
 import Navigation from "../components/ui/navigation";
-// import SurgeryFilter from '../components/surgeryPage/surgeryFilter'
 import SurgeryHeader from "../components/surgeryPage/surgeryHeader";
 import SurgeryTable from "../components/surgeryPage/surgeryTable";
-
-const surgeries = [
-  {
-    id: 1,
-    date: "Jun 1, 2022",
-    patient: "Maggie Smith",
-    surgeon: "Dr. Mark Johnson",
-    operation: "Operacion corazon abierto",
-    status: "Completado",
-    statusColor: "bg-green-500",
-  },
-  {
-    id: 2,
-    date: "Jun 2, 2022",
-    patient: "John Doe",
-    surgeon: "Dr. Sarah Thompson",
-    operation: "Operacion bypass",
-    status: "En Progreso",
-    statusColor: "bg-yellow-300",
-  },
-  {
-    id: 3,
-    date: "Jun 3, 2022",
-    patient: "Jane Smith",
-    surgeon: "Dr. Michael Williams",
-    operation: "Operacion cadera",
-    status: "Canceladas",
-    statusColor: "bg-red-500",
-  },
-];
+import axios from "axios";
 
 function Surgery() {
+  const [surgeries, setSurgeries] = useState([]);
   const filters = [
     "Todas",
     "Completado",
     "En Progreso",
-    "Programadas",
-    "Canceladas",
+    "Programada",
+    "Cancelado",
   ];
-  const [activeFilter, setActiveFilter] = React.useState("Todas");
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [activeFilter, setActiveFilter] = useState("Todas");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const fetchSurgeries = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/surgery");
+
+        const updatedSurgeries = response.data.map(surgery => {
+          const { status, color } = getStatusAndColor(surgery.status);
+          return {
+            ...surgery,
+            status,
+            statusColor: color
+          };
+        });
+
+        setSurgeries(updatedSurgeries);
+      } catch (error) {
+        console.error("Error fetching surgeries:", error);
+      }
+    };
+
+    fetchSurgeries();
+  }, []);
+
+  const getStatusAndColor = (status) => {
+    switch (status) {
+      case "SCHEDULED":
+        return { status: "Programada", color: "bg-gray-300" };
+      case "IN_PROGRESS":
+        return { status: "En Progreso", color: "bg-yellow-300" };
+      case "DONE":
+        return { status: "Completado", color: "bg-green-500" };
+      case "CANCELLED":
+        return { status: "Cancelado", color: "bg-red-400" };
+      default:
+        return { status, color: "" };
+    }
+  };
 
   const filteredSurgeries = surgeries.filter((surgery) => {
     const matchesFilter =
       activeFilter === "Todas" ||
       surgery.status.toLowerCase() === activeFilter.toLowerCase();
-    const matchesSearch = surgery.operation
+    const matchesSearch = surgery.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
