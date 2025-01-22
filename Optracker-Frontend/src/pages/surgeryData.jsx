@@ -1,9 +1,62 @@
 /* eslint-disable react/prop-types */
-'react'
-import Navigation from '../components/ui/navigation'
-import { useNavigate } from 'react-router-dom'
-function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
-  const navigate = useNavigate()
+import React, { useEffect, useState } from 'react';
+import Navigation from '../components/ui/navigation';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+
+function SurgeryData() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [surgeryInfo, setSurgeryInfo] = useState({});
+  const [team, setTeam] = useState([]);
+  const [procedures, setProcedures] = useState([]);
+
+  useEffect(() => {
+    const fetchSurgeryData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/surgery/${id}`);
+        const data = response.data;
+
+        // Formatear la información de la cirugía
+        setSurgeryInfo({
+          patientName: `${data.Patient.name} ${data.Patient.lastName}`,
+          date: new Date(data.date).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }),
+        });
+
+        // Combinar doctores y enfermeras en el equipo
+        const combinedTeam = [
+          ...data.DoctorSurgery.map(doctor => ({
+            role: doctor.doctor.speciality,
+            name: `${doctor.doctor.names} ${doctor.doctor.lastNames}`,
+            image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png', // Cambiar según la imagen real
+          })),
+          ...data.NurseSurgery.map(nurse => ({
+            role: nurse.nurse.speciality,
+            name: `${nurse.nurse.name} ${nurse.nurse.lastName}`,
+            image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png', // Cambiar según la imagen real
+          })),
+        ];
+        setTeam(combinedTeam);
+
+        // Obtener procedimientos
+        const procedureList = data.ProcedurePerSurgery.map(proc => ({
+          name: proc.procedure.name,
+          responsible: proc.procedure.description, // Cambiar según la lógica deseada
+          image: '/procedure-image.png', // Usar la imagen de la carpeta public
+        }));
+        setProcedures(procedureList);
+      } catch (error) {
+        console.error("Error fetching surgery data:", error);
+      }
+    };
+
+    fetchSurgeryData();
+  }, [id]);
+
   return (
     <div className='flex flex-col pt-24 bg-white'>
       {/* Main Container */}
@@ -50,7 +103,7 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
                   {team.map((member, index) => (
                     <div
                       key={index}
-                      className='flex items-center p-4  rounded-md'
+                      className='flex items-center p-4 rounded-md'
                     >
                       <img
                         src={member.image}
@@ -63,13 +116,6 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
                           {member.name}
                         </span>
                       </div>
-                      <span className='ml-10 cursor-pointer'>
-                        <img
-                          src='pencil-icon.png'
-                          alt='Edit'
-                          className='w-4 h-4'
-                        />
-                      </span>
                     </div>
                   ))}
                 </div>
@@ -82,7 +128,7 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
                 </h2>
                 <div className='grid grid-cols-2 gap-4 w-full max-w-[800px]'>
                   {procedures.map((procedure, index) => (
-                    <div key={index} className='flex items-center p-4  '>
+                    <div key={index} className='flex items-center p-4'>
                       <img
                         src={procedure.image}
                         alt={procedure.name}
@@ -101,7 +147,10 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
 
               {/* Accept Button */}
               <div className='flex justify-center'>
-                <button className='bg-blue-500 text-white font-medium py-2 px-8 rounded hover:bg-blue-700'>
+                <button 
+                  className='bg-blue-500 text-white font-medium py-2 px-8 rounded hover:bg-blue-700'
+                  onClick={() => navigate('/surgery')} // Redirigir a la página de cirugía
+                >
                   Aceptar
                 </button>
               </div>
@@ -110,87 +159,7 @@ function SurgeryData({ surgeryInfo, team = [], procedures = [] }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-// Example data for props
-const exampleSurgeryInfo = {
-  patientName: 'Maggie Smith',
-  date: '01/06/2022'
-}
-
-const exampleTeam = [
-  {
-    role: 'Cirujano principal',
-    name: 'Dr. John Doe',
-    image: 'usuario_generico.png'
-  },
-  {
-    role: 'Anestesiólogo',
-    name: 'Dr. Jane Doe',
-    image: 'usuario_generico.png'
-  },
-  {
-    role: 'Asistente de cirugía',
-    name: 'Dr. Chris Doe',
-    image: 'usuario_generico.png'
-  },
-  {
-    role: 'Enfermera anestesista',
-    name: 'Dr. Bob Doe',
-    image: 'usuario_generico.png'
-  },
-  {
-    role: 'Enfermera circulante',
-    name: 'Dr. Alice Doe',
-    image: 'usuario_generico.png'
-  },
-  {
-    role: 'Enfermera circulante',
-    name: 'Dr. Alice Doe',
-    image: 'usuario_generico.png'
-  }
-]
-
-const exampleProcedures = [
-  {
-    name: 'Incisión',
-    responsible: 'Dr. John Doe',
-    image: 'procedure-image.png'
-  },
-  {
-    name: 'Extracción de tumor',
-    responsible: 'Dr. John Doe',
-    image: 'procedure-image.png'
-  },
-  {
-    name: 'Anestesia general',
-    responsible: 'Dr. Jane Doe',
-    image: 'procedure-image.png'
-  },
-  {
-    name: 'Administración de anestesia',
-    responsible: 'Dr. Bob Doe',
-    image: 'procedure-image.png'
-  },
-  {
-    name: 'Monitorización de signos vitales',
-    responsible: 'Dr. Alice Doe',
-    image: 'procedure-image.png'
-  },
-  {
-    name: 'Asistente en incisión',
-    responsible: 'Dr. Chris Doe',
-    image: 'procedure-image.png'
-  }
-]
-
-export default function App() {
-  return (
-    <SurgeryData
-      surgeryInfo={exampleSurgeryInfo}
-      team={exampleTeam}
-      procedures={exampleProcedures}
-    />
-  )
-}
+export default SurgeryData;

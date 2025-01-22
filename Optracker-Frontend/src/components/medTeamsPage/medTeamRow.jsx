@@ -18,7 +18,7 @@ function MedTeamTableRow({ nombre, especialidad, tipo, id }) {
         {especialidad}
       </div>
       <div className="flex-1 px-0 py-7 min-h-[72px] w-[253px]" role="cell">
-        {tipo}
+        {tipo === 'Nurse' ? 'Enfermero' : tipo}
       </div>
       <div
         className="flex-1 flex justify-center items-center px-4 py-5 font-medium text-center h-[72px] text-neutral-900 w-[100px]"

@@ -1,49 +1,88 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import Navigation from '../components/ui/navigation'
+import axios from 'axios'
 
 export default function ProcedurePage() {
   const navigate = useNavigate()
-  const [procedures, setProcedures] = useState([
-    { id: 1, name: 'Revisión de Propietario', completed: false }, // Cambiado a false
-    { id: 2, name: 'Pre Cirugía', completed: false },
-    { id: 3, name: 'Cirugía', completed: false },
-    { id: 4, name: 'Post Cirugía', completed: false },
-    { id: 5, name: 'El paciente se va', completed: false }
-  ])
-
+  const { id } = useParams() // Obtener el id de la URL
+  const [procedures, setProcedures] = useState([])
   const [newProcedureName, setNewProcedureName] = useState('')
+  const [surgery, setSurgery] = useState()
 
-  const toggleProcedure = (id) => {
+  useEffect(() => {
+    const fetchSurgery = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/surgery/${id}`)
+        const surgery = response.data
+        setSurgery(response.data)
+        const procedureList = surgery.ProcedurePerSurgery.map(proc => ({
+          id: proc.procedure.id,
+          name: proc.procedure.name,
+          completed: proc.done,
+          createdAt: proc.procedure.createdAt // Traer createdAt del procedimiento
+        })) // Ordenar por createdAt
+        setProcedures(procedureList)
+      } catch (error) {
+        console.error("Error fetching surgery:", error)
+      }
+    }
+
+    fetchSurgery()
+  }, [id])
+
+  const toggleProcedure = async (id, procedureId) => {
+    console.log(id)
     setProcedures((prev) =>
       prev.map((proc, index) => {
-        if (proc.id === id) {
-          // Verificar si el procedimiento anterior está completado
-          if (index === 0 || prev[index - 1].completed) {
-            return { ...proc, completed: !proc.completed }
+        if (procedureId === proc.id) {
+          const canToggle = index === 0 || prev[index - 1].completed; // Verificar si se puede marcar el checkbox
+          if (canToggle) {
+            console.log(id, proc.id)
+            const updatedCompleted = !proc.completed && !proc.completed; // No permitir desmarcar si ya está completado
+            // Llamar a la API para actualizar el estado del procedimiento
+            axios.patch(`http://localhost:3000/surgery/procedure/status`, {
+              surgeryId: Number(id), // Cambiar según el id de la cirugía
+              procedureId: Number(proc.id),
+              done: updatedCompleted
+            }).then(response => {
+              console.log(response);
+            }).catch(error => {
+              console.error("Error updating procedure status:", error);
+            });
+            return { ...proc, completed: updatedCompleted }
           }
-          return proc; // No cambiar si el anterior no está completado
         }
         return proc
       })
     )
   }
 
-  const addProcedure = () => {
-    if (newProcedureName.trim()) {
-      setProcedures((prev) => [
-        ...prev,
-        { id: prev.length + 1, name: newProcedureName, completed: false }
-      ])
-      setNewProcedureName('')
+  const handleCancelProcedure = async () => {
+    try {
+      const { title, date, patientId, nurseIds, doctorIds, procedureIds } = surgery; // Obtener datos de surgery
+      await axios.patch(`http://localhost:3000/surgery/${id}`, {
+        title,
+        date,
+        status: "CANCELLED",
+        patientId,
+        nurseIds,
+        doctorIds,
+        procedureIds
+      });
+      alert('Procedimiento cancelado exitosamente!');
+      navigate('/surgery'); // Redirigir a la página de cirugía
+    } catch (error) {
+      console.error("Error canceling procedure:", error);
     }
   }
 
   const handleSubmit = () => {
     console.log('Procedures submitted:', procedures)
-    // Aquí puedes enviar los datos al backend o manejar la acción deseada
     alert('Procedures sent successfully!')
   }
+
+  const allCompleted = procedures.every(proc => proc.completed); // Verificar si todos los procedimientos están completados
 
   return (
     <div className='flex flex-col min-h-screen bg-white'>
@@ -79,59 +118,47 @@ export default function ProcedurePage() {
 
           {/* Lista de procedimientos */}
           <ul>
-            {procedures.map((procedure) => (
-              <li key={procedure.id} className='flex items-center mb-8'>
-                <input
-                  type='checkbox'
-                  checked={procedure.completed}
-                  onChange={() => toggleProcedure(procedure.id)}
-                  className='mr-2 border border-gray-300 bg-white'
-                />
-                <span
-                  className={
-                    procedure.completed
-                      ? 'text-gray-500 line-through'
-                      : 'text-[#121417] font-public-sans text-[18px] font-bold leading-[23px] text-left'
-                  }
-                >
-                  {procedure.name}
-                </span>
-              </li>
-            ))}
+            {procedures
+              .map((procedure) => (
+                <li key={procedure.id} className='flex items-center mb-8'>
+                  <input
+                    type='checkbox'
+                    checked={procedure.completed}
+                    onChange={() => procedure.completed ? null : toggleProcedure(id, procedure.id)} // No permitir desmarcar si está completado
+                    className='mr-2 border border-gray-300 bg-white'
+                    disabled={procedure.completed || (surgery && surgery.status === "CANCELLED")} // Deshabilitar el checkbox si está completado o si la cirugía está cancelada
+                  />
+                  <span
+                    className={
+                      procedure.completed
+                        ? 'text-gray-500 line-through'
+                        : 'text-[#121417] font-public-sans text-[18px] font-bold leading-[23px] text-left'
+                    }
+                  >
+                    {procedure.name}
+                  </span>
+                </li>
+              ))}
           </ul>
 
-          {/* Agregar nuevo procedimiento */}
-          <div className='flex items-center gap-4 mb-8'>
-            <input
-              type='text'
-              value={newProcedureName}
-              onChange={(e) => setNewProcedureName(e.target.value)}
-              placeholder='Agregar nuevo procedimiento'
-              className='border border-gray-300 bg-white rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500'
-            />
-            <button
-              onClick={addProcedure}
-              className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600'
-            >
-              Agregar
-            </button>
-          </div>
-
           {/* Botones de acción */}
-          <div className='flex justify-center gap-4'>
-          <button
-              onClick={handleSubmit}
-              className='bg-red-500 text-white w-1/2 py-2 rounded-md hover:bg-red-600'
-            >
-              Cancelar Procedimiento
-            </button>
-            <button
-              onClick={handleSubmit}
-              className='bg-green-500 text-white w-1/2 py-2 rounded-md hover:bg-green-600'
-            >
-              Listo
-            </button>
-          </div>
+          {surgery && surgery.status !== "CANCELLED" && surgery.status !== "DONE" && ( // Mostrar botones solo si la cirugía no está cancelada
+            <div className='flex justify-center gap-4'>
+              <button
+                onClick={handleCancelProcedure}
+                className='bg-red-500 text-white w-1/2 py-2 rounded-md hover:bg-red-600'
+              >
+                Cancelar Procedimiento
+              </button>
+              <button
+                onClick={handleSubmit}
+                disabled={!allCompleted} // Deshabilitar el botón si no todos los procedimientos están completados
+                className={`w-1/2 py-2 rounded-md ${allCompleted ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              >
+                Listo
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

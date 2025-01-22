@@ -82,7 +82,7 @@ function App() {
         />
 
         <Route
-          path='/procedure'
+          path='/procedure/:id'
           element={
             <PrivateRoute>
               <ProcedurePage />
@@ -91,7 +91,7 @@ function App() {
         />
 
         <Route
-          path='/surgery-data'
+          path='/surgery-data/:id'
           element={
             <PrivateRoute>
               <SurgeryData />
