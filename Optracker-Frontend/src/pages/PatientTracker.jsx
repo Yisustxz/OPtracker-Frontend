@@ -90,7 +90,7 @@ export default function PatientTracker() {
 
         {/* Estado del Paciente */}
         <section className='status-section'>
-          <PatientStatus />
+          <PatientStatus patientData={patientData} />
         </section>
 
         {/* Línea de tiempo */}
@@ -98,14 +98,13 @@ export default function PatientTracker() {
           <div className='timeline-container'>
             {procedures.map((step, index) => (
               <div key={index} className='timeline-step'>
-                <input
-                  type='checkbox'
-                  checked={checkedItems[index]}
-                  onChange={() => handleCheckboxChange(index)}
-                  disabled={checkedItems[index]} // Deshabilitar si ya está hecho
+                <div
+                  className={`checkbox-indicator ${
+                    checkedItems[index] ? 'done' : 'pending'
+                  }`}
                 />
                 <span>
-                  {step.procedure.name} - {step.procedure.durationHours}h{' '}
+                  {step.procedure.name} - {step.procedure.durationHours}h
                 </span>
               </div>
             ))}
@@ -170,15 +169,24 @@ export default function PatientTracker() {
           align-items: center;
           margin-bottom: 8px;
         }
-        .timeline-step input {
-          margin-right: 8px;
-          appearance: none;
+        .checkbox-indicator {
           width: 20px;
           height: 20px;
+          border-radius: 50%;
+          margin-right: 8px;
           border: 2px solid #ccc;
+          transition: background-color 0.3s, border-color 0.3s;
+        }
+        .checkbox-indicator.pending {
           background-color: white;
-          border-radius: 4px;
-          cursor: pointer;
+          border-color: #ccc;
+        }
+        .checkbox-indicator.done {
+          background-color: #28a745;
+          border-color: #28a745;
+        }
+        .timeline-step span {
+          font-size: 14px;
         }
         .timeline-step input:checked {
           background-color: #007bff;

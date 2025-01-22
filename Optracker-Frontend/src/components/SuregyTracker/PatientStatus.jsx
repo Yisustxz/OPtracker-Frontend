@@ -1,16 +1,46 @@
 import React from 'react'
 
-export default function PatientStatus() {
+export default function PatientStatus({ patientData }) {
+  const surgery = patientData?.cirugias[0] // Obtener la primera cirugía
+  const procedures = surgery?.ProcedurePerSurgery || []
+
+  // Calcular el porcentaje de progreso
+  const totalProcedures = procedures.length
+  const completedProcedures = procedures.filter((step) => step.done).length
+  const progressPercentage =
+    totalProcedures > 0 ? (completedProcedures / totalProcedures) * 100 : 0
+
+  const totalDuration = procedures.reduce(
+    (acc, step) => acc + (step.procedure?.durationHours || 0),
+    0
+  ) // Duración total
+
+  // Obtener la fecha de la cirugía y la fecha actual
+  const surgeryDate = new Date(surgery?.date) // Ajusta el nombre del campo si es diferente
+  const today = new Date()
+
+  // Comparar si la cirugía es hoy
+  const isSurgeryToday = surgeryDate.toDateString() === today.toDateString()
+
   return (
     <div className='patient-status'>
       <div className='status-header'>
-        <div className='status-title'>En Cirugía</div>
+        <div className='status-title'>
+          {isSurgeryToday
+            ? 'La cirugía es hoy'
+            : `La cirugía es el ${surgeryDate.toLocaleDateString()}`}
+        </div>
       </div>
       <div className='progress-bar'>
-        <div className='progress-fill' />
+        <div
+          className='progress-fill'
+          style={{ width: `${progressPercentage}%` }}
+        />
       </div>
-      <div className='estimated-time'>Tiempo restante estimado : 3 horas</div>
-      <div className='location'>Ubicación : Sala de cirugía</div>
+      <div className='estimated-time'>
+        Tiempo restante estimado: {totalDuration - completedProcedures} horas
+      </div>
+      <div className='location'>Ubicación: Sala de cirugía</div>
       <style jsx>{`
         .patient-status {
           width: 960px;
@@ -34,7 +64,6 @@ export default function PatientStatus() {
           margin-bottom: 12px;
         }
         .progress-fill {
-          width: 38%;
           height: 100%;
           background-color: #121417;
           border-radius: 4px;
