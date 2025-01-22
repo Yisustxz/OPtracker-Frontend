@@ -2,44 +2,29 @@ import React, { useState } from 'react'
 import NavigationFamily from '../components/ui/NavigationFamily'
 import TeamMember from '../components/SuregyTracker/TeamMember'
 import PatientStatus from '../components/SuregyTracker/PatientStatus'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const timelineSteps = [
-  { title: 'Llegada del paciente', time: '8:00 AM' },
-  { title: 'Pre-cirugía', time: '8:30 AM' },
-  { title: 'En cirugía', time: '9:00 AM' },
-  { title: 'Post-cirugía', time: '' },
-  { title: 'El paciente se va', time: '' }
-]
-
-const teamMembers = [
-  {
-    avatar:
-      'https://cdn.builder.io/api/v1/image/assets/TEMP/87a0203cc22e61e33426ce5e0ea0869af100586342bc20097f102519a81f6a00',
-    role: 'Cirujano principal',
-    name: 'Dr. John Doe'
-  },
-  {
-    avatar:
-      'https://cdn.builder.io/api/v1/image/assets/TEMP/79979c7910a7b7992f1119821d7076c93d5ae0192761aed6c99698a14f9ca23e',
-    role: 'Enfermera anestesista',
-    name: 'Dr. Bob Doe'
-  }
-]
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function PatientTracker() {
-  const initialCheckedItems = timelineSteps.map((step) =>
-    step.time ? true : false
-  )
-  const [checkedItems, setCheckedItems] = useState(initialCheckedItems)
+  const location = useLocation()
+  const patientData = location.state?.patientData
+  const surgery = patientData.cirugias[0] // Obtener la primera cirugía
+  const procedures = surgery?.ProcedurePerSurgery || []
+  const navigate = useNavigate()
 
+  // Extraer los miembros del equipo
+  const doctor = surgery?.DoctorSurgery[0]?.doctor
+  const nurse = surgery?.NurseSurgery[0]?.nurse
+
+  // Inicializar los estados de los procedimientos basados en `done`
+  const [checkedItems, setCheckedItems] = useState(
+    procedures.map((step) => step.done)
+  )
+
+  // Manejar el cambio en los checkboxes
   const handleCheckboxChange = (index) => {
-    if (timelineSteps[index].time && !checkedItems[index]) {
-      // Solo permitir marcar si no está marcado
-      const updatedCheckedItems = [...checkedItems]
-      updatedCheckedItems[index] = true // Marcar el checkbox
-      setCheckedItems(updatedCheckedItems)
-    }
+    const updatedCheckedItems = [...checkedItems]
+    updatedCheckedItems[index] = true // Solo permitir marcar como hecho
+    setCheckedItems(updatedCheckedItems)
   }
 
   return (
@@ -57,20 +42,27 @@ export default function PatientTracker() {
             transform: 'translate(-50%, -50%)'
           }}
         >
-          007
+          {patientData?.familyCode || 'N/A'}
         </div>
 
+        {/* Equipo Quirúrgico */}
         <section className='team-section'>
           <h2 className='team-title'>Equipo quirúrgico</h2>
           <div className='team-container'>
-            {teamMembers.map((member, index) => (
+            {doctor && (
               <TeamMember
-                key={index}
-                avatar={member.avatar}
-                role={member.role}
-                name={member.name}
+                avatar='https://cdn.builder.io/api/v1/image/assets/TEMP/87a0203cc22e61e33426ce5e0ea0869af100586342bc20097f102519a81f6a00'
+                role={`Doctor: ${doctor.speciality}`}
+                name={`${doctor.names} ${doctor.lastNames}`}
               />
-            ))}
+            )}
+            {nurse && (
+              <TeamMember
+                avatar='https://cdn.builder.io/api/v1/image/assets/TEMP/79979c7910a7b7992f1119821d7076c93d5ae0192761aed6c99698a14f9ca23e'
+                role={`Enfermero: ${nurse.speciality}`}
+                name={`${nurse.name} ${nurse.lastName}`}
+              />
+            )}
             <div
               style={{
                 textAlign: 'right',
@@ -86,6 +78,9 @@ export default function PatientTracker() {
                 style={{ color: 'blue', transition: 'color 0.3s' }}
                 onMouseEnter={(e) => (e.target.style.color = 'darkblue')}
                 onMouseLeave={(e) => (e.target.style.color = 'blue')}
+                onClick={() =>
+                  navigate('/surgery-info', { state: { patientData } })
+                }
               >
                 Ver más
               </span>
@@ -93,24 +88,24 @@ export default function PatientTracker() {
           </div>
         </section>
 
+        {/* Estado del Paciente */}
         <section className='status-section'>
           <PatientStatus />
         </section>
 
+        {/* Línea de tiempo */}
         <section className='timeline-section'>
           <div className='timeline-container'>
-            {timelineSteps.map((step, index) => (
+            {procedures.map((step, index) => (
               <div key={index} className='timeline-step'>
                 <input
                   type='checkbox'
                   checked={checkedItems[index]}
                   onChange={() => handleCheckboxChange(index)}
-                  onClick={(e) => e.stopPropagation()} // Evitar que el evento de clic se propague
-                  disabled={!step.time || checkedItems[index]} // Deshabilitar el checkbox si no hay tiempo o si ya está marcado
+                  disabled={checkedItems[index]} // Deshabilitar si ya está hecho
                 />
-                {/* Se eliminó el icono para los pasos no marcados */}
                 <span>
-                  {step.title} - {step.time}
+                  {step.procedure.name} - {step.procedure.durationHours}h{' '}
                 </span>
               </div>
             ))}
@@ -156,7 +151,7 @@ export default function PatientTracker() {
         }
         .team-section {
           padding: 0 16px;
-          margin-bottom: 40px; /* Añadido margen inferior para separación */
+          margin-bottom: 40px;
         }
         .team-title {
           color: #121417;
@@ -186,8 +181,8 @@ export default function PatientTracker() {
           cursor: pointer;
         }
         .timeline-step input:checked {
-          background-color: #007bff; /* Cambiar el color de fondo cuando está marcado */
-          border: 2px solid #007bff; /* Cambiar el borde cuando está marcado */
+          background-color: #007bff;
+          border: 2px solid #007bff;
         }
       `}</style>
     </div>

@@ -15,6 +15,7 @@ import PatientTracker from './pages/PatientTracker'
 import ProcedurePage from './pages/procedurePage'
 import Surgery from './pages/surgery'
 import SurgeryData from './pages/surgeryData'
+import SurgeryInfo from './pages/surgeryInfo'
 import Statistics from './pages/Statistics'
 
 function App() {
@@ -113,6 +114,14 @@ function App() {
           element={
             <PrivateRoute>
               <PatientTracker />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/surgery-info'
+          element={
+            <PrivateRoute>
+              <SurgeryInfo />
             </PrivateRoute>
           }
         />

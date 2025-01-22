@@ -1,13 +1,15 @@
-import React, { useState } from 'react' // Cambié el import para que sea más conciso
+import React, { useState } from 'react'
 import FamilyCard from '../components/FamilyCode/FamilyCard'
-import FormInput from '../components/patienteRecord/FormInput' // Importar FormInput
-import NavigationFamily from '../components/ui/NavigationFamily' // Cambié Navigation por NavigationFamily
-import { fetchPatientByUUID } from '../services/patientServices' // Importar getPatientDataByUuid
+import FormInput from '../components/patienteRecord/FormInput'
+import NavigationFamily from '../components/ui/NavigationFamily'
+import { fetchPatientByUUID } from '../services/patientServices'
+import { useNavigate } from 'react-router-dom'
 
 export default function FamilyCode() {
   const [accessCode, setAccessCode] = useState('')
   const [error, setError] = useState(null)
   const [patientData, setPatientData] = useState(null)
+  const navigate = useNavigate()
   const familyCode = [
     {
       icon: 'https://cdn.builder.io/api/v1/image/assets/TEMP/0310f3b6fd945619dfb15a3d483773ed12b38f4248de919f3fd823082975f5f6?placeholderIfAbsent=true&apiKey=33b41968e7754d2b98ae74310dc65b2e',
@@ -39,10 +41,9 @@ export default function FamilyCode() {
 
     try {
       const data = await fetchPatientByUUID(accessCode)
-
       if (data) {
-        console.log('Datos del paciente:', data) // Verificar datos
-        setPatientData(data) // Actualizar estado con datos válidos
+        navigate('/patient-tracker', { state: { patientData: data } })
+        setPatientData(data)
       } else {
         setError('No se encontró ningún paciente con ese código.')
       }
