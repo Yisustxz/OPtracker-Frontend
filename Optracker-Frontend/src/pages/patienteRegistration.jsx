@@ -6,7 +6,7 @@ import apiClient from '../services/xiosConfig'
 import SelectInput from '@/components/patienteRecord/SelectInput'
 
 export default function PatientRegistration() {
-  const navigate = useNavigate() // Inicializar useNavigate
+  const navigate = useNavigate()
   const [formData, setFormData] = React.useState({
     firstName: '',
     lastName: '',
@@ -26,6 +26,40 @@ export default function PatientRegistration() {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target
+    if (id === 'identification' && !/^\d*$/.test(value)) return
+    if (id === 'birthDate') {
+      const selectedDate = new Date(value) // Fecha seleccionada
+      const currentDate = new Date() // Fecha actual
+
+      // Verificar si la fecha seleccionada es futura
+      if (selectedDate > currentDate) {
+        alert('La fecha de nacimiento no puede ser una fecha futura.')
+        return // Detenemos la ejecución y no actualizamos el estado
+      }
+    }
+    if (id === 'email') {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+      const isValidEmail = emailPattern.test(value)
+
+      if (!isValidEmail) {
+        // Mostrar un alert si el email no es válido
+        alert('Por favor, ingresa un correo electrónico válido.')
+      }
+    }
+
+    if (id === 'phone') {
+      // Validar que solo contenga números
+      const numericValue = value.replace(/\D/g, '') // Elimina cualquier carácter que no sea un dígito
+
+      // Actualiza el estado con el valor numérico limpio
+      setFormData((prevData) => ({
+        ...prevData,
+        [id]: numericValue
+      }))
+
+      return // Salimos de la función porque ya actualizamos el estado
+    }
+
     setFormData((prev) => ({
       ...prev,
       [id]: value
@@ -226,6 +260,7 @@ export default function PatientRegistration() {
             value={formData.firstName}
             onChange={handleInputChange}
             required
+            max={30}
             className='p-8 w-[300px] bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
@@ -235,15 +270,17 @@ export default function PatientRegistration() {
             value={formData.lastName}
             onChange={handleInputChange}
             required
+            max={30}
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Cedula'
+            label='Cédula'
             id='identification'
             placeholder='Cedula'
             value={formData.identification}
             onChange={handleInputChange}
             required
+            max={8}
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
@@ -259,7 +296,11 @@ export default function PatientRegistration() {
             label='Género'
             id='gender'
             value={formData.gender}
-            onChange={(e) => handleInputChange({ target: { id: 'gender', value: e.target.value } })}
+            onChange={(e) =>
+              handleInputChange({
+                target: { id: 'gender', value: e.target.value }
+              })
+            }
             required
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
             options={[
@@ -272,11 +313,19 @@ export default function PatientRegistration() {
             label='Tipo de Sangre'
             id='bloodType'
             value={formData.bloodType}
-            onChange={(e) => handleInputChange({ target: { id: 'bloodType', value: e.target.value } })}
+            onChange={(e) =>
+              handleInputChange({
+                target: { id: 'bloodType', value: e.target.value }
+              })
+            }
             required
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
             options={[
-              { value: '', label: 'Selecciona un tipo de sangre', disabled: true },
+              {
+                value: '',
+                label: 'Selecciona un tipo de sangre',
+                disabled: true
+              },
               { value: 'O_POSITIVE', label: 'O+' },
               { value: 'O_NEGATIVE', label: 'O-' },
               { value: 'A_POSITIVE', label: 'A+' },
@@ -298,13 +347,14 @@ export default function PatientRegistration() {
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Numero de Telefono'
+            label='Número de Teléfono'
             id='phone'
             type='tel'
-            placeholder='Numero de Telefono'
+            placeholder='Número de Teléfono'
             value={formData.phone}
             onChange={handleInputChange}
             required
+            max={12}
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
@@ -333,6 +383,7 @@ export default function PatientRegistration() {
             label='Alergias '
             id='alergies'
             placeholder='Alergia'
+            max={50}
             value={formData.alergies}
             onChange={handleInputChange}
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro

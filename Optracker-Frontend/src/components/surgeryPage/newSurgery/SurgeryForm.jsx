@@ -1,277 +1,291 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export function SurgeryForm() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [title, setTitle] = useState("");
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [procedure, setProcedure] = useState(""); // Estado para el procedimiento
-  const [proceduresList, setProceduresList] = useState([]); // Lista de procedimientos agregados
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [title, setTitle] = useState('')
+  const [teamMembers, setTeamMembers] = useState([])
+  const [procedure, setProcedure] = useState('') // Estado para el procedimiento
+  const [proceduresList, setProceduresList] = useState([]) // Lista de procedimientos agregados
   const [surgeryData, setSurgeryData] = useState({
-    title: "",
-    date: "",
-    status: "SCHEDULED",
+    title: '',
+    date: '',
+    status: 'SCHEDULED',
     patientId: 0,
     nurseIds: [],
     doctorIds: [],
-    procedureIds: [],
-  });
-  const navigate = useNavigate(); // Inicializar useNavigate
+    procedureIds: []
+  })
+  const navigate = useNavigate() // Inicializar useNavigate
 
-  const colors = ["#577C8E", "#2F4157", "#577C8E", "#219CED"];
+  const colors = ['#577C8E', '#2F4157', '#577C8E', '#219CED']
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
+    setTitle(e.target.value)
+  }
+  const handleDateChange = (event) => {
+    const selectedDate = new Date(event.target.value) // Obtiene la fecha seleccionada
+    const currentDate = new Date() // Obtiene la fecha y hora actual
 
-  const handleDateChange = (e) => {
-    setDate(new Date(e.target.value).toISOString());
-  };
+    // Verifica si la fecha seleccionada es anterior a la fecha actual
+    if (selectedDate <= currentDate) {
+      alert('Por favor selecciona una fecha y hora futuras.')
+      event.target.value = '' // Limpia el campo si la validación falla
+    } else {
+      console.log('Fecha válida:', selectedDate)
+      // Aquí puedes manejar la fecha válida según lo que necesites
+    }
+  }
 
-  const [patients, setPatients] = useState([]);
-  const [procedures, setProcedures] = useState([]); // Estado para procedimientos
+  const [patients, setPatients] = useState([])
+  const [procedures, setProcedures] = useState([]) // Estado para procedimientos
 
   // Llamada a la API para obtener los pacientes
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/patient");
-        const formattedPatients = response.data.map(patient => ({
+        const response = await axios.get('http://localhost:3000/patient')
+        const formattedPatients = response.data.map((patient) => ({
           id: patient.id,
           name: `${patient.name} ${patient.lastName}`,
-          dni: patient.dni,
-        }));
-        setPatients(formattedPatients);
+          dni: patient.dni
+        }))
+        setPatients(formattedPatients)
       } catch (error) {
-        console.error("Error fetching patients:", error);
+        console.error('Error fetching patients:', error)
       }
-    };
+    }
 
-    fetchPatients();
-  }, []);
+    fetchPatients()
+  }, [])
 
   // Llamada a la API para obtener los procedimientos
   useEffect(() => {
     const fetchProcedures = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/procedure");
-        const formattedProcedures = response.data.map(proc => ({
+        const response = await axios.get('http://localhost:3000/procedure')
+        const formattedProcedures = response.data.map((proc) => ({
           id: proc.id,
-          name: proc.name,
-        }));
-        setProcedures(formattedProcedures);
+          name: proc.name
+        }))
+        setProcedures(formattedProcedures)
       } catch (error) {
-        console.error("Error fetching procedures:", error);
+        console.error('Error fetching procedures:', error)
       }
-    };
+    }
 
-    fetchProcedures();
-  }, []);
+    fetchProcedures()
+  }, [])
 
-  const [medTeam, setMedTeam] = useState([]);
+  const [medTeam, setMedTeam] = useState([])
 
   useEffect(() => {
-    console.log("MedTeam actualizado:", medTeam);
-  }, [medTeam]);
+    console.log('MedTeam actualizado:', medTeam)
+  }, [medTeam])
 
   // Llamada a la API para obtener enfermeras y doctores
   useEffect(() => {
     const fetchMedTeam = async () => {
       try {
         const [nursesResponse, doctorsResponse] = await Promise.all([
-          axios.get("http://localhost:3000/nurse"),
-          axios.get("http://localhost:3000/doctor"),
-        ]);
-        const formattedNurses = nursesResponse.data.map(nurse => ({
+          axios.get('http://localhost:3000/nurse'),
+          axios.get('http://localhost:3000/doctor')
+        ])
+        const formattedNurses = nursesResponse.data.map((nurse) => ({
           id: nurse.id,
           name: `${nurse.name} ${nurse.lastName}`,
           dni: nurse.dni,
-          type: 'nurse', // Agregar tipo manualmente
-        }));
-        const formattedDoctors = doctorsResponse.data.map(doctor => ({
+          type: 'nurse' // Agregar tipo manualmente
+        }))
+        const formattedDoctors = doctorsResponse.data.map((doctor) => ({
           id: doctor.id,
           name: `${doctor.names} ${doctor.lastNames}`,
           dni: doctor.dni,
-          type: 'doctor', // Agregar tipo manualmente
-        }));
-        setMedTeam([...formattedNurses, ...formattedDoctors]);
-        
+          type: 'doctor' // Agregar tipo manualmente
+        }))
+        setMedTeam([...formattedNurses, ...formattedDoctors])
       } catch (error) {
-        console.error("Error fetching medical team:", error);
+        console.error('Error fetching medical team:', error)
       }
-    };
+    }
 
-    fetchMedTeam();
-  }, []);
+    fetchMedTeam()
+  }, [])
 
   const handleAddMember = (memberDni, index = null) => {
-    if (!memberDni) return;
+    if (!memberDni) return
 
-    console.log(memberDni);
-  
-    const member = medTeam.find((m) => m.dni === memberDni);
-    if (!member) return;
-  
-    const { type } = member;
+    console.log(memberDni)
 
-    console.log(member);
-    console.log(type);
-  
+    const member = medTeam.find((m) => m.dni === memberDni)
+    if (!member) return
+
+    const { type } = member
+
+    console.log(member)
+    console.log(type)
+
     setSurgeryData((prev) => {
-      const updatedData = { ...prev };
-  
-      if (type === "nurse") {
-        console.log("nurse");
-        updatedData.nurseIds = [...new Set([...prev.nurseIds, member.id])];
-      } else if (type === "doctor") {
-        console.log("doctor");
-        updatedData.doctorIds = [...new Set([...prev.doctorIds, member.id])];
+      const updatedData = { ...prev }
+
+      if (type === 'nurse') {
+        console.log('nurse')
+        updatedData.nurseIds = [...new Set([...prev.nurseIds, member.id])]
+      } else if (type === 'doctor') {
+        console.log('doctor')
+        updatedData.doctorIds = [...new Set([...prev.doctorIds, member.id])]
       }
-  
-      return updatedData;
-    });
-  
+
+      return updatedData
+    })
+
     if (index === null) {
       // Agregar nuevo miembro
-      setTeamMembers((prev) => [...new Set([...prev, member.id])]);
+      setTeamMembers((prev) => [...new Set([...prev, member.id])])
     } else {
       // Actualizar miembro en una posición específica
       setTeamMembers((prev) => {
-        const updatedMembers = [...prev];
-        updatedMembers[index] = member.id;
-        return updatedMembers;
-      });
+        const updatedMembers = [...prev]
+        updatedMembers[index] = member.id
+        return updatedMembers
+      })
     }
-  
-    console.log(surgeryData);
-  };
+
+    console.log(surgeryData)
+  }
 
   const handleAddProcedure = (procedureId, index = null) => {
-    if (!procedureId) return;
+    if (!procedureId) return
 
-    console.log(procedureId);
-  
+    console.log(procedureId)
+
     setSurgeryData((prev) => {
-      const updatedData = { ...prev };
-  
-      updatedData.procedureIds = [...new Set([...prev.procedureIds, procedureId])];
-  
-      return updatedData;
-    });
-  
-    console.log(surgeryData);
-  };
+      const updatedData = { ...prev }
+
+      updatedData.procedureIds = [
+        ...new Set([...prev.procedureIds, procedureId])
+      ]
+
+      return updatedData
+    })
+
+    console.log(surgeryData)
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(surgeryData);
+    e.preventDefault()
+    console.log(surgeryData)
     try {
-      const surgeryDate = new Date(date).toISOString(); // Convertir la fecha a formato ISO
-      const response = await axios.post("http://localhost:3000/surgery", {
+      const surgeryDate = new Date(date).toISOString() // Convertir la fecha a formato ISO
+      const response = await axios.post('http://localhost:3000/surgery', {
         title: title,
         date: surgeryDate,
         status: surgeryData.status,
         patientId: Number(surgeryData.patientId), // Convertir el ID del paciente a número
         nurseIds: surgeryData.nurseIds.map(Number), // Convertir los IDs de las enfermeras a números
         doctorIds: surgeryData.doctorIds.map(Number), // Convertir los IDs de los doctores a números
-        procedureIds: surgeryData.procedureIds.map(proc => Number(proc)), // Convertir los IDs de los procedimientos a números
-      });
+        procedureIds: surgeryData.procedureIds.map((proc) => Number(proc)) // Convertir los IDs de los procedimientos a números
+      })
       if (response.status === 201) {
-        console.log(response);
-        navigate("/surgery"); // Redirigir a la página de cirugía
+        console.log(response)
+        navigate('/surgery') // Redirigir a la página de cirugía
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  const [additionalMembers, setAdditionalMembers] = useState([]);
+  const [additionalMembers, setAdditionalMembers] = useState([])
 
-  const [additionalProcedures, setAdditionalProcedures] = useState([]);
+  const [additionalProcedures, setAdditionalProcedures] = useState([])
 
   const handleAddNewMemberSelect = () => {
-    setAdditionalMembers([...additionalMembers, ""]);
-  };
+    setAdditionalMembers([...additionalMembers, ''])
+  }
 
   const handleAddNewProcedure = () => {
-    setAdditionalProcedures([...additionalProcedures, ""]);
-  };
+    setAdditionalProcedures([...additionalProcedures, ''])
+  }
 
   return (
-    <form className="form-container" onSubmit={handleSubmit}> {/* Agregado onSubmit aquí */}
-      <header className="mb-8 flex items-center">
+    <form className='form-container' onSubmit={handleSubmit}>
+      {' '}
+      {/* Agregado onSubmit aquí */}
+      <header className='mb-8 flex items-center'>
         <span
-          onClick={() => navigate("/surgery")}
-          className="mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer"
+          onClick={() => navigate('/surgery')}
+          className='mr-4 bg-white text-black px-2 py-1 rounded-md cursor-pointer'
         >
           <svg
-            className="w-6 h-6 text-gray-800 dark:text-white"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 8 14"
+            className='w-6 h-6 text-gray-800 dark:text-white'
+            aria-hidden='true'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 8 14'
           >
             <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
+              stroke='currentColor'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              d='M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13'
             />
           </svg>
         </span>
-        <h1 className="text-3xl font-bold text-neutral-900 ml-52 mb-1">
+        <h1 className='text-3xl font-bold text-neutral-900 ml-52 mb-1'>
           Registrar una Nueva Cirugia
         </h1>
       </header>
-
       <div
-        className="form-field"
-        style={{ display: "flex", justifyContent: "space-between" }}
+        className='form-field'
+        style={{ display: 'flex', justifyContent: 'space-between' }}
       >
-        <div style={{ flex: 1, marginRight: "10px" }}>
-          <label htmlFor="surgeryTitle" className="field-label">
+        <div style={{ flex: 1, marginRight: '10px' }}>
+          <label htmlFor='surgeryTitle' className='field-label'>
             Titulo de la Cirugia
           </label>
           <input
-            type="text"
-            id="surgeryTitle"
-            className="field-input"
-            placeholder="titulo"
+            type='text'
+            id='surgeryTitle'
+            className='field-input'
+            placeholder='titulo'
             onChange={handleTitleChange}
             required
+            maxlength={30}
           />
         </div>
         <div style={{ flex: 1 }}>
-          <label htmlFor="surgeryDate" className="field-label">
+          <label htmlFor='surgeryDate' className='field-label'>
             Fecha de La cirugia
           </label>
           <input
-            type="datetime-local"
-            id="surgeryDate"
-            className="field-input"
+            type='datetime-local'
+            id='surgeryDate'
+            className='field-input'
             onChange={handleDateChange}
             required
           />
         </div>
       </div>
       <div
-        className="form-field"
-        style={{ display: "flex", justifyContent: "space-between" }}
+        className='form-field'
+        style={{ display: 'flex', justifyContent: 'space-between' }}
       >
         <div style={{ flex: 1 }}>
-          <label htmlFor="patientSelect" className="field-label">
+          <label htmlFor='patientSelect' className='field-label'>
             Paciente
           </label>
           <select
-            id="patientSelect"
-            className="field-input"
-            onChange={(e) => setSurgeryData({ ...surgeryData, patientId: e.target.value })} 
+            id='patientSelect'
+            className='field-input'
+            onChange={(e) =>
+              setSurgeryData({ ...surgeryData, patientId: e.target.value })
+            }
             required
           >
-            <option value="">Selecciona un paciente</option>
+            <option value=''>Selecciona un paciente</option>
             {patients.map((patient) => (
               <option key={patient.id} value={patient.id}>
                 {patient.name} ({patient.dni})
@@ -280,23 +294,22 @@ export function SurgeryForm() {
           </select>
         </div>
       </div>
-
-      <div className="form-field">
-        <label className="field-label">Equipo quirúrgico que participará</label>
+      <div className='form-field'>
+        <label className='field-label'>Equipo quirúrgico que participará</label>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <select
-            className="field-input"
+            className='field-input'
             onChange={(e) => handleAddMember(e.target.value)}
-            style={{ width: "40%" }}
+            style={{ width: '40%' }}
             required
           >
-            <option value="">Selecciona un miembro del equipo</option>
+            <option value=''>Selecciona un miembro del equipo</option>
             {medTeam.map((member) => (
               <option key={member.id} value={member.dni}>
                 {member.name} ({member.dni})
@@ -304,13 +317,13 @@ export function SurgeryForm() {
             ))}
           </select>
           <button
-            type="button"
-            className="add-member-button"
+            type='button'
+            className='add-member-button'
             style={{
-              marginLeft: "10px",
-              background: "#F0F2F5",
-              borderRadius: "12px",
-              border: "none",
+              marginLeft: '10px',
+              background: '#F0F2F5',
+              borderRadius: '12px',
+              border: 'none'
             }}
             onClick={handleAddNewMemberSelect}
           >
@@ -320,14 +333,14 @@ export function SurgeryForm() {
 
         {/* Renderizar selects adicionales */}
         {additionalMembers.map((_, index) => (
-          <div key={index} className="form-field">
+          <div key={index} className='form-field'>
             <select
-              className="field-input mt-3"
+              className='field-input mt-3'
               onChange={(e) => handleAddMember(e.target.value, index)}
-              style={{ width: "40%" }}
+              style={{ width: '40%' }}
               required
             >
-              <option value="">Selecciona un miembro del equipo</option>
+              <option value=''>Selecciona un miembro del equipo</option>
               {medTeam.map((member) => (
                 <option key={member.id} value={member.dni}>
                   {member.name} ({member.dni})
@@ -337,26 +350,25 @@ export function SurgeryForm() {
           </div>
         ))}
       </div>
-
-      <div className="form-field">
-        <label htmlFor="procedure" className="field-label">
+      <div className='form-field'>
+        <label htmlFor='procedure' className='field-label'>
           Procedimiento
         </label>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           <select
-            id="procedure"
-            className="field-input"
+            id='procedure'
+            className='field-input'
             onChange={(e) => handleAddProcedure(e.target.value)}
             required
-            style={{ width: "40%" }}
+            style={{ width: '40%' }}
           >
-            <option value="">Selecciona un procedimiento</option>
+            <option value=''>Selecciona un procedimiento</option>
             {procedures.map((proc) => (
               <option key={proc.id} value={proc.id}>
                 {proc.name}
@@ -364,13 +376,13 @@ export function SurgeryForm() {
             ))}
           </select>
           <button
-            type="button"
-            className="add-member-button"
+            type='button'
+            className='add-member-button'
             style={{
-              marginLeft: "10px",
-              background: "#F0F2F5",
-              borderRadius: "12px",
-              border: "none",
+              marginLeft: '10px',
+              background: '#F0F2F5',
+              borderRadius: '12px',
+              border: 'none'
             }}
             onClick={handleAddNewProcedure}
           >
@@ -380,15 +392,15 @@ export function SurgeryForm() {
 
         {/* Renderizar procedimientos adicionales */}
         {additionalProcedures.map((proc, index) => (
-          <div key={index} className="form-field">
+          <div key={index} className='form-field'>
             <select
-              className="field-input mt-3"
+              className='field-input mt-3'
               value={proc.id}
               onChange={(e) => handleAddProcedure(e.target.value, index)}
-              style={{ width: "40%" }}
+              style={{ width: '40%' }}
               required
             >
-              <option value="">Selecciona un procedimiento</option>
+              <option value=''>Selecciona un procedimiento</option>
               {procedures.map((proc) => (
                 <option key={proc.id} value={proc.id}>
                   {proc.name}
@@ -398,11 +410,11 @@ export function SurgeryForm() {
           </div>
         ))}
       </div>
-
-      <button type="submit" className="submit-button"> {/* Cambiado a type="submit" */}
+      <button type='submit' className='submit-button'>
+        {' '}
+        {/* Cambiado a type="submit" */}
         Registrar
       </button>
-
       <style jsx>{`
         .form-container {
           position: relative;
@@ -488,5 +500,5 @@ export function SurgeryForm() {
         }
       `}</style>
     </form>
-  );
+  )
 }
