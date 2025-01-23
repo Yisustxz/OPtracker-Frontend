@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavigationFamily from '../components/ui/NavigationFamily'
 import TeamMember from '../components/SuregyTracker/TeamMember'
 import PatientStatus from '../components/SuregyTracker/PatientStatus'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { fetchPatientByUUID } from '../services/patientServices'
 
 export default function PatientTracker() {
   const location = useLocation()
-  const patientData = location.state?.patientData
-  const surgery = patientData.cirugias[0] // Obtener la primera cirugía
+  const patientDataFromLocation = location.state?.patientData
+  const surgery = patientDataFromLocation?.cirugias[0] // Obtener la primera cirugía
   const procedures = surgery?.ProcedurePerSurgery || []
   const navigate = useNavigate()
 
@@ -19,6 +20,33 @@ export default function PatientTracker() {
   const [checkedItems, setCheckedItems] = useState(
     procedures.map((step) => step.done)
   )
+
+  const [patientData, setPatientData] = useState(patientDataFromLocation)
+
+  // Función para obtener los datos actualizados del paciente
+  const getUpdatedPatientData = async (familyCode) => {
+    try {
+      const updatedPatient = await fetchPatientByUUID(familyCode)
+      const updatedProcedures =
+        updatedPatient.cirugias[0]?.ProcedurePerSurgery || []
+
+      // Compara el estado de los procedimientos y actualiza el estado de los checkboxes
+      const updatedCheckedItems = updatedProcedures.map((step, index) => {
+        return step.done
+      })
+      setCheckedItems(updatedCheckedItems)
+      setPatientData(updatedPatient) // Actualiza el estado de patientData
+    } catch (error) {
+      console.error('Error al obtener los datos del paciente:', error)
+    }
+  }
+
+  // useEffect para hacer el fetch del paciente y actualizar los checkboxes
+  useEffect(() => {
+    if (patientDataFromLocation?.familyCode) {
+      getUpdatedPatientData(patientDataFromLocation.familyCode)
+    }
+  }, [patientDataFromLocation])
 
   // Manejar el cambio en los checkboxes
   const handleCheckboxChange = (index) => {
@@ -92,7 +120,8 @@ export default function PatientTracker() {
 
         {/* Estado del Paciente */}
         <section className='status-section'>
-          <PatientStatus patientData={patientData} />
+          <PatientStatus patientData={patientData} />{' '}
+          {/* Pasa los datos actualizados */}
         </section>
 
         {/* Línea de tiempo */}
