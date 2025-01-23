@@ -236,7 +236,7 @@ export function SurgeryForm() {
             />
           </svg>
         </span>
-        <h1 className="text-3xl font-bold text-neutral-900 ml-52 mb-1">
+        <h1 className="text-3xl font-bold text-neutral-900 ml-60 mb-1">
           Registrar una nueva cirugía
         </h1>
       </header>
