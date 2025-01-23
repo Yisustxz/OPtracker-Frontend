@@ -1,13 +1,13 @@
-import React from 'react';
-import { SurgeryForm } from '../components/surgeryPage/newSurgery/SurgeryForm';
-import Navigation from '@/components/ui/navigation';
+import Navigation from "@/components/ui/Navigation";
+import React from "react";
+import { SurgeryForm } from "../components/surgeryPage/newSurgery/SurgeryForm";
 
 export function NewSurgery() {
   return (
     <div className="surgery-container">
       <div className="main-frame">
         <Navigation />
-        <main className="content-container" style={{ marginTop: '50px' }}>
+        <main className="content-container" style={{ marginTop: "50px" }}>
           <SurgeryForm />
         </main>
       </div>
