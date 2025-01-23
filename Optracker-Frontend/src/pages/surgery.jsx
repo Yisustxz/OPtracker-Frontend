@@ -1,9 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SearchBar from "../components/surgeryPage/searchbar";
-import Navigation from "../components/ui/navigation";
 import SurgeryHeader from "../components/surgeryPage/surgeryHeader";
 import SurgeryTable from "../components/surgeryPage/surgeryTable";
-import axios from "axios";
+import Navigation from "../components/ui/Navigation";
 
 function Surgery() {
   const [surgeries, setSurgeries] = useState([]);
@@ -22,12 +22,12 @@ function Surgery() {
       try {
         const response = await axios.get("http://localhost:3000/surgery");
 
-        const updatedSurgeries = response.data.map(surgery => {
+        const updatedSurgeries = response.data.map((surgery) => {
           const { status, color } = getStatusAndColor(surgery.status);
           return {
             ...surgery,
             status,
-            statusColor: color
+            statusColor: color,
           };
         });
 
