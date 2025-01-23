@@ -51,14 +51,14 @@ export default function PatientTracker() {
           <div className='team-container'>
             {doctor && (
               <TeamMember
-                avatar='https://cdn.builder.io/api/v1/image/assets/TEMP/87a0203cc22e61e33426ce5e0ea0869af100586342bc20097f102519a81f6a00'
+                avatar='https://i.pinimg.com/550x/a8/0e/36/a80e3690318c08114011145fdcfa3ddb.jpg'
                 role={`Doctor: ${doctor.speciality}`}
                 name={`${doctor.names} ${doctor.lastNames}`}
               />
             )}
             {nurse && (
               <TeamMember
-                avatar='https://cdn.builder.io/api/v1/image/assets/TEMP/79979c7910a7b7992f1119821d7076c93d5ae0192761aed6c99698a14f9ca23e'
+                avatar='https://i.pinimg.com/550x/a8/0e/36/a80e3690318c08114011145fdcfa3ddb.jpg'
                 role={`Enfermero: ${nurse.speciality}`}
                 name={`${nurse.name} ${nurse.lastName}`}
               />

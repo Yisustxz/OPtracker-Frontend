@@ -112,7 +112,7 @@ export default function ProcedurePage() {
               </svg>
             </span>
             <h1 className='text-3xl font-bold text-neutral-900 ml-20 mb-1'>
-              Cirugía de reemplazo de rodilla izquierda
+              Cirugía de {surgery?.title || ''}
             </h1>
           </header>
 
