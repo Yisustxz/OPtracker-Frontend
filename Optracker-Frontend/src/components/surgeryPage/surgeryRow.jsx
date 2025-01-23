@@ -16,7 +16,13 @@ export default function SurgeryRow({
       role='row'
     >
       <div className='flex-1 px-4 py-4 min-h-[72px] w-[140px]' role='cell'>
-        {new Date(date).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+        {new Date(date).toLocaleString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })}
       </div>
       <div
         className='flex-1 px-4 py-6 min-h-[72px] text-neutral-900 w-[120px]'
@@ -25,7 +31,9 @@ export default function SurgeryRow({
         {Patient.name} {Patient.lastName}
       </div>
       <div className='flex-1 px-0 py-4 min-h-[72px] w-[120px]' role='cell'>
-        {DoctorSurgery.length > 0 && DoctorSurgery[0].doctor ? `${DoctorSurgery[0].doctor.names} ${DoctorSurgery[0].doctor.lastNames}` : 'Doctor no disponible'}
+        {DoctorSurgery.length > 0 && DoctorSurgery[0].doctor
+          ? `${DoctorSurgery[0].doctor.names} ${DoctorSurgery[0].doctor.lastNames}`
+          : 'Doctor no disponible'}
       </div>
       <div className='flex-1 px-0 py-4 min-h-[72px] w-[100px]' role='cell'>
         {title}

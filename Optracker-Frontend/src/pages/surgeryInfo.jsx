@@ -12,12 +12,14 @@ function SurgeryInfo() {
     ...surgery.DoctorSurgery.map((ds) => ({
       role: 'Doctor',
       name: `${ds.doctor.names} ${ds.doctor.lastNames}`,
-      image: 'usuario_generico.png' // Cambiar por la URL correcta si existe
+      image:
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' // Cambiar por la URL correcta si existe
     })),
     ...surgery.NurseSurgery.map((ns) => ({
-      role: 'Nurse',
+      role: 'Enfermero',
       name: `${ns.nurse.name} ${ns.nurse.lastName}`,
-      image: 'usuario_generico.png' // Cambiar por la URL correcta si existe
+      image:
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' // Cambiar por la URL correcta si existe
     }))
   ]
   const procedures = surgery.ProcedurePerSurgery.map((pps) => ({

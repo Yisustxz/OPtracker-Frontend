@@ -25,16 +25,18 @@ export function SurgeryForm() {
   const handleTitleChange = (e) => {
     setTitle(e.target.value)
   }
-  const handleDateChange = (event) => {
-    const selectedDate = new Date(event.target.value) // Obtiene la fecha seleccionada
+
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value) // Obtiene la fecha seleccionada
     const currentDate = new Date() // Obtiene la fecha y hora actual
 
     // Verifica si la fecha seleccionada es anterior a la fecha actual
     if (selectedDate <= currentDate) {
       alert('Por favor selecciona una fecha y hora futuras.')
-      event.target.value = '' // Limpia el campo si la validación falla
+      event.target.value = ''
     } else {
       console.log('Fecha válida:', selectedDate)
+      setDate(new Date(e.target.value).toISOString())
       // Aquí puedes manejar la fecha válida según lo que necesites
     }
   }
@@ -252,8 +254,8 @@ export function SurgeryForm() {
             className='field-input'
             placeholder='titulo'
             onChange={handleTitleChange}
+            maxLength={40}
             required
-            maxlength={30}
           />
         </div>
         <div style={{ flex: 1 }}>
