@@ -1,7 +1,7 @@
-import React from 'react'
-import Navigation from '@/components/ui/Navigation'
 import DashboardSummary from '@/components/StatisticsPage/DashboardSummary'
 import OperationsChart from '@/components/StatisticsPage/OperationsChart'
+import Navigation from '@/components/ui/Navigation'
+import React from 'react'
 
 export default function Statistics() {
   return (
