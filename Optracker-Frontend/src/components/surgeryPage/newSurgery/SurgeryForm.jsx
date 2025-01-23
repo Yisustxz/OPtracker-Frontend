@@ -246,7 +246,7 @@ export function SurgeryForm() {
       >
         <div style={{ flex: 1, marginRight: '10px' }}>
           <label htmlFor='surgeryTitle' className='field-label'>
-            Titulo de la Cirugia
+            Titulo de la cirugía
           </label>
           <input
             type='text'
@@ -260,7 +260,7 @@ export function SurgeryForm() {
         </div>
         <div style={{ flex: 1 }}>
           <label htmlFor='surgeryDate' className='field-label'>
-            Fecha de La cirugia
+            Fecha de La cirugía
           </label>
           <input
             type='datetime-local'

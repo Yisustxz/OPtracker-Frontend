@@ -274,7 +274,7 @@ export default function PatientRegistration() {
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Fecha de Nacimiento'
+            label='Fecha de nacimiento'
             id='birthDate'
             type='date'
             value={formData.birthDate}
@@ -300,7 +300,7 @@ export default function PatientRegistration() {
             ]}
           />
           <SelectInput
-            label='Tipo de Sangre'
+            label='Tipo de sangre'
             id='bloodType'
             value={formData.bloodType}
             onChange={(e) =>
@@ -337,7 +337,7 @@ export default function PatientRegistration() {
             className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
           />
           <FormInput
-            label='Número de Teléfono'
+            label='Número de teléfono'
             id='phone'
             type='tel'
             placeholder='Número de Teléfono'
@@ -383,13 +383,13 @@ export default function PatientRegistration() {
             {' '}
             {/* Aumentar el margen superior */}
             <h2 className='text-lg font-bold text-neutral-900 mb-6'>
-              Contacto de Emergencia
+              Contacto de emergencia
             </h2>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
               {formData.emergencyContacts.map((contact, index) => (
                 <div key={index} className='flex flex-col gap-4'>
                   <FormInput
-                    label='Nombre Del contacto de Emergencia'
+                    label='Nombre del contacto de emergencia'
                     id='name'
                     placeholder='Nombre del Contacto de Emergencia'
                     value={contact.name}
@@ -398,7 +398,7 @@ export default function PatientRegistration() {
                     className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
                   />
                   <FormInput
-                    label='Apellido Del contacto de Emergencia'
+                    label='Apellido del contacto de emergencia'
                     id='lastName'
                     placeholder='Apellido del Contacto de Emergencia'
                     value={contact.lastName}
@@ -407,7 +407,7 @@ export default function PatientRegistration() {
                     className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
                   />
                   <FormInput
-                    label='Cedula Del contacto de Emergencia'
+                    label='Cédula Del contacto de emergencia'
                     id='dni'
                     placeholder='Cedula del Contacto de Emergencia'
                     value={contact.dni}
@@ -416,17 +416,17 @@ export default function PatientRegistration() {
                     className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
                   />
                   <FormInput
-                    label='Telefono del contacto de Emergencia'
+                    label='Teléfono del contacto de emergencia'
                     id='phone'
                     type='tel'
-                    placeholder='Numero de Telefono'
+                    placeholder='Número de teléfono'
                     value={contact.phone}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
                     required
                     className='p-4 bg-white border border-gray-300' // Mantener el estilo blanco con bordes gris claro
                   />
                   <FormInput
-                    label='Email del contacto de Emergencia'
+                    label='Email del contacto de emergencia'
                     id='email'
                     type='email'
                     placeholder='Email'
