@@ -31,7 +31,7 @@ export function SurgeryForm() {
     const currentDate = new Date() // Obtiene la fecha y hora actual
 
     // Verifica si la fecha seleccionada es anterior a la fecha actual
-    if (selectedDate <= currentDate) {
+    if (selectedDate < currentDate) {
       alert('Por favor selecciona una fecha y hora futuras.')
       event.target.value = ''
     } else {
