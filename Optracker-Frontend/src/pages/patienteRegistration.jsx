@@ -37,16 +37,6 @@ export default function PatientRegistration() {
         return // Detenemos la ejecución y no actualizamos el estado
       }
     }
-    if (id === 'email') {
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-      const isValidEmail = emailPattern.test(value)
-
-      if (!isValidEmail) {
-        // Mostrar un alert si el email no es válido
-        alert('Por favor, ingresa un correo electrónico válido.')
-      }
-    }
-
     if (id === 'phone') {
       // Validar que solo contenga números
       const numericValue = value.replace(/\D/g, '') // Elimina cualquier carácter que no sea un dígito
