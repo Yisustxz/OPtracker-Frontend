@@ -1,6 +1,6 @@
 import NewMedTeamForm from "@/components/medTeamsPage/newMedTeams/newMedTeamsForm";
 import NewMedTeamHeader from "@/components/medTeamsPage/newMedTeams/newMedTeamsHeader";
-import Navigation from "@/components/ui/navigation";
+import Navigation from "@/components/ui/Navigation";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import {
@@ -40,7 +40,7 @@ function NewMedTeams() {
     }
 
     try {
-      console.log("type" , selectedType)
+      console.log("type", selectedType);
       if (selectedType === "Doctor") {
         // Transformar datos para doctores
         const doctorData = {
@@ -127,9 +127,9 @@ function NewMedTeams() {
           {/* Botón de Registro */}
           <div className="mt-8">
             <button
-              type='submit'
+              type="submit"
               onClick={handleSubmit}
-              className='px-6 py-3 bg-sky-500 text-white font-bold rounded-xl min-h-[40px] hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 mx-auto block mt-4'
+              className="px-6 py-3 bg-sky-500 text-white font-bold rounded-xl min-h-[40px] hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 mx-auto block mt-4"
             >
               Registrar Equipo
             </button>

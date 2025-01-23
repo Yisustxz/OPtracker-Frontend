@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function SurgeryForm() {
   const [date, setDate] = useState('')
@@ -33,7 +33,7 @@ export function SurgeryForm() {
     // Verifica si la fecha seleccionada es anterior a la fecha actual
     if (selectedDate < currentDate) {
       alert('Por favor selecciona una fecha y hora futuras.')
-      event.target.value = ''
+      e.target.value = ''
     } else {
       console.log('Fecha válida:', selectedDate)
       setDate(new Date(e.target.value).toISOString())
@@ -236,8 +236,8 @@ export function SurgeryForm() {
             />
           </svg>
         </span>
-        <h1 className='text-3xl font-bold text-neutral-900 ml-52 mb-1'>
-          Registrar una Nueva Cirugia
+        <h1 className='text-3xl font-bold text-neutral-900 ml-60 mb-1'>
+          Registrar una nueva cirugía
         </h1>
       </header>
       <div
@@ -246,7 +246,7 @@ export function SurgeryForm() {
       >
         <div style={{ flex: 1, marginRight: '10px' }}>
           <label htmlFor='surgeryTitle' className='field-label'>
-            Titulo de la cirugía
+            Título de la cirugía
           </label>
           <input
             type='text'
@@ -260,7 +260,7 @@ export function SurgeryForm() {
         </div>
         <div style={{ flex: 1 }}>
           <label htmlFor='surgeryDate' className='field-label'>
-            Fecha de La cirugía
+            Fecha de la cirugía
           </label>
           <input
             type='datetime-local'
