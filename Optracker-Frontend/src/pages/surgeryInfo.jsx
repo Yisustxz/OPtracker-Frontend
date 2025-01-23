@@ -22,7 +22,7 @@ function SurgeryInfo() {
   ]
   const procedures = surgery.ProcedurePerSurgery.map((pps) => ({
     name: pps.procedure.name,
-    responsible: 'N/A', // No hay información específica de responsable
+    responsible: pps.procedure.description,
     image: 'procedure-image.png' // Cambiar por la URL correcta si existe
   }))
 

@@ -66,23 +66,25 @@ export default function PatientTracker() {
             <div
               style={{
                 textAlign: 'right',
-                marginTop: '30px',
+                marginTop: '60px',
                 fontSize: '12px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 cursor: 'pointer'
               }}
             >
-              <span></span>
               <span
-                style={{ color: 'blue', transition: 'color 0.3s' }}
-                onMouseEnter={(e) => (e.target.style.color = 'darkblue')}
-                onMouseLeave={(e) => (e.target.style.color = 'blue')}
-                onClick={() =>
-                  navigate('/surgery-info', { state: { patientData } })
-                }
+                className='flex overflow-hidden justify-center items-center text-sm font-medium text-center bg-[#577C8E] rounded-xl max-w-[480px]  min-w-[84px] w-[160px] cursor-pointer transition hover:bg-[#425c69] mb-14 py-3'
+                aria-label='Ver más'
               >
-                Ver más
+                <span
+                  className='overflow-hidden self-stretch my-auto w-[300px] text-white cursor-pointer'
+                  onClick={() =>
+                    navigate('/surgery-info', { state: { patientData } })
+                  }
+                >
+                  Ver más
+                </span>
               </span>
             </div>
           </div>
