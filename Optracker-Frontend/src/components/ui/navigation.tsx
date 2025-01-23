@@ -36,7 +36,7 @@ function Navigation() {
 
   const navItems = [
     { label: 'Inicio', path: '/', width: 'w-[40px]' },
-    { label: 'Equipo médico', path: '/med-teams', width: 'w-[90px]' },
+    { label: 'Personal médico', path: '/med-teams', width: 'w-[90px]' },
     { label: 'Paciente', path: '/patient', width: 'w-[50px]' },
     { label: 'Cirugía', path: '/surgery', width: 'w-[50px]' }
   ]

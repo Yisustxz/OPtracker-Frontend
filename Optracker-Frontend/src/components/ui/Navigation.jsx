@@ -36,7 +36,7 @@ function Navigation() {
 
   const navItems = [
     { label: 'Inicio', path: '/', width: 'w-[40px]' },
-    { label: 'Equipo médico', path: '/med-teams', width: 'w-[90px]' },
+    { label: 'Personal médico', path: '/med-teams', width: 'w-[90px]' },
     { label: 'Paciente', path: '/patient', width: 'w-[50px]' },
     { label: 'Cirugía', path: '/surgery', width: 'w-[50px]' }
   ]
@@ -62,25 +62,25 @@ function Navigation() {
       </div>
       <div className='flex items-center justify-center my-auto w-[37px]'>
         <button
-            ref={buttonRef}
-            className='rounded-full w-[41px] h-[41px] overflow-hidden bg-gray-200 hover:bg-gray-300 transition duration-200' // Estilo actualizado para un fondo gris claro y efecto hover
-            onClick={toggleMenu}
-            aria-label='Perfil de usuario'
+          ref={buttonRef}
+          className='rounded-full w-[41px] h-[41px] overflow-hidden bg-gray-200 hover:bg-gray-300 transition duration-200' // Estilo actualizado para un fondo gris claro y efecto hover
+          onClick={toggleMenu}
+          aria-label='Perfil de usuario'
         >
-        <svg
-          className="w-8 h-8 text-gray-700 ml-[-16px]" // Estilo actualizado con margen izquierdo negativo de 10px
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 21v-2a4 4 0 00-8 0v2M12 12a4 4 0 100-8 4 4 0 000 8z"
-          />
-        </svg>
+          <svg
+            className='w-8 h-8 text-gray-700 ml-[-16px]' // Estilo actualizado con margen izquierdo negativo de 10px
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+            aria-hidden='true'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M16 21v-2a4 4 0 00-8 0v2M12 12a4 4 0 100-8 4 4 0 000 8z'
+            />
+          </svg>
         </button>
         {isMenuOpen && (
           <div
@@ -92,8 +92,20 @@ function Navigation() {
               onClick={handleLogout}
             >
               Cerrar sesión
-              <svg className="w-4 h-4 text-red-600 inline-block ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+              <svg
+                className='w-4 h-4 text-red-600 inline-block ml-1'
+                aria-hidden='true'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 16 16'
+              >
+                <path
+                  stroke='currentColor'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='1.2'
+                  d='M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3'
+                />
               </svg>
             </button>
           </div>
