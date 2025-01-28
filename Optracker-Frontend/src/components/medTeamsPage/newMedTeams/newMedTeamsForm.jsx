@@ -14,6 +14,22 @@ function NewMedTeamForm({
     setFormData({ ...formData, [id]: value });
   };
 
+  const handleOnBlur = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value.charAt(0).toUpperCase() + value.slice(1),
+    });
+  };
+
+  const handleOnBlurEmail = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value.toLowerCase(),
+    });
+  };
+
   const handleEducationChange = (index, value) => {
     const updatedEducation = [...formData.educacion];
     updatedEducation[index] = value;
@@ -30,6 +46,7 @@ function NewMedTeamForm({
           placeholder="Nombre"
           value={formData.nombre}
           onChange={handleChange}
+          onBlur={handleOnBlur}
           required
           max={30}
           className="p-8 w-[300px]" // Aumentar el tamaño del campo
@@ -43,6 +60,7 @@ function NewMedTeamForm({
           placeholder="Apellido"
           value={formData.apellido}
           onChange={handleChange}
+          onBlur={handleOnBlur}
           required
           max={30}
           className="p-8 w-[300px]" // Aumentar el tamaño del campo
@@ -71,6 +89,7 @@ function NewMedTeamForm({
           placeholder="Correo electrónico"
           value={formData.correo}
           onChange={handleChange}
+          onBlur={handleOnBlurEmail}
           required
           type="email"
           className="p-8 w-[300px]" // Aumentar el tamaño del campo

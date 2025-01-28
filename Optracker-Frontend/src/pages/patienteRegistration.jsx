@@ -56,10 +56,52 @@ export default function PatientRegistration() {
     }));
   };
 
+  const handleOnBlur = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value.charAt(0).toUpperCase() + value.slice(1),
+    });
+  };
+
+  const handleOnBlurEmail = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value.toLowerCase(),
+    });
+  };
+
   const handleEmergencyContactChange = (index, e) => {
     const { id, value } = e.target;
     const updatedContacts = [...formData.emergencyContacts];
     updatedContacts[index] = { ...updatedContacts[index], [id]: value };
+    setFormData((prev) => ({
+      ...prev,
+      emergencyContacts: updatedContacts,
+    }));
+  };
+
+  const handleOnBlurEmergency = (index, e) => {
+    const { id, value } = e.target;
+    const updatedContacts = [...formData.emergencyContacts];
+    updatedContacts[index] = {
+      ...updatedContacts[index],
+      [id]: value.charAt(0).toUpperCase() + value.slice(1),
+    };
+    setFormData((prev) => ({
+      ...prev,
+      emergencyContacts: updatedContacts,
+    }));
+  };
+
+  const handleOnBlurEmergencyEmail = (index, e) => {
+    const { id, value } = e.target;
+    const updatedContacts = [...formData.emergencyContacts];
+    updatedContacts[index] = {
+      ...updatedContacts[index],
+      [id]: value.toLowerCase(),
+    };
     setFormData((prev) => ({
       ...prev,
       emergencyContacts: updatedContacts,
@@ -249,6 +291,7 @@ export default function PatientRegistration() {
             placeholder="Nombre"
             value={formData.firstName}
             onChange={handleInputChange}
+            onBlur={handleOnBlur}
             required
             max={30}
             className="p-8 w-[300px] bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
@@ -259,6 +302,7 @@ export default function PatientRegistration() {
             placeholder="Apellido"
             value={formData.lastName}
             onChange={handleInputChange}
+            onBlur={handleOnBlur}
             required
             max={30}
             className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
@@ -333,6 +377,7 @@ export default function PatientRegistration() {
             placeholder="Correo electrónico"
             value={formData.email}
             onChange={handleInputChange}
+            onBlur={handleOnBlurEmail}
             required
             className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
@@ -376,6 +421,7 @@ export default function PatientRegistration() {
             max={50}
             value={formData.alergies}
             onChange={handleInputChange}
+            onBlur={handleOnBlur}
             className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
           />
 
@@ -394,6 +440,7 @@ export default function PatientRegistration() {
                     placeholder="Nombre del contacto de emergencia"
                     value={contact.name}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
+                    onBlur={(e) => handleOnBlurEmergency(index, e)}
                     required
                     className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
                   />
@@ -403,6 +450,7 @@ export default function PatientRegistration() {
                     placeholder="Apellido del contacto de cmergencia"
                     value={contact.lastName}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
+                    onBlur={(e) => handleOnBlurEmergency(index, e)}
                     required
                     className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
                   />
@@ -432,6 +480,7 @@ export default function PatientRegistration() {
                     placeholder="Correo electrónico"
                     value={contact.email}
                     onChange={(e) => handleEmergencyContactChange(index, e)}
+                    onBlur={(e) => handleOnBlurEmergencyEmail(index, e)}
                     required
                     className="p-4 bg-white border border-gray-300" // Mantener el estilo blanco con bordes gris claro
                   />
