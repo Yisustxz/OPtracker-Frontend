@@ -17,6 +17,7 @@ import Surgery from './pages/surgery'
 import SurgeryData from './pages/surgeryData'
 import SurgeryInfo from './pages/surgeryInfo'
 import Statistics from './pages/Statistics'
+import SatisfactionRating from './pages/SatisfactionRating'
 
 function App() {
   return (
@@ -153,6 +154,14 @@ function App() {
           }
         />
         <Route
+          path='/satisfactionrating'
+          element={
+            <PrivateRoute>
+              <SatisfactionRating />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path='/'
           element={
             <PrivateRoute>
@@ -160,6 +169,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        
       </Routes>
     </Router>
   )
