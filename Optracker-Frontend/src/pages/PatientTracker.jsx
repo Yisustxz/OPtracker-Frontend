@@ -135,7 +135,10 @@ export default function PatientTracker() {
                   }`}
                 />
                 <span>
-                  {step.procedure.name} - {step.procedure.durationHours}h
+                  {step.procedure.name} -{' '}
+                  {step.procedure.durationHours > 0
+                    ? `${step.procedure.durationHours}h`
+                    : '30 min'}
                 </span>
               </div>
             ))}

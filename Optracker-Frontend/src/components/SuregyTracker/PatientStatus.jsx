@@ -10,10 +10,11 @@ export default function PatientStatus({ patientData }) {
   const progressPercentage =
     totalProcedures > 0 ? (completedProcedures / totalProcedures) * 100 : 0
 
-  const totalDuration = procedures.reduce(
-    (acc, step) => acc + (step.procedure?.durationHours || 0),
-    0
-  ) // Duración total
+  let totalDuration = 0
+  procedures.forEach((step) => {
+    totalDuration +=
+      step.procedure?.durationHours > 0 ? step.procedure.durationHours : 0.5
+  })
 
   // Obtener la fecha de la cirugía y la fecha actual
   const surgeryDate = new Date(surgery?.date) // Ajusta el nombre del campo si es diferente
@@ -38,7 +39,7 @@ export default function PatientStatus({ patientData }) {
         />
       </div>
       <div className='estimated-time'>
-        Tiempo restante estimado: {totalDuration - completedProcedures} horas
+        Tiempo restante estimado: {totalDuration} horas
       </div>
       <div className='location'>Ubicación: Sala de cirugía</div>
       <style jsx>{`
