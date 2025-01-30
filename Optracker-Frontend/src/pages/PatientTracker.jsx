@@ -140,6 +140,16 @@ export default function PatientTracker() {
               </div>
             ))}
           </div>
+          <div className='flex justify-center'>
+            <span
+              className='flex overflow-hidden justify-center items-center text-sm font-medium text-center bg-[#577C8E] rounded-xl max-w-[480px]  min-w-[84px] w-[160px] cursor-pointer transition hover:bg-[#425c69] mb-4 py-3'
+              onClick={() =>
+                navigate('/satisfactionrating', { state: { patientData } })
+              }
+            >
+              <span className='text-white'>Evaluar Cirugía</span>
+            </span>
+          </div>
           <div className='info-text'>
             Esta información está destinada a la familia y amigos del paciente.
           </div>
